@@ -97,7 +97,7 @@ Tambah Artikel
                     </div>
                     <div class="row">
                         <div class="col text-sm-left">
-                            <button type="submit" class="btn btn-lg btn-primary"><i class="fa fa-plus-circle"></i>
+                            <button type="submit" class="btn btn-lg btn-primary" id="buttonSubmit"><i class="fa fa-plus-circle"></i>
                                 Submit</button>
 
                         </div>
@@ -147,6 +147,12 @@ Tambah Artikel
 @endsection
 @section('js')
 <script>
+    $('#articleForm').submit(function(){
+    $("#buttonSubmit", this)
+      .html("Please Wait...")
+      .attr('disabled', 'disabled');
+    return true;
+});
     $(document).ready(function() {
         $("#submitForm").click(function() {
             var judul = $("#judul").val();

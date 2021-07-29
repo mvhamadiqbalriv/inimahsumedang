@@ -19,10 +19,9 @@ class ArticleController extends Controller
     public function index()
     {
         $data['article'] = Article::all();
-
         $data['count_all'] = Article::all()->count();
         $data['count_published'] = Article::where('is_publish', '=' , '1')->count();
-        $data['count_draf'] = Article::where('is_publish', '=' , '0')->count();
+        $data['count_draft'] = Article::where('is_publish', '=' , '0')->count();
         return view('back.article.index',$data);
     }
 

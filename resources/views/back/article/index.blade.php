@@ -36,7 +36,7 @@ Article
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="">Semua ({{ $count_all }})</a>
                 <a class="dropdown-item" href="#">Dipublikasikan ({{ $count_published }})</a>
-                <a class="dropdown-item" href="#">Draf ({{ $count_draf }})</a>
+                <a class="dropdown-item" href="#">Draft ({{ $count_draft }})</a>
             </div>
         </div>
     </div>
@@ -96,13 +96,13 @@ Article
                                     $month = 8;
                                     @endphp
                                     <style>
-                                        .draf {
+                                        .draft {
                                             color: rgb(250, 149, 33);
                                         }
                                     </style>
                                     <p>
                                         @if($articles->is_publish == '0')
-                                        <span class="draf">Draf</span> .
+                                        <span class="draft">Draft</span> .
                                         @else
                                         <span class="published">Telah dipublish .</span>
                                         @endif
@@ -125,7 +125,7 @@ Article
                                 <div class="d-flex justify-content-end text-right">
                                     @if($articles->is_publish == '1')
                                     <object id="icon" class="icon" style="padding: 0 6px;"  data-toggle="tooltip" data-placement="bottom"
-                                        data-original-title="Kembalikan ke draf"><a href=""><i
+                                        data-original-title="Kembalikan ke draft"><a href=""><i
                                                 class="fas fa-chevron-circle-right"
                                                 style="font-size: 14px;"></i></object>
                                     @else
@@ -146,9 +146,19 @@ Article
                                     <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip" data-placement="bottom"
                                         data-original-title="Preview"><a href=""><i class="far fa-eye"
                                                 style="font-size: 14px;"></i></a></object>
-                                    <p style="padding-left: 6px;">{{ ucfirst(trans(Auth::user()->name)) }}</p>
+                                                @php
+                                                $path = asset('assets/back/images/avatars/default_user.png');
+                                                if (Auth::user()->photo) {
+                                                    $path = Storage::url(Auth::user()->photo);
+                                                }
+                                            @endphp
+                                            <object data-toggle="tooltip" data-placement="bottom"
+                                            data-original-title="{{ Auth::user()->username }}"><a href="">
+                                                <img src="{{$path}}" style="width: 23px; height: 23px; margin-left: 5px;">
+                                            </a></object>
+                                            
                                 </div>
-                                <div class="icons d-flex justify-content-end">
+                                <div class="icons d-flex justify-content-end mt-2">
                                     <object data-toggle="tooltip" data-placement="bottom"
                                         data-original-title="Jumlah Komentar"><a href="" class="mr-3">0 <i
                                                 class="fa fa-comments"></i></a></object>

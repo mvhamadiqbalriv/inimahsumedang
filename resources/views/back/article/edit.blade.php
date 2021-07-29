@@ -92,9 +92,8 @@ Edit Artikel
                         <select class="tag form-control" name="tag" name="tag[]" multiple="multiple" id="tag"
                             tabindex="-1">
                             @if(!empty($article->tag))
-                            <option value="{{ $article->tag }}">
-                                {{ $article->tag }}
-                            </option>
+                            
+                            <option value="{{ $article->tag }}" selected="selected">{{ $article->tag }}</option>
                             @endif
                         </select>
 
@@ -111,7 +110,7 @@ Edit Artikel
                     </div>
                     <div class="row">
                         <div class="col text-sm-left">
-                            <button type="submit" class="btn btn-lg btn-primary"><i class="fa fa-plus-circle"></i>
+                            <button type="submit" class="btn btn-lg btn-primary" id="buttonSubmit"><i class="fa fa-plus-circle"></i>
                                 Submit</button>
 
                         </div>
@@ -130,6 +129,14 @@ Edit Artikel
 
 @endsection
 @section('js')
+<script>
+    $('#articleForm').submit(function(){
+    $("#buttonSubmit", this)
+      .html("Please Wait...")
+      .attr('disabled', 'disabled');
+    return true;
+});
+</script>
 <script>
     // passing data to select option tag
     $(".editButton").click(function() {
