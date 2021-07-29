@@ -37,9 +37,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('roles', RoleController::class);
 
     Route::resource('category-articles', CategoryArticleController::class);
+    Route::post('category-articles/checkCategory', [CategoryArticleController::class, 'checkCategory'])->name('category_articles.checkCategory');
     Route::resource('articles', ArticleController::class);
+    Route::post('articles/draf', [ArticleController::class, 'draf'])->name('articles.draf');
+    Route::post('articles/delete-all', [ArticleController::class, 'deleteAll'])->name('articles.deleteAll');
+    Route::get('/ajax-autocomplete-search', [ArticleController::class, 'selectSearch']);
 
     Route::put('/change_password/{id}', [UserController::class, 'changePassword'])->name('change_password');
+});
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
 });
 
 require __DIR__.'/auth.php';
