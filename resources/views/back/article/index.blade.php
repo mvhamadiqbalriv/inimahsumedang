@@ -113,6 +113,7 @@ Article
                                 #icon {
                                     display: none;
                                 }
+
                                 #icon a i {
                                     color: rgb(108, 117, 125) !important;
                                 }
@@ -124,41 +125,36 @@ Article
                             <div class="right" id="what">
                                 <div class="d-flex justify-content-end text-right">
                                     @if($articles->is_publish == '1')
-                                    <object id="icon" class="icon" style="padding: 0 6px;"  data-toggle="tooltip" data-placement="bottom"
-                                        data-original-title="Kembalikan ke draft"><a href=""><i
+                                    <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip"
+                                        data-placement="bottom" data-original-title="Kembalikan ke draf"><a href=""
+                                            data-toggle="modal" data-target="#confirmIsPublishModal"
+                                            onclick="return setData({{$articles}}, 0)" ><i
                                                 class="fas fa-chevron-circle-right"
                                                 style="font-size: 14px;"></i></object>
                                     @else
                                     <form action="" method="post">
-                                    <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip" data-placement="bottom"
-                                        data-original-title="Publikasikan"><a href=""><i
-                                                class="fas fa-arrow-circle-right"
-                                                style="font-size: 14px;"></i></a></object>
-                                            </form>
+                                        <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip"
+                                            data-placement="bottom" data-original-title="Publikasikan"><a href="#"
+                                                data-toggle="modal" data-target="#confirmIsPublishModal"
+                                                onclick="return setData({{$articles}}, 1)" ><i
+                                                    class="fas fa-arrow-circle-right"
+                                                    style="font-size: 14px;"></i></a></object>
+                                    </form>
                                     @endif
-                                    <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip" data-placement="bottom"
-                                        data-original-title="Tag"><a href=""><i class="fas fa-tag"
-                                                style="font-size: 14px;"></i></object>
-                                    <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip" data-placement="bottom"
-                                        data-original-title="Hapus"><a href="#" data-toggle="modal"
-                                            data-target="#confirmDeleteModal" onclick="return setData({{$articles}})"><i
-                                                class="fas fa-trash" style="font-size: 14px;"></i></a></object>
-                                    <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip" data-placement="bottom"
-                                        data-original-title="Preview"><a href=""><i class="far fa-eye"
+                                    <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip"
+                                        data-placement="bottom" data-original-title="Tag"><a href=""><i
+                                                class="fas fa-tag" style="font-size: 14px;"></i></object>
+                                    <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip"
+                                        data-placement="bottom" data-original-title="Hapus"><a href="#"
+                                            data-toggle="modal" data-target="#confirmDeleteModal"
+                                            onclick="return setData2({{$articles}})"><i class="fas fa-trash"
                                                 style="font-size: 14px;"></i></a></object>
-                                                @php
-                                                $path = asset('assets/back/images/avatars/default_user.png');
-                                                if (Auth::user()->photo) {
-                                                    $path = Storage::url(Auth::user()->photo);
-                                                }
-                                            @endphp
-                                            <object data-toggle="tooltip" data-placement="bottom"
-                                            data-original-title="{{ Auth::user()->username }}"><a href="">
-                                                <img src="{{$path}}" style="width: 23px; height: 23px; margin-left: 5px;">
-                                            </a></object>
-                                            
+                                    <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip"
+                                        data-placement="bottom" data-original-title="Preview"><a href=""><i
+                                                class="far fa-eye" style="font-size: 14px;"></i></a></object>
+                                    <p style="padding-left: 6px;">{{ ucfirst(trans(Auth::user()->name)) }}</p>
                                 </div>
-                                <div class="icons d-flex justify-content-end mt-2">
+                                <div class="icons d-flex justify-content-end">
                                     <object data-toggle="tooltip" data-placement="bottom"
                                         data-original-title="Jumlah Komentar"><a href="" class="mr-3">0 <i
                                                 class="fa fa-comments"></i></a></object>
@@ -200,7 +196,35 @@ Article
         </div>
     </div>
 </div>
-<!-- Modal delete -->
+
+
+
+<!-- Modal Publish -->
+<div class="modal fade" id="confirmIsPublishModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalTitle">Hapus article</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <form action="{{ route('articles.isPublish', '') }}" method="post" id="confirmIsPublishForm">
+                @csrf
+                <input type="hidden" name="is_publish" id="is_publish_value" value="">
+                <div class="modal-body">
+                    apakah anda yakin untuk mempublish <b id="namaItemModal">article</b> ini ?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-dark">Ya, Publish !</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal delete all -->
 <div class="modal fade" id="confirmDeleteAllModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -300,14 +324,18 @@ $('#checkPublish').css('display', 'none');
 			});
 </script>
 <script>
-    $(document).ready(function(){
-  
-});
+    const updateLink = $('#confirmIsPublishForm').attr('action');
+    var isPublishValue = $('#drafValue').data('publish');
+    function setData(articles, value) {
+        $('#confirmIsPublishForm').attr('action',  `${updateLink}/${articles.id}`);
+        $('#is_publish_value').val(value);
+    }
 </script>
+
 <script>
-    const updateLink = $('#confirmDeleteForm').attr('action');
-    function setData(articles) {
-        $('#confirmDeleteForm').attr('action',  `${updateLink}/${articles.id}`);
+    const updateLink2 = $('#confirmDeleteForm').attr('action');
+    function setData2(articles) {
+        $('#confirmDeleteForm').attr('action',  `${updateLink2}/${articles.id}`);
     }
 </script>
 @endsection

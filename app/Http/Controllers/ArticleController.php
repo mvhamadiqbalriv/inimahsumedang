@@ -54,16 +54,29 @@ class ArticleController extends Controller
 		return redirect()->back();
 	}
 
-    public function publikasi(Request $request)
-	{
-		$id = $request->id;
-		foreach ($id as $article) 
-		{
-			Article::where('id', $article)->delete();
-		}
-		return redirect()->back();
-	}
+    public function isPublish(Request $request, Article $article)
+    {
+        $data = [
+            'judul' => $article->judul,
+            'slug' => $article->slug,
+            'gambar' => $article->gambar,
+            'konten' => $article->konten,
+            'tag' => $article->tag,
+            'creator' => Auth::user()->id,
+            'category' => $article->category,
+            'is_publish' => $request->is_publish,
+        ];
 
+        $article->update($data);
+
+        if($article->is_publish == '1') {
+            Alert::success('Suskes', 'Artikel telah berhasil dipublish!');
+        } else {
+            Alert::success('Suskes  ', 'Artikel telah berhasil disimpan sebagai draf!');
+        }
+
+        return redirect()->route('articles.index');
+    }
 
     public function create()
     {
