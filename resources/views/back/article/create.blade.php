@@ -151,7 +151,7 @@ Tambah Artikel
                     <input type="hidden" name="category" id="categoryDraf">
                     <input type="hidden" name="tag" id="tagDraf">
                 </form>
-                apakah anda akan memasukan postingan ini ke draf <b id="namaItemModal"></b> ?
+                apakah anda akan memasukan artikel ini ke draf <b id="namaItemModal"></b> ?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-warning" id="submitForm">Ya, Masukkan

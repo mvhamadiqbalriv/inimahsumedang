@@ -26,10 +26,10 @@ Category
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-separator-1">
                     <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Category</li>
+                    <li class="breadcrumb-item active" aria-current="page">Kategori</li>
                 </ol>
             </nav>
-            <h3>Category</h3>
+            <h3>Kategori</h3>
         </div>
     </div>
 </div>
@@ -54,7 +54,7 @@ Category
                     @endforeach
                 </div>
                 @endif
-                <h5 class="card-title">Daftar Category</h5>
+                <h5 class="card-title">Daftar Kategori</h5>
                 <button type="button" class="btn btn-info mb-1" data-toggle="modal" data-animation="slide"
                     data-overlaySpeed="200" data-overlayColor="#36404a" data-target="#addModal"><i
                         class="fa fa-plus-circle"></i> Tambah</button>
@@ -97,7 +97,7 @@ Category
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addModalTitle">Tambah Category</h5>
+                <h5 class="modal-title" id="addModalTitle">Tambah Kategori</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="material-icons">close</i>
                 </button>
@@ -123,7 +123,7 @@ Category
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalTitle">Ubah Role</h5>
+                <h5 class="modal-title" id="editModalTitle">Ubah Kategori</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="material-icons">close</i>
                 </button>
@@ -151,7 +151,7 @@ Category
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalTitle">Hapus user</h5>
+                <h5 class="modal-title" id="confirmDeleteModalTitle">Hapus Kategori</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="material-icons">close</i>
                 </button>
@@ -253,44 +253,6 @@ Category
     const updateLink2 = $('#confirmDeleteForm').attr('action');
     function setData(category) {
         $('#confirmDeleteForm').attr('action',  `${updateLink}/${category.id}`);
-    }
-    
-    // sweetalert clear all data
-    $("#bersihkan-semua-data").click(function () {
-        Swal.fire({
-            title: "Bersihkan data user?",
-            text: `Seluruh data terkait user akan ikut terhapus. Anda tidak akan dapat mengembalikan aksi
-            ini!`,
-            type: "warning",
-            showCancelButton: !0,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, hapus!",
-            cancelButtonText: "Batal"
-        }).then(function (f) {
-            if (f.value) {
-                window.location.href = ""
-            }
-        })
-    });
-
-    // sweetalert delete one data
-    function deleteAlert(e) {
-        Swal.fire({
-            title: "Hapus user?",
-            text: `Seluruh data terkait user akan terhapus. Anda tidak akan dapat mengembalikan aksi
-            ini!`,
-            type: "warning",
-            showCancelButton: !0,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, hapus!",
-            cancelButtonText: "Batal"
-        }).then(function (t) {
-            if (t.value) {
-                e.parentNode.submit()
-            }
-        })
-    }
+    }  
 </script>
 @endsection

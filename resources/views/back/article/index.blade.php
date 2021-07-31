@@ -33,10 +33,10 @@ Article
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-separator-1">
                     <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Article</li>
+                    <li class="breadcrumb-item active" aria-current="page">Artikel</li>
                 </ol>
             </nav>
-            <h3>Article</h3>
+            <h3>Artikel</h3>
         </div>
     </div>
 </div>
