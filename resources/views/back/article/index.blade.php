@@ -78,15 +78,19 @@ Article
                                 <object style="margin-top: 22px;"><a href="javascript:void(0);"><input name='id[]'
                                             type="checkbox" id="checkbox" value="{{ $articles->id }}"
                                             autocomplete="off"></object>
-
+                                @if ($articles->gambar)
+                                    <img src="{{ Storage::url($articles->gambar) }}" alt="">
+                                @else
                                 <div id="firstLetter"
-                                    style="border: 1px solid rgba(230, 229, 229, 0.87); border-radius:5px; width:60px; height:65px; text-align:center; font-size:40px; text-transform:capitalize;">
-                                    @if(!empty($articles->judul))
-                                    {{ substr($articles->judul, 0, 1) }}
-                                    @else
-                                    T
-                                    @endif
-                                </div>
+                                style="border: 1px solid rgba(230, 229, 229, 0.87); border-radius:5px; width:60px; height:65px; text-align:center; font-size:40px; text-transform:capitalize;">
+                                @if(!empty($articles->judul))
+                                {{ substr($articles->judul, 0, 1) }}
+                                @else
+                                T
+                                @endif
+                            </div>
+                                @endif
+                                
                                 <div class="ml-3">
                                     @if(empty($articles->judul))
                                     <p class="text-muted">(Tanpa Judul)</p>
@@ -185,8 +189,9 @@ Article
                 </button>
             </div>
             <form id="tagForm">
+                <form action="" method="post"></form>
                 <div class="modal-body">
-                    <select class="tag form-control" name="tag" name="tag[]" multiple="multiple" id="tag" tabindex="-1" style="width: 100%;">
+                    <select class="tag form-control" name="tag[]" multiple="multiple" id="tag" tabindex="-1" style="width: 100%;">
                         <option value="" selected="selected">d</option>
                     </select>
                 </div>

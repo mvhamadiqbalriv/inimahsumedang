@@ -107,11 +107,12 @@ Edit Artikel
                         @enderror
                     </div>
                     <div class="form-group @error('tag') has-error @enderror">
-                        <select class="tag form-control" name="tag" name="tag[]" multiple="multiple" id="tag"
+                        <select class="tag form-control" name="tag[]" multiple="multiple" id="tag"
                             tabindex="-1">
                             @if(!empty($article->tag))
-
-                            <option value="{{ $article->tag }}" selected="selected">{{ $article->tag }}</option>
+                            @foreach (explode(",",$article->tag) as $a)
+                            <option value="{{ $a }}" selected="selected">{{ $a }}</option>
+                            @endforeach
                             @endif
                         </select>
 

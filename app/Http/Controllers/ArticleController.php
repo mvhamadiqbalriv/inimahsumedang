@@ -142,7 +142,7 @@ class ArticleController extends Controller
             'slug' => $request->slug,
             'gambar' => $gambar,
             'konten' => $request->konten,
-            'tag' => $request->tag,
+            'tag' => implode(',', $request->tag),
             'creator' => Auth::user()->id,
             'category' => $request->category,
         ];
@@ -211,7 +211,7 @@ class ArticleController extends Controller
             'slug' => Str::slug($request->judul),
             'gambar' => $request->hasFile('gambar') ? $gambar : $article->gambar,
             'konten' => $request->konten,
-            'tag' => $request->tag,
+            'tag' => implode(',', $request->tag),
             'creator' => Auth::user()->id,
             'category' => $request->category,
             'is_publish' => "1",
