@@ -118,7 +118,7 @@ class ArticleController extends Controller
             'slug' => Str::slug($request->judul),
             'gambar' => $gambar,
             'konten' => $request->konten,
-            'tag' => $request->tag,
+            'tag' => implode(',', $request->tag),
             'creator' => Auth::user()->id,
             'category' => $request->category,
             'is_publish' => "1",
@@ -132,8 +132,7 @@ class ArticleController extends Controller
     }
 
     public function draf(Request $request)
-    {      
-        if (request()->hasFile('avator')) {
+    {  
         $gambar = ($request->gambar)
         ? $request->file('gambar')->store("/public/input/articles")
         : null;

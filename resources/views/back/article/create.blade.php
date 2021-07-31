@@ -93,7 +93,7 @@ Tambah Artikel
                         @enderror
                     </div>
                     <div class="form-group @error('tag') has-error @enderror">
-                        <select class="tag form-control" name="tag" name="tag[]" multiple="multiple" id="tag"
+                        <select class="tag form-control" name="tag[]" multiple="multiple" id="tag"
                             tabindex="-1"></select>
                         @error('tag')
                         <style>
@@ -141,7 +141,7 @@ Tambah Artikel
                     @csrf
                     <input type="hidden" name="judul" id="judulDraf">
                     <input type="hidden" name="slug" id="slugDraf">
-                    <input type="hidden" name="gambar" id="gambarDraf">
+                    <input type="file" name="gambar" id="gambarDraf"style="display: none;" >
                     <input type="hidden" name="konten" id="kontenDraf">
                     <input type="hidden" name="category" id="categoryDraf">
                     <input type="hidden" name="tag" id="tagDraf">
@@ -149,7 +149,7 @@ Tambah Artikel
                 apakah anda akan memasukan postingan ini ke draf <b id="namaItemModal"></b> ?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-warning" id="submitForm" onclick="submitForm()">Ya, Masukkan
+                <button type="button" class="btn btn-warning" id="submitForm">Ya, Masukkan
                     !</button>
                 <a href="{{ route('articles.index') }}" class="btn btn-secondary">Tidak</a>
             </div>
@@ -158,11 +158,35 @@ Tambah Artikel
 </div>
 @endsection
 @section('js')
+<script>
+    $('#gambar').change( function()
+    {
+      console.log( $(this).val() );
+    });
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"
     integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $('.dropify').dropify();
+</script>
+<script>
+let file = document.getElementById("gambar");
+let back = document.getElementById("gambarDraf");
+
+file.addEventListener('change', function() {
+  let files = this.files;
+  let dt = new DataTransfer();
+  for(let i=0; i<files.length; i++) {
+    let f = files[i];
+    dt.items.add(
+      new File(
+        [f.slice(0, f.size, f.type)],
+        f.name
+    ));
+  }
+  back.files = dt.files;
+});
 </script>
 <script>
     $('#articleForm').submit(function(){
@@ -179,8 +203,7 @@ Tambah Artikel
             var slug = $("#slug").val();
             $("#slugDraf").val(slug);
 
-            var gambar = $("#gambar").val();
-            $("#gambarDraf").val(gambar);
+           
 
             var konten = CKEDITOR.instances['konten'].getData();
             $("#kontenDraf").val(konten);
