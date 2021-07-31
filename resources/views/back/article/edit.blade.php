@@ -5,6 +5,15 @@ Edit Artikel
 @section('content')
 <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css"
+    integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    .dropify-wrapper {
+        border: 1px solid #e2e7f1 !important;
+        border-radius: .3rem !important;
+    }
+</style>
 <div class="row">
     <div class="col-md-12">
         <div class="page-title">
@@ -48,27 +57,36 @@ Edit Artikel
                         @enderror
                     </div>
                     <div class="form-group">
-                        <input type="hidden" name="gambar" id="gambar"
-                            class="form-control @error('gambar') is-invalid @enderror"
-                            value="{{ old('gambar',$article->gambar) }}">
-                        @error('election')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
+
                     </div>
                     <div class="form-group">
-                        <textarea name="konten" id="konten"
-                            class="form-control @error('konten') is-invalid @enderror">{{ old('konten',$article->konten) }}</textarea>
-                        @error('konten')
-                        <style>
-                            .cke_chrome {
-                                border: 1px solid #dc3545 !important;
-                                border-width: thin;
-                            }
-                        </style>
-                        <div class="mt-1">
-                            <span class="text-danger">{{ $message }}</span>
+                        <div class="row">
+                            <div class="col-8">
+                                <textarea name="konten" id="konten"
+                                    class="form-control @error('konten') is-invalid @enderror">{{ old('konten',$article->konten) }}</textarea>
+                                @error('konten')
+                                <style>
+                                    .cke_chrome {
+                                        border: 1px solid #dc3545 !important;
+                                        border-width: thin;
+                                    }
+                                </style>
+                                <div class="mt-1">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="col-4">
+                                <input type="file"
+                                    class="form-control dropify @error('gambar') is-invalid @enderror mt-5"
+                                    name="gambar" id="gambar" data-allowed-file-extensions="png jpg jpeg"
+                                    data-default-file="@if(!empty($article->gambar) &&
+                                    Storage::exists($article->gambar)){{ Storage::url($article->gambar) }}@endif">
+                                @error('gambar')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
-                        @enderror
                     </div>
                     <div class="form-group @error('category') has-error @enderror">
                         <select class="category form-control @error('category') is-invalid @enderror" name="category"
@@ -92,7 +110,7 @@ Edit Artikel
                         <select class="tag form-control" name="tag" name="tag[]" multiple="multiple" id="tag"
                             tabindex="-1">
                             @if(!empty($article->tag))
-                            
+
                             <option value="{{ $article->tag }}" selected="selected">{{ $article->tag }}</option>
                             @endif
                         </select>
@@ -110,7 +128,8 @@ Edit Artikel
                     </div>
                     <div class="row">
                         <div class="col text-sm-left">
-                            <button type="submit" class="btn btn-lg btn-primary" id="buttonSubmit"><i class="fa fa-plus-circle"></i>
+                            <button type="submit" class="btn btn-lg btn-primary" id="buttonSubmit"><i
+                                    class="fa fa-plus-circle"></i>
                                 Submit</button>
 
                         </div>
@@ -129,6 +148,12 @@ Edit Artikel
 
 @endsection
 @section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"
+    integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $('.dropify').dropify();
+</script>
 <script>
     $('#articleForm').submit(function(){
     $("#buttonSubmit", this)

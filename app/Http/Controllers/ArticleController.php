@@ -8,6 +8,7 @@ use App\Models\Category_article;
 use Alert;
 use Auth;
 use Str;
+use Storage;
 
 class ArticleController extends Controller
 {
@@ -67,13 +68,17 @@ class ArticleController extends Controller
             'is_publish' => $request->is_publish,
         ];
 
-        $article->update($data);
-
-        if($article->is_publish == '1') {
-            Alert::success('Suskes', 'Artikel telah berhasil dipublish!');
+        if($article->update($data)) {
+            if($article->is_publish == '1') {
+                Alert::success('Suskes', 'Artikel telah berhasil dipublish!');
+            } else {
+                Alert::success('Suskes ', 'Artikel telah berhasil disimpan sebagai draf!');
+            }
         } else {
-            Alert::success('Suskes  ', 'Artikel telah berhasil disimpan sebagai draf!');
+            Alert::error('Error', 'Status artikel gagal diperbaharui!');
         }
+
+        
 
         return redirect()->route('articles.index');
     }
@@ -93,7 +98,6 @@ class ArticleController extends Controller
     {
         $request->validate([
             'judul' => 'required',
-            'gambar' => 'required',
             'konten' => 'required',
             'category' => 'required',
             'tag' => 'required',
@@ -105,10 +109,14 @@ class ArticleController extends Controller
             'tag.required' => 'Kolom Tag harus di isi.',
         ]);
 
+        $gambar = ($request->gambar)
+        ? $request->file('gambar')->store("/public/input/articles")
+        : null;
+
         $data = [
             'judul' => $request->judul,
             'slug' => Str::slug($request->judul),
-            'gambar' => $request->gambar,
+            'gambar' => $gambar,
             'konten' => $request->konten,
             'tag' => $request->tag,
             'creator' => Auth::user()->id,
@@ -125,10 +133,15 @@ class ArticleController extends Controller
 
     public function draf(Request $request)
     {      
+        if (request()->hasFile('avator')) {
+        $gambar = ($request->gambar)
+        ? $request->file('gambar')->store("/public/input/articles")
+        : null;
+
         $data = [
             'judul' => $request->judul,
             'slug' => $request->slug,
-            'gambar' => $request->gambar,
+            'gambar' => $gambar,
             'konten' => $request->konten,
             'tag' => $request->tag,
             'creator' => Auth::user()->id,
@@ -176,7 +189,6 @@ class ArticleController extends Controller
     {
         $request->validate([
             'judul' => 'required',
-            'gambar' => 'required',
             'konten' => 'required',
             'tag' => 'required',
             'category' => 'required',
@@ -188,10 +200,17 @@ class ArticleController extends Controller
             'tag.required' => 'Kolom Tag harus di isi.',
         ]);
 
+        if ($request->hasFile('gambar')) {
+            if (Storage::exists($article->gambar) && !empty($article->gambar)) { 
+                Storage::delete($article->gambar);
+            }
+            $gambar = $request->file('gambar')->store("/public/input/articles");
+        }
+
         $data = [
             'judul' => $request->judul,
             'slug' => Str::slug($request->judul),
-            'gambar' => $request->gambar,
+            'gambar' => $request->hasFile('gambar') ? $gambar : $article->gambar,
             'konten' => $request->konten,
             'tag' => $request->tag,
             'creator' => Auth::user()->id,

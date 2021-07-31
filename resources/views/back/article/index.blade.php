@@ -3,6 +3,7 @@
 Article
 @endsection
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
 <style>
     .shadow-nones:hover {
         box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -128,7 +129,7 @@ Article
                                     <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip"
                                         data-placement="bottom" data-original-title="Kembalikan ke draf"><a href=""
                                             data-toggle="modal" data-target="#confirmIsPublishModal"
-                                            onclick="return setData({{$articles}}, 0)" ><i
+                                            onclick="return setData({{$articles}}, 0, 'apakah anda yakin untuk mengembalikan <b>article</b> ini sebagai draft ? ', 'Ya, Kembalikan !')"><i
                                                 class="fas fa-chevron-circle-right"
                                                 style="font-size: 14px;"></i></object>
                                     @else
@@ -136,13 +137,14 @@ Article
                                         <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip"
                                             data-placement="bottom" data-original-title="Publikasikan"><a href="#"
                                                 data-toggle="modal" data-target="#confirmIsPublishModal"
-                                                onclick="return setData({{$articles}}, 1)" ><i
+                                                onclick="return setData({{$articles}}, 1, 'apakah anda yakin untuk mempublish <b>article</b> ini ? ', 'Ya, Publish !')"><i
                                                     class="fas fa-arrow-circle-right"
                                                     style="font-size: 14px;"></i></a></object>
                                     </form>
                                     @endif
                                     <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip"
-                                        data-placement="bottom" data-original-title="Tag"><a href=""><i
+                                        data-placement="bottom" data-original-title="Tag"><a href="" data-toggle="modal"
+                                            data-target="#tagModal" onclick="return setData3({{$articles}}')"><i
                                                 class="fas fa-tag" style="font-size: 14px;"></i></object>
                                     <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip"
                                         data-placement="bottom" data-original-title="Hapus"><a href="#"
@@ -173,24 +175,23 @@ Article
 </form>
 
 <!-- Modal add -->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalTitle" aria-hidden="true">
+<div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="addModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addModalTitle">Tambah Permission</h5>
+                <h5 class="modal-title" id="labelModalTitle">Tag</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="material-icons">close</i>
                 </button>
             </div>
-            <form id="addForm">
+            <form id="tagForm">
                 <div class="modal-body">
-                    <input type="text" name="name" id="name" class="form-control" placeholder="Nama Permission">
-                    <div id="nameErrDis" style="display: none">
-                        <small class="text-danger"><i id="nameErrMsg"></i></small>
-                    </div>
+                    <select class="tag form-control" name="tag" name="tag[]" multiple="multiple" id="tag" tabindex="-1" style="width: 100%;">
+                        <option value="" selected="selected">d</option>
+                    </select>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-dark">Perbaharui</button>
                 </div>
             </form>
         </div>
@@ -205,7 +206,7 @@ Article
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalTitle">Hapus article</h5>
+                <h5 class="modal-title" id="confirmDeleteModalTitle">Edit Status</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="material-icons">close</i>
                 </button>
@@ -213,11 +214,11 @@ Article
             <form action="{{ route('articles.isPublish', '') }}" method="post" id="confirmIsPublishForm">
                 @csrf
                 <input type="hidden" name="is_publish" id="is_publish_value" value="">
-                <div class="modal-body">
-                    apakah anda yakin untuk mempublish <b id="namaItemModal">article</b> ini ?
+                <div class="modal-body" id="modal-body-publish">
+
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-dark">Ya, Publish !</button>
+                    <button type="submit" class="btn btn-dark" id="buttonPublish"></button>
                 </div>
             </form>
         </div>
@@ -236,7 +237,7 @@ Article
                 </button>
             </div>
             <div class="modal-body">
-                apakah anda yakin untuk menghapus <b id="namaItemModal">article</b> ?
+                apakah anda yakin untuk menghapus semua <b id="namaItemModal">article</b> yang dipilih ?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" id="delete">Ya, Hapus !</button>
@@ -273,7 +274,14 @@ Article
 
 @endsection
 @section('js')
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+    $(".tag").select2({
+        placeholder: 'Pilih Tag',
+        tags: true,
+        tokenSeparators: [',', ' ']
+    });
+</script>
 <script>
     $(".wrapIcon").css("width", "150px");
 $(".articleCard").hover(function(){
@@ -326,9 +334,11 @@ $('#checkPublish').css('display', 'none');
 <script>
     const updateLink = $('#confirmIsPublishForm').attr('action');
     var isPublishValue = $('#drafValue').data('publish');
-    function setData(articles, value) {
+    function setData(articles, value, modalBody, buttonPublish) {
         $('#confirmIsPublishForm').attr('action',  `${updateLink}/${articles.id}`);
         $('#is_publish_value').val(value);
+        $('#modal-body-publish').html(modalBody);
+        $('#buttonPublish').html(buttonPublish);
     }
 </script>
 
@@ -336,6 +346,13 @@ $('#checkPublish').css('display', 'none');
     const updateLink2 = $('#confirmDeleteForm').attr('action');
     function setData2(articles) {
         $('#confirmDeleteForm').attr('action',  `${updateLink2}/${articles.id}`);
+    }
+</script>
+
+<script>
+    const updateLink3 = $('#tagForm').attr('action');
+    function setData3(articles) {
+        $('#tagForm').attr('action',  `${updateLink3}/${articles.id}`);
     }
 </script>
 @endsection
