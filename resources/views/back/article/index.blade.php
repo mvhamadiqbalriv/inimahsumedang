@@ -15,11 +15,11 @@ Article
     }
 
     .status {
-        border: 1px solid rgb(79, 86, 94);
+        border: 1px solid rgb(219, 219, 219);
         color: #37414d;
         border-radius: 5px;
         font-size: 13px;
-        padding: 6px 4px;
+        padding: 6px 6px;
         cursor: pointer;
     }
 </style>
@@ -173,7 +173,7 @@ Article
                                         <div class="dropdown dropleft" style="display: none;">
                                             <button class="btn" type="button" id="dropdownMenuButton"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-ellipsis-v"></i>
+                                                <i class="fas fa-ellipsis-v" style="color:rgb(2, 59, 104);"></i>
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item" href="#">Preview</a>
