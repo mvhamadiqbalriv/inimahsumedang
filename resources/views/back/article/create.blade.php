@@ -2,7 +2,8 @@
 @section('title')
 Tambah Artikel
 @endsection
-@section('content')
+
+@section('css')
 <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css"
@@ -12,8 +13,12 @@ Tambah Artikel
     .dropify-wrapper {
         border: 1px solid #e2e7f1 !important;
         border-radius: .3rem !important;
+        height: 100% !important;
     }
 </style>
+@endsection
+
+@section('content')
 <div class="row">
     <div class="col-md-12">
         <div class="page-title">
@@ -115,7 +120,7 @@ Tambah Artikel
                         </div>
                         <div class="col text-right">
                             <button type="button" data-toggle="modal" data-target="#confirmDeleteModal"
-                                class="btn btn-lg btn-secondary"><i class="fa fa-back"></i>
+                                class="btn btn-lg btn-secondary">
                                 Kembali</button>
                         </div>
                     </div>
@@ -141,7 +146,7 @@ Tambah Artikel
                     @csrf
                     <input type="hidden" name="judul" id="judulDraf">
                     <input type="hidden" name="slug" id="slugDraf">
-                    <input type="file" name="gambar" id="gambarDraf"style="display: none;" >
+                    <input type="file" name="gambar" id="gambarDraf" style="display: none;">
                     <input type="hidden" name="konten" id="kontenDraf">
                     <input type="hidden" name="category" id="categoryDraf">
                     <input type="hidden" name="tag" id="tagDraf">
@@ -158,20 +163,24 @@ Tambah Artikel
 </div>
 @endsection
 @section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"
+    integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
 <script>
     $('#gambar').change( function()
     {
       console.log( $(this).val() );
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"
-    integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>
     $('.dropify').dropify();
 </script>
 <script>
-let file = document.getElementById("gambar");
+    let file = document.getElementById("gambar");
 let back = document.getElementById("gambarDraf");
 
 file.addEventListener('change', function() {
@@ -218,7 +227,6 @@ file.addEventListener('change', function() {
         });
       });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 <script>
     $(".tag").select2({
@@ -232,7 +240,7 @@ file.addEventListener('change', function() {
     $('.category').select2({
         placeholder: 'Cari Kategori',
         ajax: {
-            url: '/ajax-autocomplete-search',
+            url: '/article/search-category',
             dataType: 'json',
             delay: 250,
             processResults: function (data) {
@@ -261,7 +269,4 @@ file.addEventListener('change', function() {
 <script>
     CKEDITOR.replace('konten', options);
 </script>
-
-
-
 @endsection

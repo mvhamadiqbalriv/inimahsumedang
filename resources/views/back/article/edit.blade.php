@@ -2,7 +2,8 @@
 @section('title')
 Edit Artikel
 @endsection
-@section('content')
+
+@section('css')
 <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css"
@@ -12,8 +13,13 @@ Edit Artikel
     .dropify-wrapper {
         border: 1px solid #e2e7f1 !important;
         border-radius: .3rem !important;
+        height: 100% !important;
     }
 </style>
+@endsection
+
+@section('content')
+
 <div class="row">
     <div class="col-md-12">
         <div class="page-title">
@@ -107,8 +113,7 @@ Edit Artikel
                         @enderror
                     </div>
                     <div class="form-group @error('tag') has-error @enderror">
-                        <select class="tag form-control" name="tag[]" multiple="multiple" id="tag"
-                            tabindex="-1">
+                        <select class="tag form-control" name="tag[]" multiple="multiple" id="tag" tabindex="-1">
                             @if(!empty($article->tag))
                             @foreach (explode(",",$article->tag) as $a)
                             <option value="{{ $a }}" selected="selected">{{ $a }}</option>
@@ -135,8 +140,7 @@ Edit Artikel
 
                         </div>
                         <div class="col text-right">
-                            <a href="{{ route('articles.index') }}" class="btn btn-lg btn-secondary"><i
-                                    class="fa fa-back"></i>
+                            <a href="{{ route('articles.index') }}" class="btn btn-lg btn-secondary">
                                 Kembali</a>
                         </div>
                     </div>
@@ -210,7 +214,7 @@ Edit Artikel
     $('.category').select2({
         placeholder: 'Cari Kategori',
         ajax: {
-            url: '/ajax-autocomplete-search',
+            url: '/article/search-category',
             dataType: 'json',
             delay: 250,
             processResults: function (data) {

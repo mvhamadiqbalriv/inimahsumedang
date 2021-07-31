@@ -23,6 +23,7 @@ class ArticleController extends Controller
         $data['count_all'] = Article::all()->count();
         $data['count_published'] = Article::where('is_publish', '=' , '1')->count();
         $data['count_draft'] = Article::where('is_publish', '=' , '0')->count();
+        $data['status'] = '';
         return view('back.article.index',$data);
     }
 
@@ -31,6 +32,22 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function filterArticle(Request $request)
+    {
+        $data['count_all'] = Article::all()->count();
+        $data['count_published'] = Article::where('is_publish', '=' , '1')->count();
+        $data['count_draft'] = Article::where('is_publish', '=' , '0')->count();
+        $status = $request->status;
+        if($request->status == 'all')
+        {
+            $data['article'] = Article::all();
+        } else {
+            $data['article'] = Article::where('is_publish', '=', $status)->get();
+        }
+
+        return view('back.article.index', $data, compact('status'));
+    }
 
     public function selectSearch(Request $request)
     {
@@ -50,7 +67,9 @@ class ArticleController extends Controller
 		$id = $request->id;
 		foreach ($id as $article) 
 		{
-			Article::where('id', $article)->delete();
+			Article::where('id', $article)->delete()
+            ? Alert::success('Suskes', 'Semua artikel yang dipilih berhasil dihapus!')
+            : Alert::error('Error', 'Semua artikel yang dipilih gagal dihapus!');
 		}
 		return redirect()->back();
 	}
@@ -142,7 +161,7 @@ class ArticleController extends Controller
             'slug' => $request->slug,
             'gambar' => $gambar,
             'konten' => $request->konten,
-            'tag' => implode(',', $request->tag),
+            'tag' => $request->tag,
             'creator' => Auth::user()->id,
             'category' => $request->category,
         ];
@@ -189,8 +208,6 @@ class ArticleController extends Controller
         $request->validate([
             'judul' => 'required',
             'konten' => 'required',
-            'tag' => 'required',
-            'category' => 'required',
         ],
         [
             'judul.required' => 'Kolom Judul harus di isi.',

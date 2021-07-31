@@ -2,7 +2,8 @@
 @section('title')
 Article
 @endsection
-@section('content')
+
+@section('css')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
 <style>
     .shadow-nones:hover {
@@ -12,7 +13,20 @@ Article
     input[type='checkbox'] {
         cursor: pointer;
     }
+
+    .status {
+        border: 1px solid rgb(79, 86, 94);
+        color: #37414d;
+        border-radius: 5px;
+        font-size: 13px;
+        padding: 6px 4px;
+        cursor: pointer;
+    }
 </style>
+@endsection
+
+@section('content')
+
 <div class="row">
     <div class="col-md-12">
         <div class="page-title">
@@ -27,19 +41,16 @@ Article
     </div>
 </div>
 
+
 <div class="row justify-content-between" id="one">
     <div class="col-6">
-        <div class="dropdown">
-            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="outline: ">
-                Semua ({{ $count_all }})
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="">Semua ({{ $count_all }})</a>
-                <a class="dropdown-item" href="#">Dipublikasikan ({{ $count_published }})</a>
-                <a class="dropdown-item" href="#">Draft ({{ $count_draft }})</a>
-            </div>
-        </div>
+        <form action="{{ route('articles.filterArticle') }}" method="get">
+            <select name="status" class="status" onchange="this.form.submit()">
+                <option value="all" @if($status=='all' ) selected @endif>Semua ({{ $count_all }})</option>
+                <option value="0" @if($status=='0' ) selected @endif>Draft ({{ $count_draft }})</option>
+                <option value="1" @if($status=='1' ) selected @endif>Dipublikasikan ({{ $count_published }})</option>
+            </select>
+        </form>
     </div>
     <div class="col-6 d-flex justify-content-end" id="two">
         <input type="checkbox" id="checkAll" autocomplete="off">
@@ -48,12 +59,9 @@ Article
                 style="font-size: 14px; color: rgba(159, 159, 159, 0.54); pointer-events: none;"
                 data-target="#confirmDeleteAllModal"><i class="fas fa-trash" data-toggle="tooltip"
                     data-placement="bottom" data-original-title="Hapus article yang dipilih"></i></a></label>
-        <label class="mt-2 mr-4" id="checkPublish">
-            <a href="#" data-toggle="modal" id="checkboxPublish"
-                style="font-size: 14px; color: rgba(159, 159, 159, 0.54); pointer-events: none;"
-                data-target="#confirmDeleteAllModal" onclick="return setData()"><i class="fas fa-arrow-circle-right"
-                    data-toggle="tooltip" data-placement="bottom" data-original-title="Publikasikan"></i></a></label>
-        <button class="btn btn-light text-right" id="kelola" @if($count_all < 1) disabled @endif>Kelola</button>
+  
+        <button class="btn btn-light text-right" id="kelola" @if($count_all < 1) disabled @endif><i
+                class="fas fa-cog"></i></button>
     </div>
 </div>
 <br>
@@ -79,18 +87,19 @@ Article
                                             type="checkbox" id="checkbox" value="{{ $articles->id }}"
                                             autocomplete="off"></object>
                                 @if ($articles->gambar)
-                                    <img src="{{ Storage::url($articles->gambar) }}" alt="">
+                                <img src="{{ Storage::url($articles->gambar) }}" alt=""
+                                    style="border-radius:5px; width:60px; height:65px;">
                                 @else
                                 <div id="firstLetter"
-                                style="border: 1px solid rgba(230, 229, 229, 0.87); border-radius:5px; width:60px; height:65px; text-align:center; font-size:40px; text-transform:capitalize;">
-                                @if(!empty($articles->judul))
-                                {{ substr($articles->judul, 0, 1) }}
-                                @else
-                                T
+                                    style="border: 1px solid rgba(230, 229, 229, 0.87); border-radius:5px; width:60px; height:65px; text-align:center; font-size:40px; text-transform:capitalize;">
+                                    @if(!empty($articles->judul))
+                                    {{ substr($articles->judul, 0, 1) }}
+                                    @else
+                                    T
+                                    @endif
+                                </div>
                                 @endif
-                            </div>
-                                @endif
-                                
+
                                 <div class="ml-3">
                                     @if(empty($articles->judul))
                                     <p class="text-muted">(Tanpa Judul)</p>
@@ -105,13 +114,13 @@ Article
                                             color: rgb(250, 149, 33);
                                         }
                                     </style>
-                                    <p>
+                                    <p class="statusAndDate">
                                         @if($articles->is_publish == '0')
                                         <span class="draft">Draft</span> .
                                         @else
                                         <span class="published">Telah dipublish .</span>
                                         @endif
-                                        {{ $articles->created_at->format('d M') }}</p>
+                                        {{ $articles->updated_at->format('d M') }}</p>
                                 </div>
                             </div>
                             <style>
@@ -137,19 +146,19 @@ Article
                                                 class="fas fa-chevron-circle-right"
                                                 style="font-size: 14px;"></i></object>
                                     @else
-                                    <form action="" method="post">
-                                        <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip"
-                                            data-placement="bottom" data-original-title="Publikasikan"><a href="#"
-                                                data-toggle="modal" data-target="#confirmIsPublishModal"
-                                                onclick="return setData({{$articles}}, 1, 'apakah anda yakin untuk mempublish <b>article</b> ini ? ', 'Ya, Publish !')"><i
-                                                    class="fas fa-arrow-circle-right"
-                                                    style="font-size: 14px;"></i></a></object>
-                                    </form>
-                                    @endif
                                     <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip"
-                                        data-placement="bottom" data-original-title="Tag"><a href="" data-toggle="modal"
-                                            data-target="#tagModal" onclick="return setData3({{$articles}}')"><i
-                                                class="fas fa-tag" style="font-size: 14px;"></i></object>
+                                        data-placement="bottom" data-original-title="Publikasikan"><a href="#"
+                                            data-toggle="modal" @if (empty($articles->judul) ||
+                                            empty($articles->konten))
+                                            data-target="#confirmIsPublishModalAlert{{ $articles->id }}"
+                                            @else
+                                            data-target="#confirmIsPublishModal"
+                                            @endif
+                                            onclick="return setData({{$articles}}, 1, 'apakah anda yakin untuk mempublish <b>article</b> ini ? ', 'Ya, Publish !')"><i
+                                                class="fas fa-arrow-circle-right"
+                                                style="font-size: 14px;"></i></a></object>
+                                    @endif
+                                    
                                     <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip"
                                         data-placement="bottom" data-original-title="Hapus"><a href="#"
                                             data-toggle="modal" data-target="#confirmDeleteModal"
@@ -158,7 +167,37 @@ Article
                                     <object id="icon" class="icon" style="padding: 0 6px;" data-toggle="tooltip"
                                         data-placement="bottom" data-original-title="Preview"><a href=""><i
                                                 class="far fa-eye" style="font-size: 14px;"></i></a></object>
-                                    <p style="padding-left: 6px;">{{ ucfirst(trans(Auth::user()->name)) }}</p>
+                                    <p style="padding-left: 6px;" class="iniaja">
+                                        {{ ucfirst(trans(Auth::user()->name)) }}</p>
+                                    <object>
+                                        <div class="dropdown dropleft" style="display: none;">
+                                            <button class="btn" type="button" id="dropdownMenuButton"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="#">Preview</a>
+                                                <a class="dropdown-item" href="#" data-toggle="modal"
+                                                    data-target="#confirmDeleteModal"
+                                                    onclick="return setData2({{$articles}})">Hapus</a>
+                                                <a class="dropdown-item" href="#">Label</a>
+                                                @if($articles->is_publish == '1')
+                                                <a class="dropdown-item" href="#" data-toggle="modal"
+                                                    data-target="#confirmIsPublishModal"
+                                                    onclick="return setData({{$articles}}, 0, 'apakah anda yakin untuk mengembalikan <b>article</b> ini sebagai draft ? ', 'Ya, Kembalikan !')">Kembalikan
+                                                    ke draf</a>
+                                                @else
+                                                <a class="dropdown-item" href="#" data-toggle="modal" @if (empty($articles->judul) ||
+                                                    empty($articles->konten))
+                                                    data-target="#confirmIsPublishModalAlert{{ $articles->id }}"
+                                                    @else
+                                                    data-target="#confirmIsPublishModal"
+                                                    @endif
+                                                    onclick="return setData({{$articles}}, 1, 'apakah anda yakin untuk mempublish <b>article</b> ini ? ', 'Ya, Publish !')">Publish</a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </object>
                                 </div>
                                 <div class="icons d-flex justify-content-end">
                                     <object data-toggle="tooltip" data-placement="bottom"
@@ -178,32 +217,33 @@ Article
     @endforeach
 </form>
 
-<!-- Modal add -->
-<div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="addModalTitle" aria-hidden="true">
+<!-- Modal isPublish Alert -->
+@foreach ($article as $articles)
+<div class="modal fade" id="confirmIsPublishModalAlert{{ $articles->id }}" tabindex="-1" role="dialog"
+    aria-labelledby="confirmDeleteModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="labelModalTitle">Tag</h5>
+                <h5 class="modal-title" id="confirmDeleteModalTitle">Edit Status</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="material-icons">close</i>
                 </button>
             </div>
-            <form id="tagForm">
-                <form action="" method="post"></form>
-                <div class="modal-body">
-                    <select class="tag form-control" name="tag[]" multiple="multiple" id="tag" tabindex="-1" style="width: 100%;">
-                        <option value="" selected="selected">d</option>
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-dark">Perbaharui</button>
-                </div>
+            <div class="modal-body">
+                <b>Judul</b> dan <b>konten</b> dari artikel ini tidak boleh kosong! apabila anda ingin mempublish
+                artikel ini.
+            </div>
+            <div class="modal-footer">
+                <a href="{{ route('articles.edit', $articles->id) }}" class="btn btn-dark">Edit</a>
+                <button type="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">
+                    Kembali
+                </button>
+            </div>
             </form>
         </div>
     </div>
 </div>
-
-
+@endforeach
 
 <!-- Modal Publish -->
 <div class="modal fade" id="confirmIsPublishModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalTitle"
@@ -279,7 +319,14 @@ Article
 
 @endsection
 @section('js')
-
+<script>
+    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+if (isMobile) {
+  $('.iniaja').css('display', 'none');
+  $('.dropdown').css('display', 'block');
+  $('.statusAndDate').css('font-size', '11px');
+}
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script>
     $(".tag").select2({
@@ -288,23 +335,21 @@ Article
         tokenSeparators: [',', ' ']
     });
 </script>
+
 <script>
-    $(".wrapIcon").css("width", "150px");
 $(".articleCard").hover(function(){
     $(".icon").css("display", "block");
-    $(".unique").css("margin-right", "150px");
 },function(){
     $(".icon").css("display", "none");
-    $("form #ones #twos #threes .articleCard .card-body .d-flex .right .wrapIcon").css("width", "");
 });
 </script>
+
 <script>
-    $(document).ready(function(){
+$(document).ready(function(){
     $("#delete").click(function () {
-        console.log("Checkbox is s.");
         $('#checkboxDeleteForm').submit();
 	});
-});     
+ 
     $('#checkAll').click(function(){
             if($(this).is(":checked")){
                 console.log("Checkbox is checked.");
@@ -323,25 +368,26 @@ $(".articleCard").hover(function(){
                 $("#checkboxPublish").css("pointer-events", "none");
             }
         });
-$('input:checkbox').css('display', 'none');
-$('#checkDelete').css('display', 'none');
-$('#checkPublish').css('display', 'none');
 
+    $('input:checkbox').css('display', 'none');
+    $('#checkDelete').css('display', 'none');
     $("#kelola").click(function () {
-				$('input:checkbox').not(this).toggle();
-                $('#checkDelete').toggle();
-                $('#checkPublish').toggle();
-                $('input:checkbox').not(this).css('margin-right', '22px');
-			});
-            $("#checkAll").click(function () {
-				$('input:checkbox').not(this).prop('checked', this.checked);
-			});
+        $('input:checkbox').not(this).toggle();
+        $('#checkDelete').toggle();
+        $('input:checkbox').not(this).css('margin-right', '22px');
+    });
+    $("#checkAll").click(function () {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+    });
+});    
 </script>
 <script>
     const updateLink = $('#confirmIsPublishForm').attr('action');
+    const editLink = $('#editLink').attr('href');
     var isPublishValue = $('#drafValue').data('publish');
     function setData(articles, value, modalBody, buttonPublish) {
         $('#confirmIsPublishForm').attr('action',  `${updateLink}/${articles.id}`);
+        $('#editLink').attr('href',  `${editLink}/${articles.id}`);
         $('#is_publish_value').val(value);
         $('#modal-body-publish').html(modalBody);
         $('#buttonPublish').html(buttonPublish);
