@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category_article;
+use DataTables;
+use Str;
+use Alert;
 
 class CategoryArticleController extends Controller
 {
@@ -11,11 +15,35 @@ class CategoryArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data['category'] = Category_article::all();
+
+        return view('back.category_article.index',$data);
     }
 
+    public function checkCategory(Request $request) 
+    {
+        if($request->Input('nama')){
+            $nama = Category_article::where('nama',$request->Input('nama'))->first();
+            if($nama){
+                return 'false';
+            }else{
+                return  'true';
+            }
+        }
+
+        if($request->Input('edit_nama')){
+            $edit_nama = Category_article::where('nama',$request->Input('edit_nama'))->first();
+            if($edit_nama){
+                return 'false';
+            }else{
+                return  'true';
+            }
+        }
+    }
+
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -34,7 +62,20 @@ class CategoryArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|unique:category_articles',
+        ]);
+
+        $data = [
+            'nama' => $request->nama,
+            'slug' => Str::slug($request->nama)
+        ];
+
+        Category_article::create($data)
+        ? Alert::success('Sukses', 'Category telah berhasil dibuat')
+        : Alert::error('Error', 'Category gagal dibuat');
+
+        return redirect()->route('category-articles.index');
     }
 
     /**
@@ -56,7 +97,7 @@ class CategoryArticleController extends Controller
      */
     public function edit($id)
     {
-        //
+       
     }
 
     /**
@@ -66,9 +107,22 @@ class CategoryArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, Category_article $Category_article)
+    {   
+        $request->validate([
+            'edit_nama' => "required|min:3|unique:category_articles,nama,$Category_article->id|max:35",
+        ]);
+
+        $data = [
+            'nama' => $request->edit_nama,
+            'slug' => Str::slug($request->edit_nama)
+        ];
+
+        $Category_article->update($data)
+        ? Alert::success('Sukses', "Category berhasil diubah.")
+        : Alert::error('Error', "Category gagal diubah!");
+
+        return redirect()->route('category-articles.index');
     }
 
     /**
@@ -77,8 +131,12 @@ class CategoryArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category_article $Category_article)
     {
-        //
+        $Category_article->delete()
+            ? Alert::success('Sukses', "Category berhasil dihapus.")
+            : Alert::error('Error', "Category gagal dihapus!");
+
+        return redirect()->route('category-articles.index');
     }
 }
