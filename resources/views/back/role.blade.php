@@ -86,8 +86,8 @@
                         </div>
                         @foreach ($permission as $item)
                             <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" name="permission" type="checkbox" value="{{$item->name}}" id="{{$item->id}}">
-                                <label class="custom-control-label" for="{{$item->id}}">
+                                <input class="custom-control-input" name="permission" type="checkbox" value="{{$item->name}}" id="{{$item->name}}">
+                                <label class="custom-control-label" for="{{$item->name}}">
                                     {{$item->name}}
                                 </label>
                             </div>
@@ -117,6 +117,19 @@
                         <div id="nameErrDisEdit" style="display: none">
                             <small class="text-danger"><i id="nameErrMsgEdit"></i></small>
                         </div>
+                        <br>
+                        <h6>Permission</h6>
+                        <div id="nameErrDis" style="display: none">
+                            <small class="text-danger"><i id="nameErrMsg"></i></small>
+                        </div>
+                        @foreach ($permission as $item)
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input permission_edit" name="permission_edit" type="checkbox" value="{{$item->name}}" id="permission_{{$item->name}}">
+                                <label class="custom-control-label" for="permission_{{$item->name}}">
+                                    {{$item->name}}
+                                </label>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Perbaharui</button>
@@ -152,18 +165,34 @@
 @section('js')
     <script>
         function addModal() {
+            $('#name').val('');
+            var elPermission = $('input[name=permission]');
+            for (const [key, value] of Object.entries(elPermission)) {
+                    if (value.value !== undefined) {
+                        document.getElementById(value.value).checked = false;
+                    }
+;                };
             $('#addModal').modal('show');
         }
 
-        function editModal(obj) {
+        async function editModal(obj) {
             var id = obj.getAttribute('data-uid');
             var nama = obj.getAttribute('data-name');
+            const _token = "{{ csrf_token() }}";
+
             $('#id_edit').val(id);
             $('#name_edit').val(nama);
 
+            var elPermission = $('input[name=permission_edit]');
+            for (const [key, value] of Object.entries(elPermission)) {
+                    if (value.value !== undefined) {
+                        document.getElementById('permission_'+value.value).checked = false;
+                    }
+;                };
+
             try {
-                let response = await fetch("{{ url('roles') }}/" + uid, {
-                    method: "DELETE",
+                let response = await fetch("{{ url('role-has-permissions') }}/" + id, {
+                    method: "GET",
                     headers: {
                         "X-CSRF-TOKEN": _token,
                         "X-Requested-With": "XMLHttpRequest"
@@ -171,24 +200,15 @@
                 });
                 var datasend = await response.json();
 
-                $('#confirmDeleteModal').modal('hide');
+                for (const [key, value] of Object.entries(datasend.data)) {
+                    obj = document.getElementById('permission_'+value.name);
+                    obj.checked = true;
+;                }
 
-                if (datasend.errors !== undefined) {
-                    toastr.error('Silahkan coba lagi.', 'Error !');
-                } else {
-                    if (datasend.status == 'Error') {
-                        toastr.error('Silahkan coba lagi.', 'Error !');
-                    } else {
-                        toastr.success('Data berhasil dihapus.', 'Success !');
-                        document.getElementById('item_' + uid).remove();
-                    }
-                }
-
-                return false;
             } catch (err) {
                 console.log(err);
             }
-            
+
             $('#editModal').modal('show');
         }
 
@@ -228,9 +248,7 @@
                     }
                 });
                 var datasend = await response.json();
-
-                // console.log(datasend.data.id);
-
+                
                 if (datasend.errors !== undefined) {
                     for (const [key, value] of Object.entries(datasend.errors)) {
                         if (key != 'permission') {
@@ -270,13 +288,18 @@
 
             const uid = formEdit.id_edit.value;
             const name = formEdit.name_edit.value;
+            var permission = new Array();
+            $("input:checkbox[name=permission_edit]:checked").each(function(){
+                permission.push($(this).val());
+            });
             const _token = "{{ csrf_token() }}";
 
             try {
                 let response = await fetch("{{ url('roles') }}/" + uid, {
                     method: "PUT",
                     body: JSON.stringify({
-                        name: name
+                        name: name,
+                        permission: permission
                     }),
                     headers: {
                         'Accept': 'application/json',

@@ -39,6 +39,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('category-articles', CategoryArticleController::class);
     Route::resource('articles', ArticleController::class);
 
+    Route::get('/role-has-permissions/{id}', [RoleController::class, 'roleHasPermission']);
+
     Route::put('/change_password/{id}', [UserController::class, 'changePassword'])->name('change_password');
 });
 

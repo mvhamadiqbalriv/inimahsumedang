@@ -141,7 +141,10 @@ class RoleController extends Controller
                                                 ->get();
 
         if ($roleHasPermissions) {
-            return response()->json($roleHasPermissions, 200);
+            return response()->json([
+                'status' => 'Success',
+                'data' => $roleHasPermissions
+            ], 200);
         }else{
             return response()->json([
                 'message' => 'Terjadi kesalahan, silahkan coba lagi !'
