@@ -30,7 +30,7 @@
                         $path = Storage::url($detail->photo);
                     }
                 @endphp
-                <img src="{{$path}}">
+                <img src="{{$path}}" style="object-fit: cover;">
             </div>
             <div class="profile-name">
                 <h3>{{$detail->name}}</h3>

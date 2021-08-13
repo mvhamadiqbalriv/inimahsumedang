@@ -15,6 +15,13 @@ Edit Artikel
         border-radius: .3rem !important;
         height: 100% !important;
     }
+
+
+    @media (max-width: 767px) {
+        #gambarMobile {
+            margin-top: 13px !important;
+        }
+    }
 </style>
 @endsection
 
@@ -67,7 +74,7 @@ Edit Artikel
                     </div>
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-sm-8">
                                 <textarea name="konten" id="konten"
                                     class="form-control @error('konten') is-invalid @enderror">{{ old('konten',$article->konten) }}</textarea>
                                 @error('konten')
@@ -82,7 +89,7 @@ Edit Artikel
                                 </div>
                                 @enderror
                             </div>
-                            <div class="col-4">
+                            <div class="col-sm-4" id="gambarMobile">
                                 <input type="file"
                                     class="form-control dropify @error('gambar') is-invalid @enderror mt-5"
                                     name="gambar" id="gambar" data-allowed-file-extensions="png jpg jpeg"

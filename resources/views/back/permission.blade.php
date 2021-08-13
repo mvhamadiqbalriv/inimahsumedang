@@ -1,144 +1,142 @@
 @extends('layouts.back')
 @section('title')
-    Permission
+Permission
 @endsection
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-title">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb breadcrumb-separator-1">
-                        <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Permission</li>
-                    </ol>
-                </nav>
-                <h3>Permission</h3>
-            </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-title">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-separator-1">
+                    <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Permission</li>
+                </ol>
+            </nav>
+            <h3>Permission</h3>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xl">
-            <div class="card">
-                <div class="card-body">
-                    @if ($msg = Session::get('success'))
-                        <div class="alert alert-success">
-                            {{ $msg }}
-                        </div>
-                    @endif
-                    @if ($msg = Session::get('error'))
-                        <div class="alert alert-danger">
-                            {{ $msg }}
-                        </div>
-                    @endif
-                    <h5 class="card-title">Daftar Permission</h5>
-                    <a href="javascript:void(0)" class="btn btn-info mb-1" onclick="addModal()"><i
-                            class="fa fa-plus-circle"></i> Tambah</a>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Nama</th>
-                                <th scope="col">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="item_list">
-                            @php
-                                $no = 1;
-                            @endphp
-                            @foreach ($list as $item)
-                                <tr id="item_{{ $item->id }}">
-                                    <td>{{ $item->name }}</td>
-                                    <td>
-                                        <a href="javascript:void(0)" data-name="{{ $item->name }}"
-                                            data-uid="{{ $item->id }}" onclick="editModal(this)"
-                                            class="btn btn-success"><i class="fa fa-edit"></i> </a>
-                                        <a href="javascript:void(0)" data-name="{{ $item->name }}"
-                                            data-uid="{{ $item->id }}" onclick="deleteModal(this)"
-                                            class="btn btn-danger"><i class="fa fa-trash"></i> </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+</div>
+<div class="row">
+    <div class="col-xl">
+        <div class="card">
+            <div class="card-body">
+                @if ($msg = Session::get('success'))
+                <div class="alert alert-success">
+                    {{ $msg }}
                 </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal add -->
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addModalTitle">Tambah Permission</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i class="material-icons">close</i>
-                    </button>
+                @endif
+                @if ($msg = Session::get('error'))
+                <div class="alert alert-danger">
+                    {{ $msg }}
                 </div>
-                <form id="addForm">
-                    <div class="modal-body">
-                        <input type="text" name="name" id="name" class="form-control" placeholder="Nama Permission">
-                        <div id="nameErrDis" style="display: none">
-                            <small class="text-danger"><i id="nameErrMsg"></i></small>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
+                @endif
+                <h5 class="card-title">Daftar Permission</h5>
+                <a href="javascript:void(0)" class="btn btn-info mb-1" onclick="addModal()"><i
+                        class="fa fa-plus-circle"></i> Tambah</a>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="item_list">
+                        @php
+                        $no = 1;
+                        @endphp
+                        @foreach ($list as $item)
+                        <tr id="item_{{ $item->id }}">
+                            <td>{{ $item->name }}</td>
+                            <td>
+                                <a href="javascript:void(0)" data-name="{{ $item->name }}" data-uid="{{ $item->id }}"
+                                    onclick="editModal(this)" class="btn btn-success"><i class="fa fa-edit"></i> </a>
+                                <a href="javascript:void(0)" data-name="{{ $item->name }}" data-uid="{{ $item->id }}"
+                                    onclick="deleteModal(this)" class="btn btn-danger"><i class="fa fa-trash"></i> </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    <!-- Modal edit -->
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalTitle">Ubah Permission</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i class="material-icons">close</i>
-                    </button>
+</div>
+<!-- Modal add -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalTitle">Tambah Permission</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <form id="addForm">
+                <div class="modal-body">
+                    <input type="text" name="name" id="name" class="form-control" placeholder="Nama Permission">
+                    <div id="nameErrDis" style="display: none">
+                        <small class="text-danger"><i id="nameErrMsg"></i></small>
+                    </div>
                 </div>
-                <form id="editForm">
-                    <input type="hidden" name="id_edit" id="id_edit">
-                    <div class="modal-body">
-                        <input type="text" name="name_edit" id="name_edit" class="form-control">
-                        <div id="nameErrDisEdit" style="display: none">
-                            <small class="text-danger"><i id="nameErrMsgEdit"></i></small>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Perbaharui</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- Modal delete -->
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteModalTitle">Hapus user</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i class="material-icons">close</i>
-                    </button>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
-                <form id="confirmDeleteForm">
-                    <input type="hidden" name="id_delete" id="id_delete">
-                    <div class="modal-body">
-                        apakah anda yakin menghapus <b id="namaItemModal"></b> ?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger">Ya, Hapus !</button>
-                    </div>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
+</div>
+<!-- Modal edit -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalTitle">Ubah Permission</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <form id="editForm">
+                <input type="hidden" name="id_edit" id="id_edit">
+                <div class="modal-body">
+                    <input type="text" name="name_edit" id="name_edit" class="form-control">
+                    <div id="nameErrDisEdit" style="display: none">
+                        <small class="text-danger"><i id="nameErrMsgEdit"></i></small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Perbaharui</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal delete -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalTitle">Hapus user</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <form id="confirmDeleteForm">
+                <input type="hidden" name="id_delete" id="id_delete">
+                <div class="modal-body">
+                    apakah anda yakin menghapus <b id="namaItemModal"></b> ?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Ya, Hapus !</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 @section('js')
-    <script>
-        function addModal() {
+<script>
+    function addModal() {
             $('#addModal').modal('show');
         }
 
@@ -308,5 +306,5 @@
                 console.log(err);
             }
         });
-    </script>
+</script>
 @endsection

@@ -73,11 +73,19 @@ $web = \App\Models\Web::findOrFail(1);
                             class="material-icons">web</i>Profile Web</a>
                 </li>
                 <li>
-                    <a href="{{url('articles')}}" class="{{($url[3] == 'article') ? 'active' : null}}"><i
+                    <a href="{{url('articles')}}" class="{{($url[3] == 'articles') ? 'active' : null}}"><i
                             class="material-icons">article</i>Article</a>
                 </li>
                 <li>
-                    <a href="{{url('category-articles')}}" class="{{($url[3] == 'category') ? 'active' : null}}"><i
+                    <a href="{{url('comments')}}" class="{{($url[3] == 'comments') ? 'active' : null}}"><i
+                            class="material-icons">comment</i>Comment</a>
+                </li>
+                <li>
+                    <a href="{{url('pages')}}" class="{{($url[3] == 'pages') ? 'active' : null}}"><i
+                            class="material-icons">grid_view</i>Page</a>
+                </li>
+                <li>
+                    <a href="{{url('category-articles')}}" class="{{($url[3] == 'category-articles') ? 'active' : null}}"><i
                             class="material-icons">view_list</i>Category</a>
                 </li>
                 <li>
@@ -109,7 +117,7 @@ $web = \App\Models\Web::findOrFail(1);
                 </a>
             </section>
             <a class="navbar-brand" href="{{url('dashboard')}}">
-                <img src="{{Storage::url($web->logo)}}" style="object-fit: contain" alt="" alt="" width="80"
+                <img src="{{ asset('assets/back/logo_inimahsumedang_500x.png') }}" style="object-fit: contain" alt="" alt="" width="80"
                     height="30">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
