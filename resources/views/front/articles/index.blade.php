@@ -52,7 +52,7 @@ Beranda
                     @endisset
                     @foreach ($article as $articles)
 
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 d-flex align-items-stretch">
                         <!-- post -->
                         <div class="post post-grid rounded bordered">
                             <div class="thumb top-rounded">
@@ -81,9 +81,9 @@ Beranda
                                     <li class="list-inline-item">{{ $articles->updated_at->format('d M Y')}}</li>
                                 </ul>
                                 <h5 class="post-title mb-3 mt-3"><a
-                                        href="{{ route('artikel.show', $articles->slug) }}">{{ $articles->judul }}</a>
+                                        href="{{ route('artikel.show', $articles->slug) }}">{{ Str::limit($articles->judul, 43) }}</a>
                                 </h5>
-                                <p class="excerpt mb-0">{{ strip_tags(Str::limit($articles->konten, 200)) }}</p>
+                                <p class="excerpt mb-0">{{ strip_tags(Str::limit($articles->konten, 93)) }}</p>
                             </div>
                             <div class="post-bottom clearfix d-flex align-items-center">
                                 <div class="social-share me-auto">

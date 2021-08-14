@@ -9,6 +9,7 @@ use App\Models\Category_article;
 use App\Models\Comment;
 use App\Models\Reply;
 use App\Models\Web;
+use App\Models\Visitor;
 use Alert;
 use DB;
 
@@ -172,9 +173,10 @@ class FrontArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($slug, Request $request)
     {
         $article = Article::where('slug', $slug)->first();
+        Visitor::createViewLog($article);
         return view('front.article_contents.index', ['article' => $article]); 
     }
 

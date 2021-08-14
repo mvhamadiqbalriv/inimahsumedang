@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Web;
+use DB;
 
 class HomeController extends Controller
 {
@@ -27,6 +28,19 @@ class HomeController extends Controller
         $data['editors_pick_3'] = Article::where('selected_article', '=', 'editors_pick_3')->first();
         $data['editors_pick_4'] = Article::where('selected_article', '=', 'editors_pick_4')->first();
         $data['editors_pick_5'] = Article::where('selected_article', '=', 'editors_pick_5')->first();
+
+        $data['trending'] = Article::join("visitors", "visitors.article", "=", "articles.id")
+            ->where("visitors.created_at", ">=", date("Y-m-d H:i:s", strtotime('-24 hours', time())))
+            ->groupBy("articles.id")
+            ->orderBy(DB::raw('COUNT(articles.id)'), 'desc')
+            ->limit(4)//here its very minute mistake of a paranthesis in Jean Marcos' answer, which results ASC ordering instead of DESC so be careful with this line
+            ->get([DB::raw('COUNT(articles.id) as total_views'), 'articles.*']);
+          
+            $data['popular'] = Article::join("visitors", "visitors.article", "=", "articles.id")
+            ->groupBy("articles.id")
+            ->orderBy(DB::raw('COUNT(articles.id)'), 'desc')
+            ->limit(4)//here its very minute mistake of a paranthesis in Jean Marcos' answer, which results ASC ordering instead of DESC so be careful with this line
+            ->get([DB::raw('COUNT(articles.id) as total_views'), 'articles.*']);
         return view('front.home.index', $data);
     }
 
