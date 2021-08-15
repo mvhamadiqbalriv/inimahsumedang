@@ -143,7 +143,7 @@ Beranda
 										<button type="submit" class="category-badge position-absolute" style="border: none;">{{ $editors_pick_1->categories->nama }}</button>
 									</form>
 									<span class="post-format">
-										<i class="icon-picture"></i>
+										<i class="{{ $editors_pick_1->categories->category_icon }}"></i>
 									</span>
 									<a href="{{ route('artikel.show', $editors_pick_1->slug) }}">
 										<div class="inner">
@@ -282,61 +282,70 @@ Beranda
 							<!-- post large -->
 							<div class="post">
 								<div class="thumb rounded">
-									<a href="category.html" class="category-badge position-absolute">Culture</a>
+									<form action="{{ route('artikel.kategori') }}" method="post" style="display: inline;">
+										@csrf
+										<input type="hidden" name="kategori" value="{{ $trending_1->category }}">
+										<button type="submit" class="category-badge position-absolute" style="border: none;">{{ $trending_1->categories->nama }}</button>
+									</form>
 									<span class="post-format">
-										<i class="icon-picture"></i>
+										<i class="{{ $trending_1->categories->category_icon }}"></i>
 									</span>
-									<a href="blog-single.html">
+									<a href="{{ route('artikel.show', $trending_1->slug) }}">
 										<div class="inner">
-											<img src="{{ asset('assets/front/images/posts/trending-lg-1.jpg') }}"
-												alt="post-title" />
+											@if (!empty($trending_1))
+											<img src="{{ Storage::url($trending_1->gambar) }}" style="width: 550px; height: 395px; object-fit: cover;" alt="post-title" />
+											@else
+											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+											@endif
 										</div>
 									</a>
 								</div>
 								<ul class="meta list-inline mt-4 mb-0">
 									<li class="list-inline-item"><a href="#"><img
-												src="{{ asset('assets/front/images/other/author-sm.png') }}"
-												class="author" alt="author" />Katen Doe</a></li>
-									<li class="list-inline-item">29 March 2021</li>
+										src="{{ Storage::url($trending_1->creators->photo) }}" style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;"
+										class="author" alt="author" />{{ ucfirst(trans($trending_1->creators->name)) }}</a></li>
+									<li class="list-inline-item">{{ $trending_1->created_at->format('d M Y') }}</li>
 								</ul>
-								<h5 class="post-title mb-3 mt-3"><a href="blog-single.html">Facts About Business
-										That Will Help You Success</a></h5>
-								<p class="excerpt mb-0">A wonderful serenity has taken possession of my entire
-									soul, like these sweet mornings of spring which I enjoy</p>
+								<h5 class="post-title mb-3 mt-3"><a href="{{ route('artikel.show', $trending_1->slug) }}">{{ $trending_1->judul }}</a></h5>
+								<p class="excerpt mb-0">{!! Str::limit($trending_1->konten, 50) !!}</p>
 							</div>
 							<!-- post -->
 							<div class="post post-list-sm square before-seperator">
 								<div class="thumb rounded">
-									<a href="blog-single.html">
+									<a href="{{ route('artikel.show', $trending_3->slug) }}">
 										<div class="inner">
-											<img src="{{ asset('assets/front/images/posts/trending-sm-1.jpg') }}"
-												alt="post-title" />
+											@if (!empty($trending_3))
+											<img src="{{ Storage::url($trending_3->gambar) }}" style="width: 110px; height: 80px; object-fit: cover;" alt="post-title" />
+											@else
+											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+											@endif
 										</div>
 									</a>
 								</div>
 								<div class="details clearfix">
-									<h6 class="post-title my-0"><a href="blog-single.html">3 Easy Ways To Make
-											Your iPhone Faster</a></h6>
+									<h6 class="post-title my-0"><a href="{{ route('artikel.show', $trending_3->slug) }}">{{ $trending_3->judul }}</a></h6>
 									<ul class="meta list-inline mt-1 mb-0">
-										<li class="list-inline-item">29 March 2021</li>
+										<li class="list-inline-item">{{ $trending_3->created_at->format('d M Y') }}</li>
 									</ul>
 								</div>
 							</div>
 							<!-- post -->
 							<div class="post post-list-sm square before-seperator">
 								<div class="thumb rounded">
-									<a href="blog-single.html">
+									<a href="{{ route('artikel.show', $trending_3->slug) }}">
 										<div class="inner">
-											<img src="{{ asset('assets/front/images/posts/trending-sm-2.jpg') }}"
-												alt="post-title" />
+											@if (!empty($trending_5))
+											<img src="{{ Storage::url($trending_5->gambar) }}" style="width: 110px; height: 80px; object-fit: cover;" alt="post-title" />
+											@else
+											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+											@endif
 										</div>
 									</a>
 								</div>
 								<div class="details clearfix">
-									<h6 class="post-title my-0"><a href="blog-single.html">An Incredibly Easy
-											Method That Works For All</a></h6>
+									<h6 class="post-title my-0"><a href="{{ route('artikel.show', $trending_5->slug) }}">{{ $trending_5->judul }}</a></h6>
 									<ul class="meta list-inline mt-1 mb-0">
-										<li class="list-inline-item">29 March 2021</li>
+										<li class="list-inline-item">{{ $trending_5->created_at->format('d M Y') }}</li>
 									</ul>
 								</div>
 							</div>
@@ -345,61 +354,70 @@ Beranda
 							<!-- post large -->
 							<div class="post">
 								<div class="thumb rounded">
-									<a href="category.html" class="category-badge position-absolute">Inspiration</a>
+									<form action="{{ route('artikel.kategori') }}" method="post" style="display: inline;">
+										@csrf
+										<input type="hidden" name="kategori" value="{{ $trending_2->category }}">
+										<button type="submit" class="category-badge position-absolute" style="border: none;">{{ $trending_2->categories->nama }}</button>
+									</form>
 									<span class="post-format">
-										<i class="icon-earphones"></i>
+										<i class="{{ $trending_2->categories->category_icon }}"></i>
 									</span>
-									<a href="blog-single.html">
+									<a href="{{ route('artikel.show', $trending_2->slug) }}">
 										<div class="inner">
-											<img src="{{ asset('assets/front/images/posts/trending-lg-2.jpg') }}"
-												alt="post-title" />
+											@if (!empty($trending_2))
+											<img src="{{ Storage::url($trending_2->gambar) }}" style="width: 550px; height: 395px; object-fit: cover;" alt="post-title" />
+											@else
+											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+											@endif
 										</div>
 									</a>
 								</div>
 								<ul class="meta list-inline mt-4 mb-0">
 									<li class="list-inline-item"><a href="#"><img
-												src="{{ asset('assets/front/images/other/author-sm.png') }}"
-												class="author" alt="author" />Katen Doe</a></li>
-									<li class="list-inline-item">29 March 2021</li>
+										src="{{ Storage::url($trending_2->creators->photo) }}" style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;"
+										class="author" alt="author" />{{ ucfirst(trans($trending_2->creators->name)) }}</a></li>
+									<li class="list-inline-item">{{ $trending_2->created_at->format('d M Y') }}</li>
 								</ul>
-								<h5 class="post-title mb-3 mt-3"><a href="blog-single.html">5 Easy Ways You Can
-										Turn Future Into Success</a></h5>
-								<p class="excerpt mb-0">A wonderful serenity has taken possession of my entire
-									soul, like these sweet mornings of spring which I enjoy</p>
+								<h5 class="post-title mb-3 mt-3"><a href="{{ route('artikel.show', $trending_2->slug) }}">{{ $trending_2->judul }}</a></h5>
+								<p class="excerpt mb-0">{!! $trending_2->konten !!}</p>
 							</div>
 							<!-- post -->
 							<div class="post post-list-sm square before-seperator">
 								<div class="thumb rounded">
-									<a href="blog-single.html">
+									<a href="{{ route('artikel.show', $trending_4->slug) }}">
 										<div class="inner">
-											<img src="{{ asset('assets/front/images/posts/trending-sm-3.jpg') }}"
-												alt="post-title" />
+											@if (!empty($trending_4))
+											<img src="{{ Storage::url($trending_4->gambar) }}" style="width: 110px; height: 80px; object-fit: cover;" alt="post-title" />
+											@else
+											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+											@endif
 										</div>
 									</a>
 								</div>
 								<div class="details clearfix">
-									<h6 class="post-title my-0"><a href="blog-single.html">Here Are 8 Ways To
-											Success Faster</a></h6>
+									<h6 class="post-title my-0"><a href="{{ route('artikel.show', $trending_4->slug) }}">{{ $trending_4->judul }}</a></h6>
 									<ul class="meta list-inline mt-1 mb-0">
-										<li class="list-inline-item">29 March 2021</li>
+										<li class="list-inline-item">{{ $trending_4->created_at->format('d M Y') }}</li>
 									</ul>
 								</div>
 							</div>
 							<!-- post -->
 							<div class="post post-list-sm square before-seperator">
 								<div class="thumb rounded">
-									<a href="blog-single.html">
+									<a href="{{ route('artikel.show', $trending_6->slug) }}">
 										<div class="inner">
-											<img src="{{ asset('assets/front/images/posts/trending-sm-4.jpg') }}"
-												alt="post-title" />
+											@if (!empty($trending_6))
+											<img src="{{ Storage::url($trending_6->gambar) }}" style="width: 110px; height: 80px; object-fit: cover;" alt="post-title" />
+											@else
+											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+											@endif
 										</div>
 									</a>
 								</div>
 								<div class="details clearfix">
-									<h6 class="post-title my-0"><a href="blog-single.html">Master The Art Of
-											Nature With These 7 Tips</a></h6>
+									<h6 class="post-title my-0"><a href="{{ route('artikel.show', $trending_6->slug) }}">{{ $trending_6->judul }}</a></h6>
 									<ul class="meta list-inline mt-1 mb-0">
-										<li class="list-inline-item">29 March 2021</li>
+										<li class="list-inline-item">{{ $trending_6->created_at->format('d M Y') }}</li>
 									</ul>
 								</div>
 							</div>
@@ -412,7 +430,7 @@ Beranda
 				<!-- section header -->
 				<div class="section-header">
 					<h3 class="section-title">Inspiration</h3>
-					<img src="images/wave.svg" class="wave" alt="wave" />
+					<img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
 					<div class="slick-arrows-top">
 						<button type="button" data-role="none" class="carousel-topNav-prev slick-custom-buttons"
 							aria-label="Previous"><i class="icon-arrow-left"></i></button>
@@ -567,67 +585,63 @@ Beranda
 					<!-- widget post carousel -->
 					<div class="widget rounded">
 						<div class="widget-header text-center">
-							<h3 class="widget-title">Celebration</h3>
+							<h3 class="widget-title">Event</h3>
 							<img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
 						</div>
 						<div class="widget-content">
 							<div class="post-carousel-widget">
 								<!-- post -->
+
 								<div class="post post-carousel">
 									<div class="thumb rounded">
-										<a href="category.html" class="category-badge position-absolute">How
-											to</a>
-										<a href="blog-single.html">
+									<form action="{{ route('artikel.kategori') }}" method="post" style="display: inline;">
+										@csrf
+										<input type="hidden" name="kategori" value="{{ $event_1->category }}">
+										<button type="submit" class="category-badge position-absolute" style="border: none;">{{ $event_1->categories->nama }}</button>
+									</form>
+										
+										<a href="{{ route('artikel.show', $event_1->slug)}}">
 											<div class="inner">
-												<img src="{{ asset('assets/front/images/widgets/widget-carousel-1.jpg') }}"
-													alt="post-title" />
+											@if (!empty($event_1))
+											<img src="{{ Storage::url($event_1->gambar) }}" alt="post-title" />
+											@else
+											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+											@endif
 											</div>
 										</a>
 									</div>
-									<h5 class="post-title mb-0 mt-4"><a href="blog-single.html">5 Easy Ways You
-											Can Turn Future Into Success</a></h5>
+									<h5 class="post-title mb-0 mt-4"><a href="{{ route('artikel.show', $event_1->slug)}}">{{ $event_1->judul }}</a></h5>
 									<ul class="meta list-inline mt-2 mb-0">
-										<li class="list-inline-item"><a href="#">Katen Doe</a></li>
-										<li class="list-inline-item">29 March 2021</li>
+										<li class="list-inline-item"><a href="#">{{ ucfirst(trans($event_1->creators->name)) }}</a></li>
+										<li class="list-inline-item">{{ $event_1->updated_at->format('d M Y') }}</li>
 									</ul>
 								</div>
-								<!-- post -->
+								
 								<div class="post post-carousel">
 									<div class="thumb rounded">
-										<a href="category.html" class="category-badge position-absolute">Trending</a>
-										<a href="blog-single.html">
+										<form action="{{ route('artikel.kategori') }}" method="post" style="display: inline;">
+										@csrf
+											<input type="hidden" name="kategori" value="{{ $event_2->category }}">
+											<button type="submit" class="category-badge position-absolute" style="border: none;">{{ $event_2->categories->nama }}</button>
+										</form>
+										<a href="{{ route('artikel.show', $event_2->slug)}}">
 											<div class="inner">
-												<img src="{{ asset('assets/front/images/widgets/widget-carousel-2.jpg') }}"
-													alt="post-title" />
+											@if (!empty($event_2))
+											<img src="{{ Storage::url($event_2->gambar) }}" alt="post-title" />
+											@else
+											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+											@endif
 											</div>
 										</a>
 									</div>
-									<h5 class="post-title mb-0 mt-4"><a href="blog-single.html">Master The Art
-											Of Nature With These 7 Tips</a></h5>
+									<h5 class="post-title mb-0 mt-4"><a href="{{ route('artikel.show', $event_2->slug)}}">{{ $event_2->judul }}</a></h5>
 									<ul class="meta list-inline mt-2 mb-0">
-										<li class="list-inline-item"><a href="#">Katen Doe</a></li>
-										<li class="list-inline-item">29 March 2021</li>
+										<li class="list-inline-item"><a href="#">{{ ucfirst(trans($event_2->creators->name)) }}</a></li>
+										<li class="list-inline-item">{{ $event_2->updated_at->format('d M Y') }}</li>
 									</ul>
 								</div>
-								<!-- post -->
-								<div class="post post-carousel">
-									<div class="thumb rounded">
-										<a href="category.html" class="category-badge position-absolute">How
-											to</a>
-										<a href="blog-single.html">
-											<div class="inner">
-												<img src="{{ asset('assets/front/images/widgets/widget-carousel-1.jpg') }}"
-													alt="post-title" />
-											</div>
-										</a>
-									</div>
-									<h5 class="post-title mb-0 mt-4"><a href="blog-single.html">5 Easy Ways You
-											Can Turn Future Into Success</a></h5>
-									<ul class="meta list-inline mt-2 mb-0">
-										<li class="list-inline-item"><a href="#">Katen Doe</a></li>
-										<li class="list-inline-item">29 March 2021</li>
-									</ul>
-								</div>
+
+								
 							</div>
 							<!-- carousel arrows -->
 							<div class="slick-arrows-bot">

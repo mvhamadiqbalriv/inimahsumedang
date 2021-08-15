@@ -94,7 +94,7 @@ Article
                                             autocomplete="off"></object>
                                 @if ($articles->gambar)
                                 <img src="{{ Storage::url($articles->gambar) }}" alt=""
-                                    style="border-radius:5px; width:70px; height:65px;">
+                                    style="border-radius:5px; width:70px; height:65px; object-fit: cover;">
                                 @else
                                 <div id="firstLetter"
                                     style="border: 1px solid rgba(230, 229, 229, 0.87); border-radius:5px; width:60px; height:65px; text-align:center; font-size:40px; text-transform:capitalize; object-fit:cover;">
