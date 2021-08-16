@@ -41,14 +41,14 @@ class HomeController extends Controller
             // ->where("visitors.created_at", ">=", now()->subdays(1))
             ->groupBy("articles.id")
             ->orderBy(DB::raw('COUNT(articles.id)'), 'desc')
-            ->limit(4)//here its very minute mistake of a paranthesis in Jean Marcos' answer, which results ASC ordering instead of DESC so be careful with this line
+            ->limit(4)
             ->get([DB::raw('COUNT(articles.id) as total_views'), 'articles.*']);
           
             $data['trending'] = Article::join("visitors", "visitors.article", "=", "articles.id")
             ->where("visitors.created_at", ">=", date("Y-m-d H:i:s", strtotime('-24 hours', time())))
             ->groupBy("articles.id")
             ->orderBy(DB::raw('COUNT(articles.id)'), 'desc')
-            ->limit(4)//here its very minute mistake of a paranthesis in Jean Marcos' answer, which results ASC ordering instead of DESC so be careful with this line
+            ->limit(4)
             ->get([DB::raw('COUNT(articles.id) as total_views'), 'articles.*']);
         return view('front.home.index', $data);
     }

@@ -490,7 +490,7 @@ Beranda
 										href="@if(isset($trending_2)) {{ route('artikel.show', $trending_2->slug) }} @endif">@if(isset($trending_2))
 										{{ $trending_2->judul }} @else Judul artikel @endif</a>
 								</h5>
-								<p class="excerpt mb-0">@if(isset($trending_2)) {!! Str::limit($trending_2->konten, 90) !!} @else Konten
+								<p class="excerpt mb-0">@if(isset($trending_2)) {!! Str::limit($trending_2->konten, 50) !!} @else Konten
 									artikel @endif</p>
 							</div>
 							<!-- post -->

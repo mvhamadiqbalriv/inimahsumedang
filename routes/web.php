@@ -39,7 +39,6 @@ Route::get('/artikel/reload-captcha', [FrontArticleController::class, 'reloadCap
 Route::post('artikel/kategori', [FrontArticleController::class, 'kategori'])->name('artikel.kategori');
 Route::post('artikel/pencarian', [FrontArticleController::class, 'pencarian_artikel'])->name('artikel.pencarian');
 Route::post('artikel/autocomplete', [FrontArticleController::class, 'pencarian_autocomplete'])->name('artikel.pencarian_autocomplete');
-Route::get('demos/searchlive', [SearchController::class, 'searchLive'])->name('artikel.searchLive');
 
 // Back
 Route::group(['middleware' => 'auth'], function () {
@@ -71,6 +70,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('replies/status/{reply}', [CommentController::class, 'replies'])->name('replies.update');
     Route::post('replies/destroy/{reply}', [CommentController::class, 'destroy_reply'])->name('replies.destroy');
     Route::resource('pages', PageController::class);
+    Route::post('page/ads', [PageController::class, 'ads'])->name('page.ads');
+    Route::get('article/search-live', [PageController::class, 'searchLive'])->name('artikel.searchLive');
+    Route::get('article/search-live-trending', [PageController::class, 'searchliveTrending'])->name('artikel.searchliveTrending');
 
 
     Route::get('/role-has-permissions/{id}', [RoleController::class, 'roleHasPermission']);

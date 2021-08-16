@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Ad;
+use DB;
+use Alert;
 
 class PageController extends Controller
 {
@@ -17,8 +20,8 @@ class PageController extends Controller
     {   
         $data['article'] = Article::all();
         $data['feature_post'] = Article::where('selected_article', '=', 'feature_post')->first();
-        $data['ads'] = Article::where('selected_article', '=', 'ads')->first();
-        $data['ads_2'] = Article::where('selected_article', '=', 'ads_2')->first();
+        $data['horizontal_ads'] = Ad::where('status', '=', 'horizontal_ads')->first();
+        $data['widget_ads'] = Ad::where('status', '=', 'widget_ads')->first();
         $data['selected_category_post_1'] = Article::where('selected_article', '=', 'selected_category_post_1')->first();
         $data['selected_category_post_2'] = Article::where('selected_article', '=', 'selected_category_post_2')->first();
         $data['editors_pick_1'] = Article::where('selected_article', '=', 'editors_pick_1')->first();
@@ -42,6 +45,40 @@ class PageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function searchlive(Request $request)
+    {
+        $search_val = $request->id;
+        if (is_null($search_val))
+        {
+            return view('searchlive');
+        } else {
+            $data['article'] = Article::where('judul','LIKE',"%{$search_val}%")->where('is_publish', '=', '1')->where('selected_article', '=', null)->limit(3)->get();
+            return view('search_live_article', $data);
+        }
+    }
+
+    public function searchliveTrending(Request $request)
+    {
+        $search_val = $request->id;
+        if (is_null($search_val))
+        {
+            return view('searchlive');
+        } else {
+            $data['article'] = Article::join("visitors", "visitors.article", "=", "articles.id")
+            ->where('judul','LIKE',"%{$search_val}%")
+            ->where('selected_article', '=', null)
+            ->where('is_publish', '=', '1')
+            ->where("visitors.created_at", ">=", date("Y-m-d H:i:s", strtotime('-24 hours', time())))
+            ->groupBy("articles.id")
+            ->orderBy(DB::raw('COUNT(articles.id)'), 'desc')
+            ->limit(3)
+            ->get([DB::raw('COUNT(articles.id) as total_views'), 'articles.*']);
+            return view('search_live_trending_article', $data);
+        }
+    }
+    
+
     public function create()
     {
         //
@@ -53,6 +90,32 @@ class PageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function ads(Request $request)
+    {
+        if($request->status == 'horizontal_ads'){
+            Ad::where('status', 'horizontal_ads')->delete();
+        }
+
+        if($request->status == 'widget_ads'){
+            Ad::where('status', 'widget_ads')->delete();
+        }
+
+        $request->validate([
+            'gambar' => 'required',
+            'status' => 'required'
+        ]);
+
+        $data = [
+            'gambar' => $request->file('gambar')->store('/public/input/ads'),
+            'status' => $request->status
+        ];
+
+        Ad::create($data)
+        ? Alert::success('Berhasil', 'Iklan telah berhasil diterapkan!')
+        : Alert::error('Error', 'Ikbal gagal diterapkan');
+
+        return redirect()->back();
+    }
     public function store(Request $request)
     {
         

@@ -4,6 +4,15 @@ Page
 @endsection
 
 @section('css')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css"
+    integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    .dropify-wrapper {
+        border: 1px solid #e2e7f1 !important;
+        border-radius: .3rem !important;
+    }
+</style>
 <style>
     .article-lists {
         cursor: pointer !important;
@@ -152,11 +161,11 @@ Page
                         </div>
                         <div class="wrap-image mb-1 d-flex justify-content-center">
                             @if (!empty($feature_post))
-                            <img src="{{ Storage::url($feature_post->gambar) }}" style=""
-                                class="img-fluid image " alt="post-title" />
+                            <img src="{{ Storage::url($feature_post->gambar) }}" style="" class="img-fluid image "
+                                alt="post-title" />
                             @else
-                            <img src="{{ asset('assets/back/not-found.png') }}" style=""
-                                class="img-fluid image " alt="post-title" />
+                            <img src="{{ asset('assets/back/not-found.png') }}" style="" class="img-fluid image "
+                                alt="post-title" />
                             @endif
                         </div>
 
@@ -171,17 +180,12 @@ Page
                                 <div class="d-flex justify-content-between">
                                     <h4>Horizontal Ads</h4>
                                     <button class="btn btn-sm btn-secondary" data-toggle="modal" @if(empty($article))
-                                        data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                        data-status="ads" data-title="Ads" onclick="ads(this)"><i
-                                            class="fas fa-plus"></i></button>
+                                        data-target="#ifArticleEmpty" @else data-target="#horizontalAdsModal" @endif"><i class="fas fa-plus"></i></button>
                                 </div>
-                                <div class="title mt-3">
-                                    <p class="text-center">@if(isset($ads)) {{ $ads->judul }} @else Judul artikel @endif
-                                    </p>
-                                </div>
-                                <div class="wrap-image">
-                                    @if (!empty($ads))
-                                    <img src="{{ Storage::url($ads->gambar) }}" class="img-fluid image "
+                               
+                                <div class="wrap-image mt-3">
+                                    @if (!empty($horizontal_ads))
+                                    <img src="{{ Storage::url($horizontal_ads->gambar) }}" class="img-fluid image "
                                         alt="post-title" />
                                     @else
                                     <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid image "
@@ -197,17 +201,12 @@ Page
                                 <div class="d-flex justify-content-between">
                                     <h4>Widget Ads</h4>
                                     <button class="btn btn-sm btn-secondary" data-toggle="modal" @if(empty($article))
-                                        data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                        data-status="ads_2" data-title="Ads" onclick="ads(this)"><i
-                                            class="fas fa-plus"></i></button>
+                                        data-target="#ifArticleEmpty" @else data-target="#widgetAdsModal" @endif><i class="fas fa-plus"></i></button>
                                 </div>
-                                <div class="title mt-3">
-                                    <p class="text-center">@if(isset($ads_2)) {{ $ads_2->judul }} @else Judul artikel
-                                        @endif</p>
-                                </div>
-                                <div class="wrap-image">
-                                    @if (!empty($ads_2))
-                                    <img src="{{ Storage::url($ads_2->gambar) }}" class="img-fluid image "
+                              
+                                <div class="wrap-image mt-3">
+                                    @if (!empty($widget_ads))
+                                    <img src="{{ Storage::url($widget_ads->gambar) }}" class="img-fluid image "
                                         alt="post-title" />
                                     @else
                                     <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid image "
@@ -243,8 +242,7 @@ Page
                                         style="width: 510px;" alt="post-title" />
                                     @else
                                     <img src="{{ asset('assets/back/not-found.png') }}"
-                                        class="img-fluid editors-pick-default-image" alt="post-title"
-                                        style="" />
+                                        class="img-fluid editors-pick-default-image" alt="post-title" style="" />
                                     @endif
                                 </div>
                             </div>
@@ -351,7 +349,7 @@ Page
                                                 @endif</p>
                                         </div>
                                         <div class="wrap-trending-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
+                                            data-target="#ifArticleEmpty" @else data-target="#trendingArticleModal"
                                             @endif data-status="trending_1" data-title="Trending"
                                             onclick="trendingValue(this)">
                                             @if (!empty($trending_1))
@@ -370,7 +368,7 @@ Page
                                                 @endif</p>
                                         </div>
                                         <div class="wrap-trending-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
+                                            data-target="#ifArticleEmpty" @else data-target="#trendingArticleModal"
                                             @endif data-status="trending_2" data-title="Trending"
                                             onclick="trendingValue(this)">
                                             @if (!empty($trending_2))
@@ -391,7 +389,7 @@ Page
                                                 @endif</p>
                                         </div>
                                         <div class="wrap-trending-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
+                                            data-target="#ifArticleEmpty" @else data-target="#trendingArticleModal"
                                             @endif data-status="trending_3" data-title="Trending"
                                             onclick="trendingValue(this)">
                                             @if (!empty($trending_3))
@@ -410,7 +408,7 @@ Page
                                                 @endif</p>
                                         </div>
                                         <div class="wrap-trending-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
+                                            data-target="#ifArticleEmpty" @else data-target="#trendingArticleModal"
                                             @endif data-status="trending_4" data-title="Trending"
                                             onclick="trendingValue(this)">
                                             @if (!empty($trending_4))
@@ -431,7 +429,7 @@ Page
                                                 @endif</p>
                                         </div>
                                         <div class="wrap-trending-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
+                                            data-target="#ifArticleEmpty" @else data-target="#trendingArticleModal"
                                             @endif data-status="trending_5" data-title="Trending"
                                             onclick="trendingValue(this)">
                                             @if (!empty($trending_5))
@@ -450,7 +448,7 @@ Page
                                                 @endif</p>
                                         </div>
                                         <div class="wrap-trending-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
+                                            data-target="#ifArticleEmpty" @else data-target="#trendingArticleModal"
                                             @endif data-status="trending_6" data-title="Trending"
                                             onclick="trendingValue(this)">
                                             @if (!empty($trending_6))
@@ -475,19 +473,20 @@ Page
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <h4>Event</h4>
-                                    <button class="btn btn-sm btn-secondary" onclick="eventButton(this)"><i class="fas fa-plus"
-                                            id="iconChangeOnEvent"></i></button>
+                                    <button class="btn btn-sm btn-secondary" onclick="eventButton(this)"><i
+                                            class="fas fa-plus" id="iconChangeOnEvent"></i></button>
                                 </div>
                                 <div class="row justify-content-center mt-4">
                                     <div class="col-sm-6">
                                         <div class="title mt-3">
-                                            <p class="text-center">@if(isset($event_1)) {{ $event_1->judul }} @else Judul artikel
+                                            <p class="text-center">@if(isset($event_1)) {{ $event_1->judul }} @else
+                                                Judul artikel
                                                 @endif
                                             </p>
                                         </div>
                                         <div class="wrap-event-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                            data-status="event_1" data-title="Event" onclick="eventValue(this)">
+                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
+                                            @endif data-status="event_1" data-title="Event" onclick="eventValue(this)">
                                             @if (!empty($event_1))
                                             <img src="{{ Storage::url($event_1->gambar) }}" class="img-fluid image"
                                                 style="width: 510px; width:100%; object-fit: cover;" alt="post-title" />
@@ -499,13 +498,14 @@ Page
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="title mt-3">
-                                            <p class="text-center">@if(isset($event_2)) {{ $event_2->judul }} @else Judul artikel
+                                            <p class="text-center">@if(isset($event_2)) {{ $event_2->judul }} @else
+                                                Judul artikel
                                                 @endif
                                             </p>
                                         </div>
                                         <div class="wrap-event-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                            data-status="event_2" data-title="Event" onclick="eventValue(this)">
+                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
+                                            @endif data-status="event_2" data-title="Event" onclick="eventValue(this)">
                                             @if (!empty($event_2))
                                             <img src="{{ Storage::url($event_2->gambar) }}" class="img-fluid image"
                                                 style="width: 510px; width:100%; object-fit: cover;" alt="post-title" />
@@ -521,13 +521,14 @@ Page
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="pills-category-post" role="tabpanel" aria-labelledby="pills-category-post-tab">
+            <div class="tab-pane fade" id="pills-category-post" role="tabpanel"
+                aria-labelledby="pills-category-post-tab">
                 <div class="card p-2">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h4>Category Post</h4>
-                            <button class="btn btn-sm btn-secondary" onclick="selectedCategory(this)"><i class="fas fa-plus"
-                                    id="iconChange"></i></button>
+                            <button class="btn btn-sm btn-secondary" onclick="selectedCategory(this)"><i
+                                    class="fas fa-plus" id="iconChange"></i></button>
                         </div>
                         <div class="row mt-4">
                             <div class="col-sm-6">
@@ -541,8 +542,8 @@ Page
                                     data-status="selected_category_post_1" data-title="Selected Category Posts"
                                     onclick="selectedCategoryValue(this)">
                                     @if (!empty($selected_category_post_1))
-                                    <img src="{{ Storage::url($selected_category_post_1->gambar) }}" class="img-fluid image"
-                                        style="width: 510px;" alt="post-title" />
+                                    <img src="{{ Storage::url($selected_category_post_1->gambar) }}"
+                                        class="img-fluid image" style="width: 510px;" alt="post-title" />
                                     @else
                                     <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid image"
                                         style="width: 510px;" alt="post-title" />
@@ -560,8 +561,8 @@ Page
                                     data-status="selected_category_post_2" data-title="Selected Category Posts"
                                     onclick="selectedCategoryValue(this)">
                                     @if (!empty($selected_category_post_2))
-                                    <img src="{{ Storage::url($selected_category_post_2->gambar) }}" class="img-fluid image"
-                                        style="width: 510px;" alt="post-title" />
+                                    <img src="{{ Storage::url($selected_category_post_2->gambar) }}"
+                                        class="img-fluid image" style="width: 510px;" alt="post-title" />
                                     @else
                                     <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid image"
                                         style="width: 510px;" alt="post-title" />
@@ -571,7 +572,7 @@ Page
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 </div>
@@ -623,6 +624,45 @@ Page
 
 @endforeach
 
+@foreach ($article as $articles)
+
+<!-- Modal Publish -->
+<div class="modal fade" id="trendingArticleModal" tabindex="-1" role="dialog" aria-labelledby="trendingArticleModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="trendingArticleModalTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <form action="{{ route('articles.selectedContent', '') }}"
+                data-action="{{ route('articles.selectedContent', '') }}" method="post" id="trendingContentForm"
+                autocomplete="off">
+                @csrf
+                <input type="hidden" name="selected_article" id="selected_trending_article">
+                <div class="modal-body" id="modal-body-publish">
+                    <input type="text" class="form-control" id="searchTrendingTxt" placeholder="Cari artikel..."
+                        onkeyup="modalButtonDisable2()">
+                    <br>
+                    <div id="trendingArticle">
+
+                    </div>
+                </div>
+                <div class="modal-footer">'
+                    <button type="submit" class="btn btn-sm btn-primary" disabled style="pointer-events: none;"
+                        id="applyButton2">Terapkan</button>
+                    <button type="button" class="btn btn-sm btn-secondary" class="close"
+                        data-dismiss="modal">Kembali</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@endforeach
+
 <!-- Modal Publish -->
 <div class="modal fade" id="ifArticleEmpty" tabindex="-1" role="dialog" aria-labelledby="ifArticleEmpty"
     aria-hidden="true">
@@ -646,8 +686,83 @@ Page
     </div>
 </div>
 
+
+<!-- Modal Horizontal Ads -->
+<div class="modal fade" id="horizontalAdsModal" tabindex="-1" role="dialog" aria-labelledby="horizontalAdsModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="horizontalAdsModalTitle">Horizontal Ads</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <form action="{{ route('page.ads') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="hidden" name="status" value="horizontal_ads">
+                        <input type="file" class="form-control dropify mt-5 gambarIklan" name="gambar" id="horizontalAdsValue" onchange="checkImageHorizontalAds()"
+                            data-allowed-file-extensions="png jpg jpeg" data-default-file="@if(!empty($horizontal_ads->gambar) &&
+                    Storage::exists($horizontal_ads->gambar)){{ Storage::url($horizontal_ads->gambar) }}@endif">
+                    </div>
+                </div>
+                <div class="modal-footer">'
+                    <button type="submit" class="btn btn-sm btn-primary" disabled style="pointer-events: none;"
+                        id="horizontalAdsButton">Terapkan</button>
+                    <button type="button" class="btn btn-sm btn-secondary" class="close"
+                        data-dismiss="modal">Kembali</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Widget Ads -->
+<div class="modal fade" id="widgetAdsModal" tabindex="-1" role="dialog" aria-labelledby="widgetAdsModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="widgetAdsModalTitle">Widget Ads</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <form action="{{ route('page.ads') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="hidden" name="status" value="widget_ads">
+                        <input type="file" class="form-control dropify mt-5 gambarIklan" name="gambar" id="widgetAdsValue" onchange="checkImageWidgetAds()"
+                            data-allowed-file-extensions="png jpg jpeg" data-default-file="@if(!empty($widget_ads->gambar) &&
+                    Storage::exists($widget_ads->gambar)){{ Storage::url($widget_ads->gambar) }}@endif">
+                    </div>
+                </div>
+                <div class="modal-footer">'
+                    <button type="submit" class="btn btn-sm btn-primary" disabled style="pointer-events: none;"
+                        id="widgetAdsButton">Terapkan</button>
+                    <button type="button" class="btn btn-sm btn-secondary" class="close"
+                        data-dismiss="modal">Kembali</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 @endsection
 @section('js')
+{{-- Dropify --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"
+    integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    $('.dropify').dropify();
+
+   
+
+</script>
 {{-- Keep tab active on reload --}}
 <script>
     $(document).ready(function(){
@@ -672,14 +787,31 @@ Page
     }
 
     // ADS JS
-    function ads(element)
+
+    $(".dropify-clear").click(function() {
+            $("#horizontalAdsButton").css('pointer-events', 'none');
+            $("#horizontalAdsButton").prop("disabled", true);
+            $("#widgetAdsButton").css('pointer-events', 'none');
+            $("#widgetAdsButton").prop("disabled", true);
+    });
+
+    function checkImageHorizontalAds()
     {
-        var status = $(element).attr('data-status');
-        var title = $(element).attr('data-title');
-        $("#selected_article").val(status);
-        $("#selectedArticleModalTitle").html(title);
+        if($('#horizontalAdsValue').val() !=='') {
+            console.log("file selected.");
+            $("#horizontalAdsButton").css('pointer-events', 'auto');
+            $("#horizontalAdsButton").prop("disabled", false);
+        }
     }
 
+    function checkImageWidgetAds()
+    {
+        if($('#widgetAdsValue').val() !=='') {
+            console.log("file selected.");
+            $("#widgetAdsButton").css('pointer-events', 'auto');
+            $("#widgetAdsButton").prop("disabled", false);
+        }
+    }
     // EDITORS PICK
     function editorsPick(element)
     {
@@ -736,10 +868,10 @@ Page
     function trendingValue(element)
     {
         var status = $(element).attr('data-status');
-        $("#selected_article").val(status);
+        $("#selected_trending_article").val(status);
         console.log(status);
         var modalTitle = $(element).attr('data-title');
-        $("#selectedArticleModalTitle").html(modalTitle);
+        $("#trendingArticleModalTitle").html(modalTitle);
     }
      
      // EVENT
@@ -821,6 +953,21 @@ Page
         $('#selectedContentForm').attr('action',  `${updateLink}/${element.id}`);
     }
 
+    function chooseTrendingArticle(element)
+    {
+        $("#applyButton2").css('pointer-events', 'auto');
+        $("#applyButton2").prop("disabled", false);
+        $('#trendingContentForm').attr('action',  '');
+
+        $('.article-lists').css('background-color', 'initial');
+        var cardId = $(element).attr('data-id');
+        $('#'+cardId).css('background-color', '#f2f7ff');
+
+         //  passing id to the modal form 
+        const updateLink = $('#trendingContentForm').attr('data-action');
+        $('#trendingContentForm').attr('action',  `${updateLink}/${element.id}`);
+    }
+
     function modalButtonDisable()
     {
         $("#applyButton").css('pointer-events', 'none');
@@ -834,14 +981,40 @@ Page
        } 
     }
 
-    $(document).ready(function(){
+    function modalButtonDisable2()
+    {
+        $("#applyButton2").css('pointer-events', 'none');
+        $("#applyButton2").prop("disabled", true);
+        var selectedArticle =  $("#selected_article").val();
+        var searchtxt =  $("#searchTrendingTxt").val();
+        console.log(searchtxt);
+        if (selectedArticle == "" && searchtxt == ""){
+           $("#applyButton2").css('pointer-events', 'none');
+           $("#applyButton2").prop("disabled", true);
+       } 
+    }
+
+$(document).ready(function(){
     $("#searchtxt").keyup(function(){
         var str=  $("#searchtxt").val();
         if(str == "") {
             $( "#Hintdate" ).html("");
         }else {
-            $.get( "{{ url('demos/searchlive?id=') }}"+str, function( data ) {
+            $.get( "{{ url('article/search-live?id=') }}"+str, function( data ) {
                 $( "#Hintdate" ).html( data );
+            });
+        }
+    });
+});
+
+$(document).ready(function(){
+    $("#searchTrendingTxt").keyup(function(){
+        var str=  $("#searchTrendingTxt").val();
+        if(str == "") {
+            $( "#trendingArticle" ).html("");
+        }else {
+            $.get( "{{ url('article/search-live-trending?id=') }}"+str, function( data ) {
+                $( "#trendingArticle" ).html( data );
             });
         }
     });
