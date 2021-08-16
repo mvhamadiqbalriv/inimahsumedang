@@ -147,14 +147,14 @@ Article
                                 <div class="d-flex justify-content-end text-right">
                                     @if($articles->is_publish == '1')
                                     <object id="icon" class="icon{{$articles->id}}" style="padding: 0 6px;" 
-                                        data-placement="bottom"
-                                            data-toggle="modal" data-target="#confirmIsPublishModal"
+                                        data-placement="bottom">
+                                            <a href="#" data-toggle="modal" data-target="#confirmIsPublishModal"
                                             onclick="return setData({{$articles}}, 0, 'apakah anda yakin untuk mengembalikan <b>article</b> ini sebagai draft ? ', 'Ya, Kembalikan !')"><i
                                                 class="fas fa-chevron-circle-right"
                                                 style="font-size: 14px;"></i></object>
                                     @else
-                                    <object style="padding: 0 6px;">
-                                        <a href="#" id="icon" class="icon{{$articles->id}}" data-toggle="modal" @if (empty($articles->judul) || empty($articles->konten))
+                                    <object style="padding: 0 6px;" id="icon" class="icon{{$articles->id}}">
+                                        <a href="#"  data-toggle="modal" @if (empty($articles->judul) || empty($articles->konten))
                                             data-target="#confirmIsPublishModalAlert{{ $articles->id }}"
                                             @else
                                             data-target="#confirmIsPublishModal"
@@ -164,8 +164,8 @@ Article
                                                 style="font-size: 14px;"></i></a></object>
                                     @endif
                                     
-                                    <object style="padding: 0 6px;">
-                                        <a href="#" id="icon" class="icon{{$articles->id}}" 
+                                    <object style="padding: 0 6px;" id="icon" class="icon{{$articles->id}}" >
+                                        <a href="#" 
                                             data-toggle="modal" data-target="#confirmDeleteModal" onclick="return setData2({{$articles}})">
                                             <i class="fas fa-trash" style="font-size: 14px;"></i>
                                         </a>
@@ -187,7 +187,6 @@ Article
                                                 <a class="dropdown-item" href="#" data-toggle="modal"
                                                     data-target="#confirmDeleteModal"
                                                     onclick="return setData2({{$articles}})">Hapus</a>
-                                                <a class="dropdown-item" href="#">Label</a>
                                                 @if($articles->is_publish == '1')
                                                 <a class="dropdown-item" href="#" data-toggle="modal"
                                                     data-target="#confirmIsPublishModal"

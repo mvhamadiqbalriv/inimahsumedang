@@ -171,7 +171,7 @@ Beranda
 										href="@if(isset($editors_pick_1)) {{ route('artikel.show', $editors_pick_1->slug) }} @endif">
 										<div class="inner">
 											@if (!empty($editors_pick_1))
-											<img src="{{ Storage::url($editors_pick_1->gambar) }}" alt="post-title" />
+											<img src="{{ Storage::url($editors_pick_1->gambar) }}" alt="post-title" style="width: 350px; height: 325px; object-fit: cover;" />
 											@else
 											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
 											@endif
@@ -357,7 +357,7 @@ Beranda
 										<div class="inner">
 											@if (!empty($trending_1))
 											<img src="{{ Storage::url($trending_1->gambar) }}"
-												style="width: 550px; height: 395px; object-fit: cover;"
+												style="width: 350px; height: 325px; object-fit: cover;"
 												alt="post-title" />
 											@else
 											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
@@ -467,7 +467,7 @@ Beranda
 										<div class="inner">
 											@if (!empty($trending_2))
 											<img src="{{ Storage::url($trending_2->gambar) }}"
-												style="width: 550px; height: 395px; object-fit: cover;"
+												style="width: 350px; height: 325px; object-fit: cover;"
 												alt="post-title" />
 											@else
 											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
