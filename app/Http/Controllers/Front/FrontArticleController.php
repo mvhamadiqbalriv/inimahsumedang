@@ -12,6 +12,7 @@ use App\Models\Web;
 use App\Models\Visitor;
 use Alert;
 use DB;
+use Str;
 
 class FrontArticleController extends Controller
 {
@@ -27,10 +28,14 @@ class FrontArticleController extends Controller
         $data['title_upper'] = "Artikel";
         $data['breadcrumb'] = "Artikel";
         $data['category_select_button'] = '1';
+        $data['event_1'] = Article::where('selected_article', '=', 'event_1')->first();
+        $data['event_2'] = Article::where('selected_article', '=', 'event_2')->first();
        
 
         return view('front.articles.index', $data);
     }
+
+
 
     public function pencarian_artikel(Request $request)
     {
@@ -118,6 +123,10 @@ class FrontArticleController extends Controller
      */
 
     public function komentar(Request $request) {
+        $request->validate([
+            'g-recaptcha-response' => 'required'
+        ]);
+
         $data = [
             'nama' => $request->nama,
             'comment' => $request->comment,
@@ -128,11 +137,12 @@ class FrontArticleController extends Controller
         ];
 
         Comment::create($data)
-        ? Alert::success('Berhasil', 'Komentar telah berhasil di berhasil dikirim!')
+        ? Alert::success('Berhasil', 'Komentar anda akan tampil ketika sudah disetujui oleh admin')
         : Alert::error('Error', 'Komentar gagal di dikirim!');
-
+        
         return redirect()->back();
     }
+
 
     public function reply(Request $request) {
         $data = [
@@ -175,9 +185,11 @@ class FrontArticleController extends Controller
      */
     public function show($slug, Request $request)
     {
+        $data['event_1'] = Article::where('selected_article', '=', 'event_1')->first();
+        $data['event_2'] = Article::where('selected_article', '=', 'event_2')->first();
         $article = Article::where('slug', $slug)->first();
         Visitor::createViewLog($article);
-        return view('front.article_contents.index', ['article' => $article]); 
+        return view('front.article_contents.index', $data, ['article' => $article]); 
     }
 
     /**

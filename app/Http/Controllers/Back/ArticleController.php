@@ -20,7 +20,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $data['article'] = Article::paginate(5);
+        $data['article'] = Article::orderBy('created_at', 'desc')->paginate(5);
         $data['published'] = Article::where('is_publish', '=', '1')->paginate(5);
         $data['draft'] = Article::where('is_publish', '=', '0')->paginate(5);
         $data['count_all'] = Article::all()->count();
@@ -121,7 +121,7 @@ class ArticleController extends Controller
     {
         $request->validate([
             'judul' => 'required|unique:articles|min:20|max:60',
-            'konten' => 'required',
+            'konten' => 'required|min:80',
             'category' => 'required',
             'gambar' => 'required',
         ],
@@ -131,6 +131,7 @@ class ArticleController extends Controller
             'judul.min' => 'minimal karakter yang dimasukan tidak boleh kurang dari 20 karakter.',
             'judul.max' => 'maksimal karakter tidak boleh lebih dari 70 karakter.',
             'konten.required' => 'Kolom Konten harus di isi.',
+            'konten.min' => 'minimal karakter yang dimasukan tidak boleh kurang dari 80 karakter.',
             'category.required' => 'Kolom Kategori harus di isi.',
             'gambar.required' => 'Thumbnail untuk artikel harus ada.',
         ]);
@@ -186,11 +187,12 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function preview(Request $request) 
+    public function preview($slug, Request $request) 
     {
-        $article_id = $request->article_id;
+        $data['article'] = Article::where('slug', $slug)->first();
         $data['web'] = Web::find(1);
-        $data['article'] = Article::where('id', $article_id)->first();
+        $data['event_1'] = Article::where('selected_article', '=', 'event_1')->first();
+        $data['event_2'] = Article::where('selected_article', '=', 'event_2')->first();
         return view('back.preview_articles', $data);
     }
 
@@ -222,7 +224,7 @@ class ArticleController extends Controller
     {
         $request->validate([
             'judul' => "required|unique:articles,judul,$article->id|min:20|max:70",
-            'konten' => 'required',
+            'konten' => 'required|min:80',
             'category' => 'required',
         ],
         [
@@ -231,6 +233,7 @@ class ArticleController extends Controller
             'judul.min' => 'minimal karakter yang dimasukan tidak boleh kurang dari 20 karakter.',
             'judul.max' => 'maksimal karakter tidak boleh lebih dari 70 karakter.',
             'konten.required' => 'Kolom Konten harus di isi.',
+            'judul.min' => 'minimal karakter yang dimasukan tidak boleh kurang dari 80 karakter.',
             'category.required' => 'Kolom Kategori harus di isi.',
             'tag.required' => 'Kolom Tag harus di isi.',
         ]);
@@ -289,6 +292,15 @@ class ArticleController extends Controller
             if(Article::where('selected_article', '=', 'ads')->first())
             {
                 $selected = Article::where('selected_article', '=', 'ads')->first();
+                $selected->update(['selected_article' => null]);
+            }
+        }
+
+        if($request->selected_article == 'ads_2')
+        {
+            if(Article::where('selected_article', '=', 'ads_2')->first())
+            {
+                $selected = Article::where('selected_article', '=', 'ads_2')->first();
                 $selected->update(['selected_article' => null]);
             }
         }
@@ -352,6 +364,78 @@ class ArticleController extends Controller
             if(Article::where('selected_article', '=', 'editors_pick_5')->first())
             {
                 $selected = Article::where('selected_article', '=', 'editors_pick_5')->first();
+                $selected->update(['selected_article' => null]);
+            }
+        }
+
+        if($request->selected_article == 'trending_1')
+        {
+            if(Article::where('selected_article', '=', 'trending_1')->first())
+            {
+                $selected = Article::where('selected_article', '=', 'trending_1')->first();
+                $selected->update(['selected_article' => null]);
+            }
+        }
+
+        if($request->selected_article == 'trending_2')
+        {
+            if(Article::where('selected_article', '=', 'trending_2')->first())
+            {
+                $selected = Article::where('selected_article', '=', 'trending_3')->first();
+                $selected->update(['selected_article' => null]);
+            }
+        }
+
+        if($request->selected_article == 'trending_3')
+        {
+            if(Article::where('selected_article', '=', 'trending_3')->first())
+            {
+                $selected = Article::where('selected_article', '=', 'trending_3')->first();
+                $selected->update(['selected_article' => null]);
+            }
+        }
+
+        if($request->selected_article == 'trending_4')
+        {
+            if(Article::where('selected_article', '=', 'trending_4')->first())
+            {
+                $selected = Article::where('selected_article', '=', 'trending_4')->first();
+                $selected->update(['selected_article' => null]);
+            }
+        }
+
+        if($request->selected_article == 'trending_5')
+        {
+            if(Article::where('selected_article', '=', 'trending_5')->first())
+            {
+                $selected = Article::where('selected_article', '=', 'trending_5')->first();
+                $selected->update(['selected_article' => null]);
+            }
+        }
+
+        if($request->selected_article == 'trending_6')
+        {
+            if(Article::where('selected_article', '=', 'trending_6')->first())
+            {
+                $selected = Article::where('selected_article', '=', 'trending_6')->first();
+                $selected->update(['selected_article' => null]);
+            }
+        }
+
+        if($request->selected_article == 'event_1')
+        {
+            if(Article::where('selected_article', '=', 'event_1')->first())
+            {
+                $selected = Article::where('selected_article', '=', 'event_1')->first();
+                $selected->update(['selected_article' => null]);
+            }
+        }
+
+        if($request->selected_article == 'event_2')
+        {
+            if(Article::where('selected_article', '=', 'event_2')->first())
+            {
+                $selected = Article::where('selected_article', '=', 'event_2')->first();
                 $selected->update(['selected_article' => null]);
             }
         }

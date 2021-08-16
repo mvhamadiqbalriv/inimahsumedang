@@ -35,6 +35,7 @@ Route::resource('artikel', FrontArticleController::class);
 Route::post('artikel/tag', [FrontArticleController::class, 'tag'])->name('artikel.tag');
 Route::post('artikel/komentar', [FrontArticleController::class, 'komentar'])->name('artikel.komentar');
 Route::post('artikel/komentar/reply', [FrontArticleController::class, 'reply'])->name('artikel.reply');
+Route::get('/artikel/reload-captcha', [FrontArticleController::class, 'reloadCaptcha'])->name('artikel.reloadCaptcha');
 Route::post('artikel/kategori', [FrontArticleController::class, 'kategori'])->name('artikel.kategori');
 Route::post('artikel/pencarian', [FrontArticleController::class, 'pencarian_artikel'])->name('artikel.pencarian');
 Route::post('artikel/autocomplete', [FrontArticleController::class, 'pencarian_autocomplete'])->name('artikel.pencarian_autocomplete');
@@ -55,7 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('category-articles', CategoryArticleController::class);
     Route::post('category-articles/checkCategory', [CategoryArticleController::class, 'checkCategory'])->name('category_articles.checkCategory');
     Route::resource('articles', ArticleController::class);
-    Route::post('articles/preview-article', [ArticleController::class, 'preview'])->name('articles.preview');
+    Route::get('articles/preview/{article}', [ArticleController::class, 'preview'])->name('articles.preview');
     Route::post('articles/draf', [ArticleController::class, 'draf'])->name('articles.draf');
     Route::post('articles/delete-all', [ArticleController::class, 'deleteAll'])->name('articles.deleteAll');
     Route::post('article/update/{article}', [ArticleController::class, 'isPublish'])->name('articles.isPublish');

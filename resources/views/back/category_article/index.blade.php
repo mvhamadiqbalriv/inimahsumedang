@@ -97,15 +97,19 @@ Category
                         <tr>
                             <td>{{ $number++ }}</td>
                             <td>{{ $categories->nama }}</td>
-                            <td><span class="badge badge-secondary"><i class="{{ $categories->category_icon }}" style="font-size: 16px;"></i></span></td>
+                            <td><span class="badge badge-secondary"><i class="{{ $categories->category_icon }}"
+                                        style="font-size: 16px;"></i></span></td>
                             <td>
-                                <button type="button" class="btn btn-success" type="button" data-toggle="modal"
-                                    data-target="#editModal" onclick="setEditData({{ $categories }})"><i
-                                        class="fa fa-edit"></i> </button>
-                                <button type="button" data-id="{{ $categories->id }}" data-toggle="modal"
-                                    data-target="#confirmDeleteModal" class="btn btn-danger"
-                                    onclick="setData({{ $categories }})"><i class="fa fa-trash"></i>
-                                </button>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-success" type="button" data-toggle="modal"
+                                        data-target="#editModal" onclick="setEditData({{ $categories }})"><i
+                                            class="fa fa-edit"></i> </button>
+                                    <button type="button" data-id="{{ $categories->id }}" data-toggle="modal"
+                                        data-target="#confirmDeleteModal" class="btn btn-danger"
+                                        onclick="setData({{ $categories }})"><i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+
                             </td>
                         </tr>
                         @endforeach
@@ -129,20 +133,28 @@ Category
             <form action="{{ route('category-articles.store') }}" method="POST" id="addForm">
                 @csrf
                 <div class="modal-body">
-                    <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama Kategori">
 
-                    <input type="hidden" name="category_icon" id="categoryIcon">
-                    <div class="btn-group mt-3">
-                        <div class="btn-group">
-                            <button data-selected="graduation-cap" type="button"
-                                class="icp demo btn btn-default dropdown-toggle iconpicker-component btn btn-sm btn-light"
-                                data-toggle="dropdown" id="addFormIcon" style="border-radius: 10px; padding: 10px;">
-                                <i class="far fa-circle" id="defaultIcon"></i>
-                                <span class="caret"></span>
-                            </button>
-                            <div class="dropdown-menu"></div>
+                    <div class="row justify-content-between">
+                        <div class="col-9 col-sm-10">
+                            <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama Kategori">
+                            <input type="hidden" name="category_icon" id="categoryIcon">
+                        </div>
+                        <div class="col-3 col-sm-2">
+                            <div class="btn-group d-flex justify-content-end">
+                                <div class="btn-group">
+                                    <button data-selected="graduation-cap" type="button"
+                                        class="icp demo btn btn-default dropdown-toggle iconpicker-component btn btn-sm btn-light"
+                                        data-toggle="dropdown" id="addFormIcon"
+                                        style="border-radius: 10px; padding: 10px;">
+                                        <i class="far fa-circle" id="defaultIcon"></i>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <div class="dropdown-menu"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="addForm()">Submit</button>
@@ -167,21 +179,29 @@ Category
                 method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('put')
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" id="checkCategory">
+
                 <div class="modal-body">
-                    <input type="text" name="edit_nama" id="edit_nama" class="form-control" placeholder="Nama Kategori">
-                    
-                    <input type="hidden" name="edit_category_icon" id="categoryIconEdit">
-                    <div class="btn-group mt-3">
-                        <div class="btn-group">
-                            <button data-selected="graduation-cap" type="button"
-                                class="icp demo btn btn-default dropdown-toggle iconpicker-component btn btn-sm btn-light"
-                                data-toggle="dropdown" id="editFormIcon" style="border-radius: 10px; padding: 10px;">
-                                <i class="far fa-circle" id="defaultIconEdit"></i>
-                                <span class="caret"></span>
-                            </button>
-                            <div class="dropdown-menu"></div>
+                    <div class="row justify-content-between">
+                        <div class="col-9 col-sm-10">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" id="checkCategory">
+                            <input type="text" name="edit_nama" id="edit_nama" class="form-control"
+                                placeholder="Nama Kategori">
+                            <input type="hidden" name="edit_category_icon" id="categoryIconEdit">
+                        </div>
+                        <div class="col-3 col-sm-2">
+                            <div class="btn-group d-flex justify-content-end">
+                                <div class="btn-group">
+                                    <button data-selected="graduation-cap" type="button"
+                                        class="icp demo btn btn-default dropdown-toggle iconpicker-component btn btn-sm btn-light"
+                                        data-toggle="dropdown" id="editFormIcon"
+                                        style="border-radius: 10px; padding: 10px;">
+                                        <i class="far fa-circle" id="defaultIconEdit"></i>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <div class="dropdown-menu"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -207,7 +227,7 @@ Category
                 @csrf
                 @method('delete')
                 <div class="modal-body">
-                    apakah anda yakin menghapus <b id="namaItemModal"></b> ?
+                    apakah anda yakin untuk menghapus <b> kategori</b> ini ?
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-danger">Ya, Hapus !</button>

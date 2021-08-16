@@ -161,7 +161,7 @@ Comment
 
                         <div class="d-flex justify-content-between">
                             <p class="text-dark ml-2 text-sm-right"><a
-                                    href="{{ route('artikel.show', $comments->articless->slug) }}">{{ $comments->articless->judul }}</a>
+                                    href="{{ route('artikel.show', $comments->articless->slug) }}">{{ Str::limit($comments->articless->judul, 35) }}</a>
                             </p>
                             <p class="text-dark ml-2 text-sm-right">{{ $comments->created_at->diffForHumans() }}</p>
                         </div>
@@ -383,7 +383,7 @@ Comment
 
                         <div class="d-flex justify-content-between">
                             <p class="text-dark ml-2 text-sm-right"><a
-                                    href="{{ route('artikel.show', $comments->articless->slug) }}">{{ $comments->articless->judul }}</a>
+                                    href="{{ route('artikel.show', $comments->articless->slug) }}">{{ Str::limit($comments->articless->judul, 35) }}</a>
                             </p>
                             <p class="text-dark ml-2 text-sm-right">{{ $comments->created_at->diffForHumans() }}</p>
                         </div>
@@ -604,7 +604,7 @@ Comment
 
                         <div class="d-flex justify-content-between">
                             <p class="text-dark ml-2 text-sm-right"><a
-                                    href="{{ route('artikel.show', $comments->articless->slug) }}">{{ $comments->articless->judul }}</a>
+                                    href="{{ route('artikel.show', $comments->articless->slug) }}">{{ Str::limit($comments->articless->judul, 35) }}</a>
                             </p>
                             <p class="text-dark ml-2 text-sm-right">{{ $comments->created_at->diffForHumans() }}</p>
                         </div>
@@ -816,7 +816,7 @@ Comment
 
                         <div class="d-flex justify-content-between">
                             <p class="text-dark ml-2 text-sm-right"><a
-                                    href="{{ route('artikel.show', $comments->articless->slug) }}">{{ $comments->articless->judul }}</a>
+                                    href="{{ route('artikel.show', $comments->articless->slug) }}">{{ Str::limit($comments->articless->judul, 35) }}</a>
                             </p>
                             <p class="text-dark ml-2 text-sm-right">{{ $comments->created_at->diffForHumans() }}</p>
                         </div>
@@ -865,6 +865,8 @@ Comment
         </div>
     </div>
 </div>
+
+
 
 <!-- Modal Reply -->
 <div class="modal fade" id="replyCommentModal" tabindex="-1" role="dialog" aria-labelledby="replyCommentModal"

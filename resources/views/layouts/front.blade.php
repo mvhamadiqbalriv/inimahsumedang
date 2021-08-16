@@ -25,7 +25,12 @@
             box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
             font-family: 'Poppins', sans-serif !important;
             font-size: 16px;
-
+            max-height: 400px;
+            width: 200px; /* just setting it very small it will resize to the input field*/
+            
+            /* prevent horizontal scrollbar */
+            overflow: hidden !important;
+            z-index: 1000;
         }
 
         .ui-menu-item-wrapper {
@@ -34,8 +39,6 @@
             padding-left: 20px !important;
             border-bottom: 1px solid #e7f3ff !important;
         }
-
-        
     </style>
     @yield('css')
     <!--[if lt IE 9]>
@@ -87,8 +90,9 @@
             <nav class="navbar navbar-expand-lg">
                 <div class="container-xl">
                     <!-- site logo -->
-                    <a class="navbar-brand" href="{{ route('beranda.index') }}"><img src="{{ asset('assets/front/logo_inimahsumedang_500x.png') }}"
-                            style="width: 130px;" alt="logo" /></a>
+                    <a class="navbar-brand" href="{{ route('beranda.index') }}"><img
+                            src="{{ asset('assets/front/logo_inimahsumedang_500x.png') }}" style="width: 130px;"
+                            alt="logo" /></a>
 
                     <div class="collapse navbar-collapse">
                         <!-- menus -->
@@ -124,10 +128,14 @@
                     <div class="header-right">
                         <!-- social icons -->
                         <ul class="social-icons list-unstyled list-inline mb-0">
-                            <li class="list-inline-item"><a href="https://www.facebook.com/inimahsumedangcom/"><i class="fab fa-facebook-f"></i></a></li>
-                            <li class="list-inline-item"><a href="https://twitter.com/inimahsumedang"><i class="fab fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a href="https://www.instagram.com/inimahsumedang/"><i class="fab fa-instagram"></i></a></li>
-                            <li class="list-inline-item"><a href="https://www.youtube.com/c/inimahsumedangTV"><i class="fab fa-youtube"></i></a></li>
+                            <li class="list-inline-item"><a href="https://www.facebook.com/inimahsumedangcom/"><i
+                                        class="fab fa-facebook-f"></i></a></li>
+                            <li class="list-inline-item"><a href="https://twitter.com/inimahsumedang"><i
+                                        class="fab fa-twitter"></i></a></li>
+                            <li class="list-inline-item"><a href="https://www.instagram.com/inimahsumedang/"><i
+                                        class="fab fa-instagram"></i></a></li>
+                            <li class="list-inline-item"><a href="https://www.youtube.com/c/inimahsumedangTV"><i
+                                        class="fab fa-youtube"></i></a></li>
                         </ul>
                         <!-- header buttons -->
                         <div class="header-buttons">
@@ -149,37 +157,37 @@
         <div class="instagram">
             <div class="container-xl">
                 <!-- button -->
-                <a href="#" class="btn btn-default btn-instagram">@Katen on Instagram</a>
+                <a href="#" class="btn btn-default btn-instagram">Belum ada feed instagram</a>
                 <!-- images -->
                 <div class="instagram-feed d-flex flex-wrap">
                     <div class="insta-item col-sm-2 col-6 col-md-2">
                         <a href="#">
-                            <img src="{{ asset('assets/front/images/insta/insta-1.jpg')}}" alt="insta-title" />
+                            <img src="{{ asset('assets/back/not-found.png') }}" alt="insta-title" />
                         </a>
                     </div>
                     <div class="insta-item col-sm-2 col-6 col-md-2">
                         <a href="#">
-                            <img src="{{ asset('assets/front/images/insta/insta-2.jpg') }}" alt="insta-title" />
+                            <img src="{{ asset('assets/back/not-found.png') }}" alt="insta-title" />
                         </a>
                     </div>
                     <div class="insta-item col-sm-2 col-6 col-md-2">
                         <a href="#">
-                            <img src="{{ asset('assets/front/images/insta/insta-3.jpg') }}" alt="insta-title" />
+                            <img src="{{ asset('assets/back/not-found.png') }}" alt="insta-title" />
                         </a>
                     </div>
                     <div class="insta-item col-sm-2 col-6 col-md-2">
                         <a href="#">
-                            <img src="{{ asset('assets/front/images/insta/insta-4.jpg') }}" alt="insta-title" />
+                            <img src="{{ asset('assets/back/not-found.png') }}" alt="insta-title" />
                         </a>
                     </div>
                     <div class="insta-item col-sm-2 col-6 col-md-2">
                         <a href="#">
-                            <img src="{{ asset('assets/front/images/insta/insta-5.jpg') }}" alt="insta-title" />
+                            <img src="{{ asset('assets/back/not-found.png') }}" alt="insta-title" />
                         </a>
                     </div>
                     <div class="insta-item col-sm-2 col-6 col-md-2">
                         <a href="#">
-                            <img src="{{ asset('assets/front/images/insta/insta-6.jpg') }}" alt="insta-title" />
+                            <img src="{{ asset('assets/back/not-found.png') }}" alt="insta-title" />
                         </a>
                     </div>
                 </div>
@@ -200,10 +208,14 @@
                         <!-- social icons -->
                         <div class="col-md-4 text-center">
                             <ul class="social-icons list-unstyled list-inline mb-0">
-                                <li class="list-inline-item"><a href="https://www.facebook.com/inimahsumedangcom/"><i class="fab fa-facebook-f"></i></a></li>
-                                <li class="list-inline-item"><a href="https://twitter.com/inimahsumedang"><i class="fab fa-twitter"></i></a></li>
-                                <li class="list-inline-item"><a href="https://www.instagram.com/inimahsumedang/"><i class="fab fa-instagram"></i></a></li>
-                                <li class="list-inline-item"><a href="https://www.youtube.com/c/inimahsumedangTV"><i class="fab fa-youtube"></i></a></li>
+                                <li class="list-inline-item"><a href="https://www.facebook.com/inimahsumedangcom/"><i
+                                            class="fab fa-facebook-f"></i></a></li>
+                                <li class="list-inline-item"><a href="https://twitter.com/inimahsumedang"><i
+                                            class="fab fa-twitter"></i></a></li>
+                                <li class="list-inline-item"><a href="https://www.instagram.com/inimahsumedang/"><i
+                                            class="fab fa-instagram"></i></a></li>
+                                <li class="list-inline-item"><a href="https://www.youtube.com/c/inimahsumedangTV"><i
+                                            class="fab fa-youtube"></i></a></li>
                             </ul>
                         </div>
 
@@ -285,7 +297,7 @@
             <li class="list-inline-item"><a href="#"><i class="fab fa-youtube"></i></a></li>
         </ul>
     </div>
-    
+
     @include('sweetalert::alert')
     <!-- JAVA SCRIPTS -->
     <script src="{{ asset('assets/front/js/jquery.min.js') }}"></script>
@@ -383,7 +395,11 @@
         });
     
     </script>
-    
+    <script>
+        $(window).resize(function() {
+            $("#search").autocomplete("close");
+         });
+    </script>
     @yield('js')
 </body>
 

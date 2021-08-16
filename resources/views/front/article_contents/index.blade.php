@@ -15,6 +15,16 @@
         font-family: 'Poppins', sans-serif !important;
     }
 
+    .captchaValidation {
+        color: #f1556c;
+        font-size: 14px !important;
+        font-weight: 400;
+        line-height: 1.5;
+        margin-top: 10px;
+        margin-left: 5px;
+        padding: 0;
+        font-family: 'Poppins', sans-serif !important;
+    }
     input.error {
         color: #f1556c;
         border: 1px solid #f1556c;
@@ -155,10 +165,11 @@
                     <ul class="comments">
                         <!-- comment item -->
                         @php
-                            $comment = \App\Models\Comment::where('article', '=', $article->id)->where('status', '=', 'approved')->get();
+                        $comment = \App\Models\Comment::where('article', '=', $article->id)->where('status', '=',
+                        'approved')->get();
                         @endphp
                         @foreach($comment as $comments)
-                        
+
                         <li class="comment rounded">
                             <div class="thumb mb-5">
                                 <img src="{{ asset('assets/front/images/posts/default.jpg') }}" alt="John Doe"
@@ -179,7 +190,7 @@
                                     </div>
                                     <div class="comment-form rounded bordered padding-30 mt-3">
                                         <form action="{{ route('artikel.reply') }}" id="replyForm{{ $comments->id }}"
-                                            method="post">
+                                            method="post" class="replyForm" onsubmit="submitReplyForm();">
                                             @csrf
                                             <input type="hidden" name="comment_id" value="{{ $comments->id }}">
                                             <div class="row">
@@ -214,6 +225,16 @@
                                                             placeholder="Nama anda">
                                                     </div>
                                                 </div>
+
+                                                <div class="form-group">
+                                                    <div class="g-recaptcha" data-sitekey="6LczZQEcAAAAANZR7kGNilET6t1n9qm5rQdAkzmk" data-callback="verifyCaptchaReply"></div>
+                                                    <div id="g-recaptcha-error-reply"></div>
+                                                </div>
+                                                
+                                                <div class="form-group" style="display: none !important;">
+                                                    {!! NoCaptcha::renderJs() !!}
+                                                    {!! NoCaptcha::display() !!}  
+                                                </div>
                                             </div>
 
                                             <button type="submit" name="submit" id="submit" value="Submit"
@@ -226,7 +247,8 @@
                             <input type="hidden" name="">
                         </li>
                         @php
-                        $comment_replies = \App\Models\Reply::where('comment', '=', $comments->id)->where('status', '=', 'approved')->get();
+                        $comment_replies = \App\Models\Reply::where('comment', '=', $comments->id)->where('status', '=',
+                        'approved')->get();
                         @endphp
                         @foreach ($comment_replies as $replies)
 
@@ -266,7 +288,7 @@
                     <div class="comment-form rounded bordered padding-30">
 
                         <form action="{{ route('artikel.komentar') }}" id="commentForm" class="comment-form"
-                            method="post">
+                            method="post" onsubmit="submitCommentForm();">
                             @csrf
                             <input type="hidden" name="article_id" value="{{ $article->id }}">
 
@@ -305,9 +327,16 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <div class="g-recaptcha" data-sitekey="6LczZQEcAAAAANZR7kGNilET6t1n9qm5rQdAkzmk" data-callback="verifyCaptchaComment"></div>
+                                    <div id="g-recaptcha-error-comment"></div>
+                                </div>
+
+                                
+
                             </div>
 
-                            <button type="submit" name="submit" id="submit" value="Submit"
+                            <button type="submit" name="submit" id="btnSubmit" value="Submit"
                                 class="btn btn-default">Submit</button><!-- Submit Button -->
 
                         </form>
@@ -395,63 +424,87 @@
                     <!-- widget post carousel -->
                     <div class="widget rounded">
                         <div class="widget-header text-center">
-                            <h3 class="widget-title">Celebration</h3>
+                            <h3 class="widget-title">Event</h3>
                             <img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
                         </div>
                         <div class="widget-content">
                             <div class="post-carousel-widget">
                                 <!-- post -->
+
                                 <div class="post post-carousel">
                                     <div class="thumb rounded">
-                                        <a href="category.html" class="category-badge position-absolute">How to</a>
-                                        <a href="blog-single.html">
+                                        @if(isset($event_1))
+                                        <form action="{{ route('artikel.kategori') }}" method="post"
+                                            style="display: inline;">
+                                            @csrf
+                                            <input type="hidden" name="kategori" value="{{ $event_1->category }}">
+                                            <button type="submit" class="category-badge position-absolute"
+                                                style="border: none;">{{ ucfirst(trans($event_1->categories->nama))  }}</button>
+                                        </form>
+                                        @else
+                                        <button type="submit" class="category-badge position-absolute"
+                                            style="border: none;">Belum ada kategori</button>
+                                        @endif
+                                        <a
+                                            href="@if(isset($event_1)) {{ route('artikel.show', $event_1->slug)}} @endif">
                                             <div class="inner">
-                                                <img src="{{ asset('assets/front/images/widgets/widget-carousel-1.jpg') }}"
-                                                    alt="post-title" />
+                                                @if (!empty($event_1))
+                                                <img src="{{ Storage::url($event_1->gambar) }}" alt="post-title" />
+                                                @else
+                                                <img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+                                                @endif
                                             </div>
                                         </a>
                                     </div>
-                                    <h5 class="post-title mb-0 mt-4"><a href="blog-single.html">5 Easy Ways You Can Turn
-                                            Future Into Success</a></h5>
+                                    <h5 class="post-title mb-0 mt-4"><a
+                                            href="@if(isset($event_1)) {{ route('artikel.show', $event_1->slug)}} @endif">@if(isset($event_1))
+                                            {{ $event_1->judul }} @else Judul artikel @endif</a></h5>
                                     <ul class="meta list-inline mt-2 mb-0">
-                                        <li class="list-inline-item"><a href="#">Katen Doe</a></li>
-                                        <li class="list-inline-item">29 March 2021</li>
+                                        <li class="list-inline-item"><a href="#">@if(isset($event_1))
+                                                {{ ucfirst(trans($event_1->creators->name)) }} @else Nama penulis
+                                                @endif</a></li>
+                                        <li class="list-inline-item">@if(isset($event_1))
+                                            {{ $event_1->updated_at->format('d M Y') }} @else Tanggal terbit @endif
+                                        </li>
                                     </ul>
                                 </div>
+
                                 <!-- post -->
                                 <div class="post post-carousel">
                                     <div class="thumb rounded">
-                                        <a href="category.html" class="category-badge position-absolute">Trending</a>
-                                        <a href="blog-single.html">
+                                        @if(isset($event_1))
+                                        <form action="{{ route('artikel.kategori') }}" method="post"
+                                            style="display: inline;">
+                                            @csrf
+                                            <input type="hidden" name="kategori" value="{{ $event_2->category }}">
+                                            <button type="submit" class="category-badge position-absolute"
+                                                style="border: none;">{{ ucfirst(trans($event_2->categories->nama))  }}</button>
+                                        </form>
+                                        @else
+                                        <button type="submit" class="category-badge position-absolute"
+                                            style="border: none;">Belum ada kategori</button>
+                                        @endif
+                                        <a
+                                            href="@if(isset($event_2)) {{ route('artikel.show', $event_2->slug)}} @endif">
                                             <div class="inner">
-                                                <img src="{{ asset('assets/front/images/widgets/widget-carousel-2.jpg') }}"
-                                                    alt="post-title" />
+                                                @if (!empty($event_2))
+                                                <img src="{{ Storage::url($event_2->gambar) }}" alt="post-title" />
+                                                @else
+                                                <img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+                                                @endif
                                             </div>
                                         </a>
                                     </div>
-                                    <h5 class="post-title mb-0 mt-4"><a href="blog-single.html">Master The Art Of Nature
-                                            With These 7 Tips</a></h5>
+                                    <h5 class="post-title mb-0 mt-4"><a
+                                            href="@if(isset($event_2)) {{ route('artikel.show', $event_2->slug)}} @endif">@if(isset($event_2))
+                                            {{ $event_2->judul }} @else Judul artikel @endif</a></h5>
                                     <ul class="meta list-inline mt-2 mb-0">
-                                        <li class="list-inline-item"><a href="#">Katen Doe</a></li>
-                                        <li class="list-inline-item">29 March 2021</li>
-                                    </ul>
-                                </div>
-                                <!-- post -->
-                                <div class="post post-carousel">
-                                    <div class="thumb rounded">
-                                        <a href="category.html" class="category-badge position-absolute">How to</a>
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('assets/front/images/widgets/widget-carousel-1.jpg') }}"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <h5 class="post-title mb-0 mt-4"><a href="blog-single.html">5 Easy Ways You Can Turn
-                                            Future Into Success</a></h5>
-                                    <ul class="meta list-inline mt-2 mb-0">
-                                        <li class="list-inline-item"><a href="#">Katen Doe</a></li>
-                                        <li class="list-inline-item">29 March 2021</li>
+                                        <li class="list-inline-item"><a
+                                                href="#">@if(isset($event_2)){{ ucfirst(trans($event_2->creators->name)) }}
+                                                @else Nama penulis @endif</a></li>
+                                        <li class="list-inline-item">@if(isset($event_2))
+                                            {{ $event_2->updated_at->format('d M Y') }} @else Tanggal terbit @endif
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -499,6 +552,33 @@
 @endsection
 
 @section('js')
+<script>
+var recaptcha_response = '';
+function submitCommentForm() {
+    if(recaptcha_response.length == 0) {
+        document.getElementById('g-recaptcha-error-comment').innerHTML = '<label class="captchaValidation">Harap lengkapi kolom captcha</label>';
+        return false;
+    }
+    return true;
+}
+
+function submitReplyForm() {
+    if(recaptcha_response.length == 0) {
+        document.getElementById('g-recaptcha-error-reply').innerHTML = '<label class="captchaValidation">Harap lengkapi kolom captcha</label>';
+        return false;
+    }
+    return true;
+}
+function verifyCaptchaComment(token) {
+    recaptcha_response = token;
+    document.getElementById('g-recaptcha-error-comment').innerHTML = '';
+}
+
+function verifyCaptchaReply(token) {
+    recaptcha_response = token;
+    document.getElementById('g-recaptcha-error-reply').innerHTML = '';
+}
+</script>
 <script>
     function categoryWidgetSubmit(element)
     {

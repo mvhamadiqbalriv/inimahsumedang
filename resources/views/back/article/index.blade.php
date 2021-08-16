@@ -93,8 +93,8 @@ Article
                                             type="checkbox" id="checkbox" value="{{ $articles->id }}"
                                             autocomplete="off"></object>
                                 @if ($articles->gambar)
-                                <img src="{{ Storage::url($articles->gambar) }}" alt=""
-                                    style="border-radius:5px; width:70px; height:65px;">
+                                <img src="{{ Storage::url($articles->gambar) }}"
+                                    style="border-radius:5px; width:70px; height:65px; object-fit: cover;">
                                 @else
                                 <div id="firstLetter"
                                     style="border: 1px solid rgba(230, 229, 229, 0.87); border-radius:5px; width:60px; height:65px; text-align:center; font-size:40px; text-transform:capitalize; object-fit:cover;">
@@ -142,25 +142,19 @@ Article
                                     transform: scale(1.1);
                                 }
                             </style>
-                             <form action="{{ route('articles.preview') }}" method="post" id="previewForm">
-                                @csrf
-                                <input type="hidden" name="article_id" class="nomorArtikel">
-                            </form>
-
+                          
                             <div class="right" id="what">
                                 <div class="d-flex justify-content-end text-right">
                                     @if($articles->is_publish == '1')
-                                    <object id="icon" class="icon{{$articles->id}}" style="padding: 0 6px;" data-container="body" data-toggle="tooltip" 
-                                        data-placement="bottom" data-original-title="Kembalikan ke draf"><a href="" data-container="body"
+                                    <object id="icon" class="icon{{$articles->id}}" style="padding: 0 6px;" 
+                                        data-placement="bottom"
                                             data-toggle="modal" data-target="#confirmIsPublishModal"
                                             onclick="return setData({{$articles}}, 0, 'apakah anda yakin untuk mengembalikan <b>article</b> ini sebagai draft ? ', 'Ya, Kembalikan !')"><i
                                                 class="fas fa-chevron-circle-right"
                                                 style="font-size: 14px;"></i></object>
                                     @else
-                                    <object id="icon" class="icon{{$articles->id}}" style="padding: 0 6px;" data-container="body" data-toggle="tooltip" 
-                                        data-placement="bottom" data-original-title="Publikasikan"><a href="#" data-container="body"
-                                            data-toggle="modal" @if (empty($articles->judul) ||
-                                            empty($articles->konten))
+                                    <object style="padding: 0 6px;">
+                                        <a href="#" id="icon" class="icon{{$articles->id}}" data-toggle="modal" @if (empty($articles->judul) || empty($articles->konten))
                                             data-target="#confirmIsPublishModalAlert{{ $articles->id }}"
                                             @else
                                             data-target="#confirmIsPublishModal"
@@ -170,16 +164,16 @@ Article
                                                 style="font-size: 14px;"></i></a></object>
                                     @endif
                                     
-                                    <object id="icon" class="icon{{$articles->id}}" style="padding: 0 6px;" data-toggle="tooltip" data-container="body"
-                                        data-placement="bottom" data-container="body" data-original-title="Hapus"><a href="#" data-container="body"
-                                            data-toggle="modal" data-target="#confirmDeleteModal"
-                                            onclick="return setData2({{$articles}})"><i class="fas fa-trash"
-                                                style="font-size: 14px;"></i></a></object>
-                                    <object id="icon" class="icon{{$articles->id}}" style="padding: 0 6px;" data-toggle="tooltip" data-container="body"
-                                        data-placement="bottom" data-container="body" data-original-title="Preview">
-                                       
-                                            <a href="javascript:void(0)" data-id="{{ $articles->id }}" onclick="previewForm(this)" data-container="body"><i class="far fa-eye" style="font-size: 14px;"></i></a>
+                                    <object style="padding: 0 6px;">
+                                        <a href="#" id="icon" class="icon{{$articles->id}}" 
+                                            data-toggle="modal" data-target="#confirmDeleteModal" onclick="return setData2({{$articles}})">
+                                            <i class="fas fa-trash" style="font-size: 14px;"></i>
+                                        </a>
                                     </object>
+                                    <object id="icon" class="icon{{$articles->id}}"style="padding: 0 6px;">
+                                             <a href="{{ route('articles.preview', $articles->slug) }}" ><i class="far fa-eye" style="font-size: 14px;"></i></a>
+                                    </object>
+                                    
                                     <p style="padding-left: 6px;" class="iniaja">
                                         {{ ucfirst(trans(Auth::user()->name)) }}</p>
                                     <object>
@@ -233,6 +227,10 @@ Article
     {{ $article->links('vendor.pagination.custom')}}
 </div>
 
+@if(empty($article))
+    <br>
+    <h4 class="text-center"><b>Artikel</b> belum tersedia!</h4><br><br>
+@endif
 <!-- Modal isPublish Alert -->
 @foreach ($article as $articles)
 <div class="modal fade" id="confirmIsPublishModalAlert{{ $articles->id }}" tabindex="-1" role="dialog"
@@ -368,7 +366,8 @@ if (isMobile) {
     function previewForm(element)
     {
         var articleId = $(element).attr('data-id');
-        $(".nomorArtikel").val(articleId);
+        $("#nomorArtikel").val(articleId);
+        console.log(articleId);
         $("#previewForm").submit();
     }
 </script>

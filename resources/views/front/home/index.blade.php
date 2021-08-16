@@ -15,18 +15,29 @@ Beranda
 				<!-- featured post large -->
 				<div class="post featured-post-lg">
 					<div class="details clearfix">
+						@if(isset($feature_post))
 						<form action="{{ route('artikel.kategori') }}" method="post" style="display: inline;">
 							@csrf
 							<input type="hidden" name="kategori" value="{{ $feature_post->category }}">
-							<button type="submit" class="category-badge" style="border: none;">{{ $feature_post->categories->nama }}</button>
+							<button type="submit" class="category-badge"
+								style="border: none;">{{ $feature_post->categories->nama }}</button>
 						</form>
-						<h2 class="post-title"><a href="{{ route('artikel.show', $feature_post->slug)}}">{{ $feature_post->judul }}</a></h2>
+						@else
+						<button type="button" class="category-badge" style="border: none;">Belum ada kategori</button>
+						@endif
+						<h2 class="post-title"><a
+								href="@if(isset($feature_post)) {{ route('artikel.show', $feature_post->slug)}} @endif">@if(isset($feature_post))
+								{{ $feature_post->judul }} @else Judul artikel @endif</a>
+						</h2>
 						<ul class="meta list-inline mb-0">
-							<li class="list-inline-item"><a href="#">{{ ucfirst(trans($feature_post->creators->name)) }}</a></li>
-							<li class="list-inline-item">{{ $feature_post->updated_at->format('d M Y')}}</li>
+							<li class="list-inline-item"><a href="#">@if(isset($feature_post))
+									{{ ucfirst(trans($feature_post->creators->name)) }} @else Nama penulis @endif</a>
+							</li>
+							<li class="list-inline-item">@if(isset($feature_post))
+								{{ $feature_post->updated_at->format('d M Y')}} @else Tanggal terbit @endif</li>
 						</ul>
 					</div>
-					<a href="{{ route('artikel.show', $feature_post->slug)}}">
+					<a href="@if(isset($feature_post)) {{ route('artikel.show', $feature_post->slug)}} @endif">
 						<div class="thumb rounded">
 							<div class="inner data-bg-image"
 								data-bg-image=" @if(!empty($feature_post))  {{ Storage::url($feature_post->gambar) }} @else {{ asset('assets/back/not-found.png') }} @endif">
@@ -73,7 +84,8 @@ Beranda
 								</div>
 								<div class="details clearfix">
 									<h6 class="post-title my-0"><a
-											href="{{ route('artikel.show', $recent_articles->slug) }}">{{ $recent_articles->judul }}</a></h6>
+											href="{{ route('artikel.show', $recent_articles->slug) }}">{{ $recent_articles->judul }}</a>
+									</h6>
 									<ul class="meta list-inline mt-1 mb-0">
 										<li class="list-inline-item">{{ $recent_articles->updated_at->format('d M y')}}
 										</li>
@@ -99,9 +111,11 @@ Beranda
 									</a>
 								</div>
 								<div class="details clearfix">
-									<h6 class="post-title my-0"><a href="blog-single.html">{{ $popular_article->judul }}</a></h6>
+									<h6 class="post-title my-0"><a
+											href="blog-single.html">{{ $popular_article->judul }}</a></h6>
 									<ul class="meta list-inline mt-1 mb-0">
-										<li class="list-inline-item">{{ $popular_article->created_at->format('d M Y') }}</li>
+										<li class="list-inline-item">{{ $popular_article->created_at->format('d M Y') }}
+										</li>
 									</ul>
 								</div>
 							</div>
@@ -137,15 +151,24 @@ Beranda
 							<!-- post -->
 							<div class="post">
 								<div class="thumb rounded">
-									<form action="{{ route('artikel.kategori') }}" method="post" style="display: inline;">
+									@if(isset($editors_pick_1))
+									<form action="{{ route('artikel.kategori') }}" method="post"
+										style="display: inline;">
 										@csrf
 										<input type="hidden" name="kategori" value="{{ $editors_pick_1->category }}">
-										<button type="submit" class="category-badge position-absolute" style="border: none;">{{ $editors_pick_1->categories->nama }}</button>
+										<button type="submit" class="category-badge position-absolute"
+											style="border: none;">{{ $editors_pick_1->categories->nama }}</button>
 									</form>
+									@else
+									<button type="button" class="category-badge position-absolute" style="border: none;">Belum ada
+										kategori</button>
+									@endif
 									<span class="post-format">
-										<i class="icon-picture"></i>
+										<i
+											class="@if(isset($editors_pick_1)) {{ $editors_pick_1->categories->category_icon }} @endif"></i>
 									</span>
-									<a href="{{ route('artikel.show', $editors_pick_1->slug) }}">
+									<a
+										href="@if(isset($editors_pick_1)) {{ route('artikel.show', $editors_pick_1->slug) }} @endif">
 										<div class="inner">
 											@if (!empty($editors_pick_1))
 											<img src="{{ Storage::url($editors_pick_1->gambar) }}" alt="post-title" />
@@ -156,24 +179,35 @@ Beranda
 									</a>
 								</div>
 								<ul class="meta list-inline mt-4 mb-0">
-									<li class="list-inline-item"><a href="{{ route('users.show', $editors_pick_1->creator) }}"><img
-												src="{{ Storage::url($editors_pick_1->creators->photo) }}" style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;"
-												class="author" alt="author" />{{ ucfirst(trans($editors_pick_1->creators->name)) }}</a></li>
-									<li class="list-inline-item">{{ $editors_pick_1->updated_at->format('d M Y')}}</li>
+									<li class="list-inline-item"><a
+											href="@if(isset($editors_pick_1)) {{ route('users.show', $editors_pick_1->creator) }} @endif">
+											@if(isset($editors_pick_1))<img
+												src="{{ Storage::url($editors_pick_1->creators->photo) }}"
+												style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;"
+												class="author" alt="author" /> @endif @if(isset($editors_pick_1))
+											{{ ucfirst(trans($editors_pick_1->creators->name)) }} @else Nama penulis
+											@endif</a>
+									</li>
+									<li class="list-inline-item">@if(isset($editors_pick_1))
+										{{ $editors_pick_1->updated_at->format('d M Y')}} @else Tanggal terbit @endif
+									</li>
 								</ul>
-								@if (!empty($editors_pick_1))
-								<h5 class="post-title mb-3 mt-3"><a href="{{ route('artikel.show', $editors_pick_1->id) }}">{{ $editors_pick_1->judul }}</a></h5>
-								<p class="excerpt mb-0">{!! $editors_pick_1->konten !!}</p>
-								@else
 
-								@endif
+								<h5 class="post-title mb-3 mt-3"><a
+										href="@if(isset($editors_pick_1)) {{ route('artikel.show', $editors_pick_1->id) }} @endif">@if(isset($editors_pick_1))
+										{{ $editors_pick_1->judul }} @else Judul artikel @endif</a>
+								</h5>
+								<p class="excerpt mb-0">@if(isset($editors_pick_1)) {!! $editors_pick_1->konten !!}
+									@else Konten artikel @endif</p>
+
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<!-- post -->
 							<div class="post post-list-sm square">
 								<div class="thumb rounded">
-									<a href="{{ route('artikel.show', $editors_pick_2->slug) }}">
+									<a
+										href="@if(isset($editors_pick_2)) {{ route('artikel.show', $editors_pick_2->slug) }} @endif">
 										<div class="inner">
 											@if (!empty($editors_pick_2))
 											<img src="{{ Storage::url($editors_pick_2->gambar) }}" alt="post-title" />
@@ -184,20 +218,23 @@ Beranda
 									</a>
 								</div>
 								<div class="details clearfix">
-									@if (!empty($editors_pick_2))
-									<h6 class="post-title my-0"><a href="{{ route('artikel.show', $editors_pick_2->slug) }}">{{ $editors_pick_2->judul }}</a></h6>
-									@else
+									<h6 class="post-title my-0"><a
+											href="@if(isset($editors_pick_2)) {{ route('artikel.show', $editors_pick_2->slug) }} @endif">@if(isset($editors_pick_2))
+											{{ $editors_pick_2->judul }} @else Judul artikel @endif</a>
+									</h6>
 
-									@endif
 									<ul class="meta list-inline mt-1 mb-0">
-										<li class="list-inline-item">{{ $editors_pick_2->updated_at->format('d M Y')}}</li>
+										<li class="list-inline-item">@if(isset($editors_pick_2))
+											{{ $editors_pick_2->updated_at->format('d M Y')}} @else Tanggal terbit
+											@endif</li>
 									</ul>
 								</div>
 							</div>
 							<!-- post -->
 							<div class="post post-list-sm square">
 								<div class="thumb rounded">
-									<a href="{{ route('artikel.show', $editors_pick_3->slug) }}">
+									<a
+										href="@if(isset($editors_pick_3)) {{ route('artikel.show', $editors_pick_3->slug) }} @endif">
 										<div class="inner">
 											@if (!empty($editors_pick_3))
 											<img src="{{ Storage::url($editors_pick_3->gambar) }}" alt="post-title" />
@@ -208,16 +245,22 @@ Beranda
 									</a>
 								</div>
 								<div class="details clearfix">
-									<h6 class="post-title my-0"><a href="{{ route('artikel.show', $editors_pick_3->slug) }}">{{ $editors_pick_3->judul }}</a></h6>
+									<h6 class="post-title my-0"><a
+											href="@if(isset($editors_pick_3)) {{ route('artikel.show', $editors_pick_3->slug) }} @endif">@if(isset($editors_pick_3))
+											{{ $editors_pick_3->judul }} @else Judul artikel @endif</a>
+									</h6>
 									<ul class="meta list-inline mt-1 mb-0">
-										<li class="list-inline-item">{{ $editors_pick_3->updated_at->format('d M Y')}}</li>
+										<li class="list-inline-item">@if(isset($editors_pick_3))
+											{{ $editors_pick_3->updated_at->format('d M Y')}} @else Tanggal terbit
+											@endif</li>
 									</ul>
 								</div>
 							</div>
 							<!-- post -->
 							<div class="post post-list-sm square">
 								<div class="thumb rounded">
-									<a href="{{ route('artikel.show', $editors_pick_4->slug) }}">
+									<a
+										href="@if(isset($editors_pick_4)) {{ route('artikel.show', $editors_pick_4->slug) }} @endif">
 										<div class="inner">
 											@if (!empty($editors_pick_4))
 											<img src="{{ Storage::url($editors_pick_4->gambar) }}" alt="post-title" />
@@ -228,16 +271,22 @@ Beranda
 									</a>
 								</div>
 								<div class="details clearfix">
-									<h6 class="post-title my-0"><a href="{{ route('artikel.show', $editors_pick_4->slug) }}">{{ $editors_pick_4->judul }}</a></h6>
+									<h6 class="post-title my-0"><a
+											href="@if(isset($editors_pick_4)) {{ route('artikel.show', $editors_pick_4->slug) }} @endif">@if(isset($editors_pick_4))
+											{{ $editors_pick_4->judul }} @else Judul artikel @endif</a>
+									</h6>
 									<ul class="meta list-inline mt-1 mb-0">
-										<li class="list-inline-item">{{ $editors_pick_4->updated_at->format('d M Y') }}</li>
+										<li class="list-inline-item">@if(isset($editors_pick_4))
+											{{ $editors_pick_4->updated_at->format('d M Y') }} @else Tanggal terbit
+											@endif</li>
 									</ul>
 								</div>
 							</div>
 							<!-- post -->
 							<div class="post post-list-sm square">
 								<div class="thumb rounded">
-									<a href="{{ route('artikel.show', $editors_pick_5->slug) }}">
+									<a
+										href="@if(isset($editors_pick_5)) {{ route('artikel.show', $editors_pick_5->slug) }} @endif">
 										<div class="inner">
 											@if (!empty($editors_pick_5))
 											<img src="{{ Storage::url($editors_pick_5->gambar) }}" alt="post-title" />
@@ -248,9 +297,14 @@ Beranda
 									</a>
 								</div>
 								<div class="details clearfix">
-									<h6 class="post-title my-0"><a href="{{ route('artikel.show', $editors_pick_5->slug) }}">{{ $editors_pick_5->judul }}</a></h6>
+									<h6 class="post-title my-0"><a
+											href="@if(isset($editors_pick_5)) {{ route('artikel.show', $editors_pick_5->slug) }} @endif">@if(isset($editors_pick_5))
+											{{ $editors_pick_5->judul }} @else Judul artikel @endif</a>
+									</h6>
 									<ul class="meta list-inline mt-1 mb-0">
-										<li class="list-inline-item">{{ $editors_pick_4->updated_at->format('d M Y') }}</li>
+										<li class="list-inline-item">@if(isset($editors_pick_5))
+											{{ $editors_pick_5->updated_at->format('d M Y') }} @else Tanggal terbit
+											@endif</li>
 									</ul>
 								</div>
 							</div>
@@ -282,61 +336,108 @@ Beranda
 							<!-- post large -->
 							<div class="post">
 								<div class="thumb rounded">
-									<a href="category.html" class="category-badge position-absolute">Culture</a>
+									@if(isset($trending_1))
+									<form action="{{ route('artikel.kategori') }}" method="post"
+										style="display: inline;">
+										@csrf
+										<input type="hidden" name="kategori" value="{{ $trending_1->category }}">
+										<button type="submit" class="category-badge position-absolute"
+											style="border: none;">{{ $trending_1->categories->nama }}</button>
+									</form>
+									@else
+									<button type="button" class="category-badge position-absolute" style="border: none;">Belum ada
+										kategori</button>
+									@endif
 									<span class="post-format">
-										<i class="icon-picture"></i>
+										<i
+											class="@if(isset($trending_1)) {{ $trending_1->categories->category_icon }} @endif"></i>
 									</span>
-									<a href="blog-single.html">
+									<a
+										href="@if(isset($trending_1)) {{ route('artikel.show', $trending_1->slug) }} @endif">
 										<div class="inner">
-											<img src="{{ asset('assets/front/images/posts/trending-lg-1.jpg') }}"
+											@if (!empty($trending_1))
+											<img src="{{ Storage::url($trending_1->gambar) }}"
+												style="width: 550px; height: 395px; object-fit: cover;"
 												alt="post-title" />
+											@else
+											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+											@endif
 										</div>
 									</a>
 								</div>
 								<ul class="meta list-inline mt-4 mb-0">
-									<li class="list-inline-item"><a href="#"><img
-												src="{{ asset('assets/front/images/other/author-sm.png') }}"
-												class="author" alt="author" />Katen Doe</a></li>
-									<li class="list-inline-item">29 March 2021</li>
+									<li class="list-inline-item"><a href="#">
+											@if(isset($trending_1))
+											<img src="{{ Storage::url($trending_1->creators->photo) }}"
+												style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;"
+												class="author" alt="author" />
+											@endif @if(isset($trending_1))
+											{{ ucfirst(trans($trending_1->creators->name)) }} @else Nama penulis
+											@endif</a>
+									</li>
+									<li class="list-inline-item">@if(isset($trending_1))
+										{{ $trending_1->created_at->format('d M Y') }} @else Tanggal terbit @endif</li>
 								</ul>
-								<h5 class="post-title mb-3 mt-3"><a href="blog-single.html">Facts About Business
-										That Will Help You Success</a></h5>
-								<p class="excerpt mb-0">A wonderful serenity has taken possession of my entire
-									soul, like these sweet mornings of spring which I enjoy</p>
+								<h5 class="post-title mb-3 mt-3"><a
+										href="@if(isset($trending_1)) {{ route('artikel.show', $trending_1->slug) }} @endif">@if(isset($trending_1))
+										{{ $trending_1->judul }} @else Judul artikel @endif</a>
+								</h5>
+								<p class="excerpt mb-0">@if(isset($trending_1)) {!! Str::limit($trending_1->konten, 50)
+									!!} @else Konten artikel @endif</p>
 							</div>
 							<!-- post -->
 							<div class="post post-list-sm square before-seperator">
 								<div class="thumb rounded">
-									<a href="blog-single.html">
+									<a
+										href="@if(isset($trending_3)) {{ route('artikel.show', $trending_3->slug) }} @endif">
 										<div class="inner">
-											<img src="{{ asset('assets/front/images/posts/trending-sm-1.jpg') }}"
+											@if (!empty($trending_3))
+											<img src="{{ Storage::url($trending_3->gambar) }}"
+												style="width: 110px; height: 80px; object-fit: cover;"
 												alt="post-title" />
+											@else
+											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+											@endif
 										</div>
 									</a>
 								</div>
 								<div class="details clearfix">
-									<h6 class="post-title my-0"><a href="blog-single.html">3 Easy Ways To Make
-											Your iPhone Faster</a></h6>
+									<h6 class="post-title my-0"><a
+											href="@if(isset($trending_3)) {{ route('artikel.show', $trending_3->slug) }} @endif">@if(isset($trending_3))
+											{{ $trending_3->judul }} @else Judul artikel @endif</a>
+									</h6>
 									<ul class="meta list-inline mt-1 mb-0">
-										<li class="list-inline-item">29 March 2021</li>
+										<li class="list-inline-item">@if(isset($trending_3))
+											{{ $trending_3->created_at->format('d M Y') }} @else Tanggal terbit @endif
+										</li>
 									</ul>
 								</div>
 							</div>
 							<!-- post -->
 							<div class="post post-list-sm square before-seperator">
 								<div class="thumb rounded">
-									<a href="blog-single.html">
+									<a
+										href="@if(isset($trending_5)) {{ route('artikel.show', $trending_5->slug) }} @endif">
 										<div class="inner">
-											<img src="{{ asset('assets/front/images/posts/trending-sm-2.jpg') }}"
+											@if (!empty($trending_5))
+											<img src="{{ Storage::url($trending_5->gambar) }}"
+												style="width: 110px; height: 80px; object-fit: cover;"
 												alt="post-title" />
+											@else
+											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+											@endif
 										</div>
 									</a>
 								</div>
 								<div class="details clearfix">
-									<h6 class="post-title my-0"><a href="blog-single.html">An Incredibly Easy
-											Method That Works For All</a></h6>
+									<h6 class="post-title my-0"><a
+											href="@if(isset($trending_5)) {{ route('artikel.show', $trending_5->slug) }} @endif">@if(isset($trending_5))
+											{{ $trending_5->judul }} @else Judul artikel @endif</a>
+									</h6>
 									<ul class="meta list-inline mt-1 mb-0">
-										<li class="list-inline-item">29 March 2021</li>
+										<li class="list-inline-item">@if(isset($trending_5))
+											{{ $trending_5->created_at->format('d M Y') }} @else Tanggal terbit @endif
+										</li>
 									</ul>
 								</div>
 							</div>
@@ -345,61 +446,106 @@ Beranda
 							<!-- post large -->
 							<div class="post">
 								<div class="thumb rounded">
-									<a href="category.html" class="category-badge position-absolute">Inspiration</a>
+									@if(isset($trending_2))
+									<form action="{{ route('artikel.kategori') }}" method="post"
+										style="display: inline;">
+										@csrf
+										<input type="hidden" name="kategori" value="{{ $trending_2->category }}">
+										<button type="submit" class="category-badge position-absolute"
+											style="border: none;">{{ $trending_2->categories->nama }}</button>
+									</form>
+									@else
+									<button type="button" class="category-badge position-absolute" style="border: none;">Belum ada
+										kategori</button>
+									@endif
 									<span class="post-format">
-										<i class="icon-earphones"></i>
+										<i
+											class="@if(isset($trending_2)) {{ $trending_2->categories->category_icon }} @endif"></i>
 									</span>
-									<a href="blog-single.html">
+									<a
+										href="@if(isset($trending_2)) {{ route('artikel.show', $trending_2->slug) }} @endif">
 										<div class="inner">
-											<img src="{{ asset('assets/front/images/posts/trending-lg-2.jpg') }}"
+											@if (!empty($trending_2))
+											<img src="{{ Storage::url($trending_2->gambar) }}"
+												style="width: 550px; height: 395px; object-fit: cover;"
 												alt="post-title" />
+											@else
+											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+											@endif
 										</div>
 									</a>
 								</div>
 								<ul class="meta list-inline mt-4 mb-0">
-									<li class="list-inline-item"><a href="#"><img
-												src="{{ asset('assets/front/images/other/author-sm.png') }}"
-												class="author" alt="author" />Katen Doe</a></li>
-									<li class="list-inline-item">29 March 2021</li>
+									<li class="list-inline-item"><a href="#">@if(isset($trending_2))<img
+												src="{{ Storage::url($trending_2->creators->photo) }}"
+												style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;"
+												class="author" alt="author" /> @endif @if(isset($trending_2))
+											{{ ucfirst(trans($trending_2->creators->name)) }} @else Nama penerbit
+											@endif</a>
+									</li>
+									<li class="list-inline-item">@if(isset($trending_2))
+										{{ $trending_2->created_at->format('d M Y') }} @else Tanggal terbit @endif</li>
 								</ul>
-								<h5 class="post-title mb-3 mt-3"><a href="blog-single.html">5 Easy Ways You Can
-										Turn Future Into Success</a></h5>
-								<p class="excerpt mb-0">A wonderful serenity has taken possession of my entire
-									soul, like these sweet mornings of spring which I enjoy</p>
+								<h5 class="post-title mb-3 mt-3"><a
+										href="@if(isset($trending_2)) {{ route('artikel.show', $trending_2->slug) }} @endif">@if(isset($trending_2))
+										{{ $trending_2->judul }} @else Judul artikel @endif</a>
+								</h5>
+								<p class="excerpt mb-0">@if(isset($trending_2)) {!! $trending_2->konten !!} @else Konten
+									artikel @endif</p>
 							</div>
 							<!-- post -->
 							<div class="post post-list-sm square before-seperator">
 								<div class="thumb rounded">
-									<a href="blog-single.html">
+									<a
+										href="@if(isset($trending_4)) {{ route('artikel.show', $trending_4->slug) }} @endif">
 										<div class="inner">
-											<img src="{{ asset('assets/front/images/posts/trending-sm-3.jpg') }}"
+											@if (!empty($trending_4))
+											<img src="{{ Storage::url($trending_4->gambar) }}"
+												style="width: 110px; height: 80px; object-fit: cover;"
 												alt="post-title" />
+											@else
+											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+											@endif
 										</div>
 									</a>
 								</div>
 								<div class="details clearfix">
-									<h6 class="post-title my-0"><a href="blog-single.html">Here Are 8 Ways To
-											Success Faster</a></h6>
+									<h6 class="post-title my-0"><a
+											href="@if(isset($trending_4)) {{ route('artikel.show', $trending_4->slug) }} @endif">@if(isset($trending_4))
+											{{ $trending_4->judul }} @else Judul artikel @endif</a>
+									</h6>
 									<ul class="meta list-inline mt-1 mb-0">
-										<li class="list-inline-item">29 March 2021</li>
+										<li class="list-inline-item">@if(isset($trending_4))
+											{{ $trending_4->created_at->format('d M Y') }} @else Tanggal terbit @endif
+										</li>
 									</ul>
 								</div>
 							</div>
 							<!-- post -->
 							<div class="post post-list-sm square before-seperator">
 								<div class="thumb rounded">
-									<a href="blog-single.html">
+									<a
+										href="@if(isset($trending_6)) {{ route('artikel.show', $trending_6->slug) }} @endif">
 										<div class="inner">
-											<img src="{{ asset('assets/front/images/posts/trending-sm-4.jpg') }}"
+											@if (!empty($trending_6))
+											<img src="{{ Storage::url($trending_6->gambar) }}"
+												style="width: 110px; height: 80px; object-fit: cover;"
 												alt="post-title" />
+											@else
+											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+											@endif
 										</div>
 									</a>
 								</div>
 								<div class="details clearfix">
-									<h6 class="post-title my-0"><a href="blog-single.html">Master The Art Of
-											Nature With These 7 Tips</a></h6>
+									<h6 class="post-title my-0"><a
+											href="@if(isset($trending_6)) {{ route('artikel.show', $trending_6->slug) }} @endif">@if(isset($trending_6))
+											{{ $trending_6->judul }} @else Judu artikel @endif</a>
+									</h6>
 									<ul class="meta list-inline mt-1 mb-0">
-										<li class="list-inline-item">29 March 2021</li>
+										<li class="list-inline-item">@if(isset($trending_6))
+											{{ $trending_6->created_at->format('d M Y') }} @else Tanggal terbit @endif
+										</li>
 									</ul>
 								</div>
 							</div>
@@ -412,7 +558,7 @@ Beranda
 				<!-- section header -->
 				<div class="section-header">
 					<h3 class="section-title">Inspiration</h3>
-					<img src="images/wave.svg" class="wave" alt="wave" />
+					<img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
 					<div class="slick-arrows-top">
 						<button type="button" data-role="none" class="carousel-topNav-prev slick-custom-buttons"
 							aria-label="Previous"><i class="icon-arrow-left"></i></button>
@@ -425,21 +571,42 @@ Beranda
 					<!-- post -->
 					<div class="post post-over-content col-md-6">
 						<div class="details clearfix">
+							@if(isset($selected_category_post_1))
 							<form action="{{ route('artikel.kategori') }}" method="post" style="display: inline;">
 								@csrf
 								<input type="hidden" name="kategori" value="{{ $selected_category_post_1->category }}">
-								<button type="submit" class="category-badge" style="border: none;">{{ $selected_category_post_1->categories->nama }}</button>
+								<button type="submit" class="category-badge"
+									style="border: none;">{{ $selected_category_post_1->categories->nama }}</button>
 							</form>
-							<h4 class="post-title"><a href="{{ route('artikel.show', $selected_category_post_1->slug) }}">{{ $selected_category_post_1->judul }}</a></h4>
+							@else
+							<button type="button" class="category-badge" style="border: none;">Belum ada
+								kategori</button>
+							@endif
+							<h4 class="post-title"><a
+									href="@if(isset($selected_category_post_1)) {{ route('artikel.show', $selected_category_post_1->slug) }} @endif">@if(isset($selected_category_post_1))
+									{{ $selected_category_post_1->judul }} @else Judul artikel @endif</a>
+							</h4>
 							<ul class="meta list-inline mb-0">
-								<li class="list-inline-item"><a href="#">{{ ucfirst(trans($selected_category_post_1->creators->name)) }}</a></li>
-								<li class="list-inline-item">{{ $selected_category_post_1->updated_at->format('d M Y') }}</li>
+								<li class="list-inline-item"><a href="#">@if(isset($selected_category_post_1))
+										{{ ucfirst(trans($selected_category_post_1->creators->name)) }} @else Nama
+										penulis @endif</a>
+								</li>
+								<li class="list-inline-item">
+									@if(isset($selected_category_post_1))
+									{{ $selected_category_post_1->updated_at->format('d M Y') }} @else Tanggal terbit
+									@endif</li>
 							</ul>
 						</div>
-						<a href="{{ route('artikel.show', $selected_category_post_1->slug) }}">
+						<a
+							href="@if(isset($selected_category_post_1)) {{ route('artikel.show', $selected_category_post_1->slug) }} @endif">
 							<div class="thumb rounded">
 								<div class="inner">
-									<img src="{{ Storage::url($selected_category_post_1->gambar) }}" style="width: 580px; height: 484px; object-fit: cover;" alt="thumb" />
+									@if(!empty($selected_category_posts_1))
+									<img src="{{ Storage::url($selected_category_post_1->gambar) }}"
+										style="width: 580px; height: 484px; object-fit: cover;" alt="thumb" />
+									@else
+									<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+									@endif
 								</div>
 							</div>
 						</a>
@@ -447,21 +614,42 @@ Beranda
 					<!-- post -->
 					<div class="post post-over-content col-md-6">
 						<div class="details clearfix">
+							@if(isset($selected_category_post_2))
 							<form action="{{ route('artikel.kategori') }}" method="post" style="display: inline;">
 								@csrf
 								<input type="hidden" name="kategori" value="{{ $selected_category_post_2->category }}">
-								<button type="submit" class="category-badge" style="border: none;">{{ $selected_category_post_2->categories->nama }}</button>
+								<button type="submit" class="category-badge"
+									style="border: none;">{{ $selected_category_post_2->categories->nama }}</button>
 							</form>
-							<h4 class="post-title"><a href="{{ route('artikel.show', $selected_category_post_2->slug) }}">{{ $selected_category_post_2->judul }}</a></h4>
+							@else
+							<button type="button" class="category-badge" style="border: none;">Belum ada
+								kategori</button>
+							@endif
+							<h4 class="post-title"><a
+									href=" @if(isset($selected_category_post_2)){{ route('artikel.show', $selected_category_post_2->slug) }} @endif">@if(isset($selected_category_post_2))
+									{{ $selected_category_post_2->judul }} @else Judul artikel @endif</a>
+							</h4>
 							<ul class="meta list-inline mb-0">
-								<li class="list-inline-item"><a href="#">{{ ucfirst(trans($selected_category_post_2->creators->name)) }}</a></li>
-								<li class="list-inline-item">{{ $selected_category_post_2->updated_at->format('d M Y') }}</li>
+								<li class="list-inline-item"><a href="#">@if(isset($selected_category_post_2))
+										{{ ucfirst(trans($selected_category_post_2->creators->name)) }} @else Nama
+										penulis @endif</a>
+								</li>
+								<li class="list-inline-item">
+									@if(isset($selected_category_post_2))
+									{{ $selected_category_post_2->updated_at->format('d M Y') }} @else Tanggal terbit
+									@endif</li>
 							</ul>
 						</div>
-						<a href="{{ route('artikel.show', $selected_category_post_2->slug) }}">
+						<a
+							href="@if(isset($selected_category_post_2)) {{ route('artikel.show', $selected_category_post_2->slug) }} @endif">
 							<div class="thumb rounded">
 								<div class="inner">
-									<img src="{{ Storage::url($selected_category_post_2->gambar) }}" style="width: 580px; height: 484px; object-fit: cover;" alt="thumb" />
+									@if(!empty($selected_category_posts_2))
+									<img src="{{ Storage::url($selected_category_posts_2->gambar) }}"
+										style="width: 580px; height: 484px; object-fit: cover;" alt="thumb" />
+									@else
+									<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+									@endif
 								</div>
 							</div>
 						</a>
@@ -499,7 +687,8 @@ Beranda
 						<div class="widget-about data-bg-image text-center" data-bg-image="images/map-bg.png">
 							<img src="{{ asset('assets/front/logo_inimahsumedang_500x.png') }}" style="width: 100px;"
 								alt="logo" class="mb-4" />
-							<p class="mb-4">{{ $web->description }}</p>
+							<p class="mb-4">@if(isset($web)) {{ $web->description }} @else Deskripsi web belum tersedia
+								@endif</p>
 							<ul class="social-icons list-unstyled list-inline mb-0">
 								<li class="list-inline-item"><a href="https://www.facebook.com/inimahsumedangcom/"><i
 											class="fab fa-facebook-f"></i></a></li>
@@ -567,67 +756,90 @@ Beranda
 					<!-- widget post carousel -->
 					<div class="widget rounded">
 						<div class="widget-header text-center">
-							<h3 class="widget-title">Celebration</h3>
+							<h3 class="widget-title">Event</h3>
 							<img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
 						</div>
 						<div class="widget-content">
 							<div class="post-carousel-widget">
 								<!-- post -->
+
 								<div class="post post-carousel">
 									<div class="thumb rounded">
-										<a href="category.html" class="category-badge position-absolute">How
-											to</a>
-										<a href="blog-single.html">
+										@if(isset($event_1))
+										<form action="{{ route('artikel.kategori') }}" method="post"
+											style="display: inline;">
+											@csrf
+											<input type="hidden" name="kategori" value="{{ $event_1->category }}">
+											<button type="submit" class="category-badge position-absolute"
+												style="border: none;">{{ $event_1->categories->nama }}</button>
+										</form>
+										@else
+										<button type="button" class="category-badge position-absolute" style="border: none;">Belum ada
+											kategori</button>
+										@endif
+										<a
+											href="@if(isset($event_1)) {{ route('artikel.show', $event_1->slug)}} @endif">
 											<div class="inner">
-												<img src="{{ asset('assets/front/images/widgets/widget-carousel-1.jpg') }}"
-													alt="post-title" />
+												@if (!empty($event_1))
+												<img src="{{ Storage::url($event_1->gambar) }}" alt="post-title" />
+												@else
+												<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+												@endif
 											</div>
 										</a>
 									</div>
-									<h5 class="post-title mb-0 mt-4"><a href="blog-single.html">5 Easy Ways You
-											Can Turn Future Into Success</a></h5>
+									<h5 class="post-title mb-0 mt-4"><a
+											href="@if(isset($event_1)) {{ route('artikel.show', $event_1->slug)}} @endif">@if(isset($event_1))
+											{{ $event_1->judul }} @else Judul artikel @endif</a>
+									</h5>
 									<ul class="meta list-inline mt-2 mb-0">
-										<li class="list-inline-item"><a href="#">Katen Doe</a></li>
-										<li class="list-inline-item">29 March 2021</li>
+										<li class="list-inline-item"><a href="#">@if(isset($event_1))
+												{{ ucfirst(trans($event_1->creators->name)) }} @else Nama penulis
+												@endif</a></li>
+										<li class="list-inline-item">@if(isset($event_1))
+											{{ $event_1->updated_at->format('d M Y') }} @else Tanggal Terbit @endif</li>
 									</ul>
 								</div>
-								<!-- post -->
+
 								<div class="post post-carousel">
 									<div class="thumb rounded">
-										<a href="category.html" class="category-badge position-absolute">Trending</a>
-										<a href="blog-single.html">
+										@if(isset($event_2))
+										<form action="{{ route('artikel.kategori') }}" method="post"
+											style="display: inline;">
+											@csrf
+											<input type="hidden" name="kategori" value="{{ $event_2->category }}">
+											<button type="submit" class="category-badge position-absolute"
+												style="border: none;">{{ $event_2->categories->nama }}</button>
+										</form>
+										@else
+										<button type="button" class="category-badge position-absolute" style="border: none;">Belum ada
+											kategori</button>
+										@endif
+										<a
+											href="@if(isset($event_2)) {{ route('artikel.show', $event_2->slug)}} @endif">
 											<div class="inner">
-												<img src="{{ asset('assets/front/images/widgets/widget-carousel-2.jpg') }}"
-													alt="post-title" />
+												@if (!empty($event_2))
+												<img src="{{ Storage::url($event_2->gambar) }}" alt="post-title" />
+												@else
+												<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+												@endif
 											</div>
 										</a>
 									</div>
-									<h5 class="post-title mb-0 mt-4"><a href="blog-single.html">Master The Art
-											Of Nature With These 7 Tips</a></h5>
+									<h5 class="post-title mb-0 mt-4"><a
+											href="@if(isset($event_2)) {{ route('artikel.show', $event_2->slug)}} @endif">@if(isset($event_2))
+											{{ $event_2->judul }} @else Judul artikel @endif</a>
+									</h5>
 									<ul class="meta list-inline mt-2 mb-0">
-										<li class="list-inline-item"><a href="#">Katen Doe</a></li>
-										<li class="list-inline-item">29 March 2021</li>
+										<li class="list-inline-item"><a href="#">@if(isset($event_2))
+												{{ ucfirst(trans($event_2->creators->name)) }} @else Nama penulis
+												@endif</a></li>
+										<li class="list-inline-item">@if(isset($event_2))
+											{{ $event_2->updated_at->format('d M Y') }} @else Tanggal terbit @endif</li>
 									</ul>
 								</div>
-								<!-- post -->
-								<div class="post post-carousel">
-									<div class="thumb rounded">
-										<a href="category.html" class="category-badge position-absolute">How
-											to</a>
-										<a href="blog-single.html">
-											<div class="inner">
-												<img src="{{ asset('assets/front/images/widgets/widget-carousel-1.jpg') }}"
-													alt="post-title" />
-											</div>
-										</a>
-									</div>
-									<h5 class="post-title mb-0 mt-4"><a href="blog-single.html">5 Easy Ways You
-											Can Turn Future Into Success</a></h5>
-									<ul class="meta list-inline mt-2 mb-0">
-										<li class="list-inline-item"><a href="#">Katen Doe</a></li>
-										<li class="list-inline-item">29 March 2021</li>
-									</ul>
-								</div>
+
+
 							</div>
 							<!-- carousel arrows -->
 							<div class="slick-arrows-bot">
