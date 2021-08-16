@@ -448,6 +448,60 @@ Page
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-6 mt-2">
+                        <div class="title mt-3">
+                            <p class="text-center">{{ $trending_4->judul }}</p>
+                        </div>
+                        <div class="wrap-trending-images mt-4"  data-toggle="modal" data-target="#selectedArticleModal" data-status="trending_4" data-title="Trending" onclick="trendingValue(this)">
+                            @if (!empty($trending_4))
+                            <img src="{{ Storage::url($trending_4->gambar) }}" class="img-fluid image" style="width: 510px;" alt="post-title" />
+                            @else
+                            <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid trending-default-image"
+                                alt="post-title" />
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-between mt-4">
+                    <div class="col-sm-6 mt-2">
+                        <div class="title mt-3">
+                            <p class="text-center">{{ $trending_5->judul }}</p>
+                        </div>
+                        <div class="wrap-trending-images mt-4" data-toggle="modal" data-target="#selectedArticleModal" data-status="trending_5" data-title="Trending" onclick="trendingValue(this)">
+                            @if (!empty($trending_5))
+                            <img src="{{ Storage::url($trending_5->gambar) }}" class="img-fluid image" style="width: 510px;" alt="post-title" />
+                            @else
+                            <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid trending-default-image"
+                                alt="post-title" />
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mt-2">
+                        <div class="title mt-3">
+                            <p class="text-center">{{ $trending_6->judul }}</p>
+                        </div>
+                        <div class="wrap-trending-images mt-4" data-toggle="modal" data-target="#selectedArticleModal" data-status="trending_6" data-title="Trending" onclick="trendingValue(this)">
+                            @if (!empty($trending_6))
+                            <img src="{{ Storage::url($trending_6->gambar) }}" class="img-fluid image" style="width: 510px;" alt="post-title" />
+                            @else
+                            <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid trending-default-image"
+                                alt="post-title" />
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card p-2">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h4>Event</h4>
+                    <button class="btn btn-sm btn-secondary" onclick="eventButton(this)"><i class="fas fa-plus" id="iconChangeOnEvent"></i></button>
                 </div>
                 
             </div>
