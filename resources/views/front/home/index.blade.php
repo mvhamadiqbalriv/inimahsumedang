@@ -197,7 +197,7 @@ Beranda
 										href="@if(isset($editors_pick_1)) {{ route('artikel.show', $editors_pick_1->id) }} @endif">@if(isset($editors_pick_1))
 										{{ $editors_pick_1->judul }} @else Judul artikel @endif</a>
 								</h5>
-								<p class="excerpt mb-0">@if(isset($editors_pick_1)) {!! $editors_pick_1->konten !!}
+								<p class="excerpt mb-0">@if(isset($editors_pick_1)) {!! Str::limit($editors_pick_1->konten, 90) !!}
 									@else Konten artikel @endif</p>
 
 							</div>
@@ -490,7 +490,7 @@ Beranda
 										href="@if(isset($trending_2)) {{ route('artikel.show', $trending_2->slug) }} @endif">@if(isset($trending_2))
 										{{ $trending_2->judul }} @else Judul artikel @endif</a>
 								</h5>
-								<p class="excerpt mb-0">@if(isset($trending_2)) {!! $trending_2->konten !!} @else Konten
+								<p class="excerpt mb-0">@if(isset($trending_2)) {!! Str::limit($trending_2->konten, 90) !!} @else Konten
 									artikel @endif</p>
 							</div>
 							<!-- post -->

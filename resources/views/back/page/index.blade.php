@@ -105,40 +105,39 @@ Page
     <div class="col-sm-12">
         <div class="card">
             <div class="card-body">
-       
-        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="pills-feature-post-tab" data-toggle="pill" href="#pills-feature-post" role="tab"
-                    aria-controls="pills-feature-post" aria-selected="true">Feature Post</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-ads-tab" data-toggle="pill" href="#pills-ads" role="tab"
-                    aria-controls="pills-ads" aria-selected="false">Ads</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-editors-pick-tab" data-toggle="pill" href="#pills-editors-pick" role="tab"
-                    aria-controls="pills-editors-pick" aria-selected="false">Editor's Pick</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-trending-tab" data-toggle="pill" href="#pills-trending" role="tab"
-                    aria-controls="pills-trending" aria-selected="false">Trending</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-event-tab" data-toggle="pill" href="#pills-event" role="tab"
-                    aria-controls="pills-event" aria-selected="false">Event</a>
-            </li>
-
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-category-post-tab" data-toggle="pill" href="#pills-category-post" role="tab"
-                    aria-controls="pills-category-post" aria-selected="false">Category Post</a>
-            </li>
-        </ul>
-                 
-    </div>
-</div>
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="pills-feature-post-tab" data-toggle="pill"
+                            href="#pills-feature-post" role="tab" aria-controls="pills-feature-post"
+                            aria-selected="true">Feature Post</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-ads-tab" data-toggle="pill" href="#pills-ads" role="tab"
+                            aria-controls="pills-ads" aria-selected="false">Ads</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-editors-pick-tab" data-toggle="pill" href="#pills-editors-pick"
+                            role="tab" aria-controls="pills-editors-pick" aria-selected="false">Editor's Pick</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-trending-tab" data-toggle="pill" href="#pills-trending" role="tab"
+                            aria-controls="pills-trending" aria-selected="false">Trending</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-event-tab" data-toggle="pill" href="#pills-event" role="tab"
+                            aria-controls="pills-event" aria-selected="false">Event</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-category-post-tab" data-toggle="pill" href="#pills-category-post"
+                            role="tab" aria-controls="pills-category-post" aria-selected="false">Category Post</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-feature-post" role="tabpanel" aria-labelledby="pills-feature-post-tab">
-                <div class="card">
+            <div class="tab-pane fade show active" id="pills-feature-post" role="tabpanel"
+                aria-labelledby="pills-feature-post-tab">
+                <div class="card p-2">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h4>Feature Post</h4>
@@ -153,10 +152,10 @@ Page
                         </div>
                         <div class="wrap-image mb-1 d-flex justify-content-center">
                             @if (!empty($feature_post))
-                            <img src="{{ Storage::url($feature_post->gambar) }}" style="object-fit: cover; width: 100%;"
+                            <img src="{{ Storage::url($feature_post->gambar) }}" style=""
                                 class="img-fluid image " alt="post-title" />
                             @else
-                            <img src="{{ asset('assets/back/not-found.png') }}" style="object-fit: cover; width: 100%;"
+                            <img src="{{ asset('assets/back/not-found.png') }}" style=""
                                 class="img-fluid image " alt="post-title" />
                             @endif
                         </div>
@@ -172,17 +171,21 @@ Page
                                 <div class="d-flex justify-content-between">
                                     <h4>Horizontal Ads</h4>
                                     <button class="btn btn-sm btn-secondary" data-toggle="modal" @if(empty($article))
-                                        data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif data-status="ads"
-                                        data-title="Ads" onclick="ads(this)"><i class="fas fa-plus"></i></button>
+                                        data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
+                                        data-status="ads" data-title="Ads" onclick="ads(this)"><i
+                                            class="fas fa-plus"></i></button>
                                 </div>
                                 <div class="title mt-3">
-                                    <p class="text-center">@if(isset($ads)) {{ $ads->judul }} @else Judul artikel @endif</p>
+                                    <p class="text-center">@if(isset($ads)) {{ $ads->judul }} @else Judul artikel @endif
+                                    </p>
                                 </div>
                                 <div class="wrap-image">
                                     @if (!empty($ads))
-                                    <img src="{{ Storage::url($ads->gambar) }}" class="img-fluid image " alt="post-title" />
+                                    <img src="{{ Storage::url($ads->gambar) }}" class="img-fluid image "
+                                        alt="post-title" />
                                     @else
-                                    <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid image " alt="post-title" />
+                                    <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid image "
+                                        alt="post-title" />
                                     @endif
                                 </div>
                             </div>
@@ -194,17 +197,21 @@ Page
                                 <div class="d-flex justify-content-between">
                                     <h4>Widget Ads</h4>
                                     <button class="btn btn-sm btn-secondary" data-toggle="modal" @if(empty($article))
-                                        data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif data-status="ads_2"
-                                        data-title="Ads" onclick="ads(this)"><i class="fas fa-plus"></i></button>
+                                        data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
+                                        data-status="ads_2" data-title="Ads" onclick="ads(this)"><i
+                                            class="fas fa-plus"></i></button>
                                 </div>
                                 <div class="title mt-3">
-                                    <p class="text-center">@if(isset($ads_2)) {{ $ads_2->judul }} @else Judul artikel @endif</p>
+                                    <p class="text-center">@if(isset($ads_2)) {{ $ads_2->judul }} @else Judul artikel
+                                        @endif</p>
                                 </div>
                                 <div class="wrap-image">
                                     @if (!empty($ads_2))
-                                    <img src="{{ Storage::url($ads_2->gambar) }}" class="img-fluid image " alt="post-title" />
+                                    <img src="{{ Storage::url($ads_2->gambar) }}" class="img-fluid image "
+                                        alt="post-title" />
                                     @else
-                                    <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid image " alt="post-title" />
+                                    <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid image "
+                                        alt="post-title" />
                                     @endif
                                 </div>
                             </div>
@@ -213,9 +220,8 @@ Page
                 </div>
             </div>
             <div class="tab-pane fade" id="pills-editors-pick" role="tabpanel" aria-labelledby="pills-editors-pick-tab">
-                <div class="card">
+                <div class="card p-2">
                     <div class="card-body">
-
                         <div class="d-flex justify-content-between">
                             <h4>Editor's Pick</h4>
                             <button class="btn btn-sm btn-secondary" onclick="editorsPick(this)"><i class="fas fa-plus"
@@ -227,18 +233,18 @@ Page
                                 @endif</p>
                         </div>
                         <div class="row justify-content-center">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="wrap-editors-pick-images mt-2" data-toggle="modal" @if(empty($article))
                                     data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
                                     data-status="editors_pick_1" data-title="Editors Pick"
                                     onclick="editorsPickValue(this)">
                                     @if (!empty($editors_pick_1))
                                     <img src="{{ Storage::url($editors_pick_1->gambar) }}" class="img-fluid image"
-                                        style="width: 510px; width:100%; object-fit: cover;" alt="post-title" />
+                                        style="width: 510px;" alt="post-title" />
                                     @else
                                     <img src="{{ asset('assets/back/not-found.png') }}"
                                         class="img-fluid editors-pick-default-image" alt="post-title"
-                                        style="width: 100%; object-fit: contain;" />
+                                        style="" />
                                     @endif
                                 </div>
                             </div>
@@ -334,41 +340,45 @@ Page
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <h4>Trending</h4>
-                                    <button class="btn btn-sm btn-secondary" onclick="trending(this)"><i class="fas fa-plus"
-                                            id="iconChangeOnTrending"></i></button>
+                                    <button class="btn btn-sm btn-secondary" onclick="trending(this)"><i
+                                            class="fas fa-plus" id="iconChangeOnTrending"></i></button>
                                 </div>
                                 <div class="row justify-content-center mt-4">
                                     <div class="col-sm-6">
                                         <div class="title mt-3">
-                                            <p class="text-center">@if(isset($trending_1)) {{ $trending_1->judul }} @else Judul artikel
+                                            <p class="text-center">@if(isset($trending_1)) {{ $trending_1->judul }}
+                                                @else Judul artikel
                                                 @endif</p>
                                         </div>
                                         <div class="wrap-trending-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                            data-status="trending_1" data-title="Trending" onclick="trendingValue(this)">
+                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
+                                            @endif data-status="trending_1" data-title="Trending"
+                                            onclick="trendingValue(this)">
                                             @if (!empty($trending_1))
                                             <img src="{{ Storage::url($trending_1->gambar) }}" class="img-fluid image"
                                                 style="width: 510px; width:100%; object-fit: cover;" alt="post-title" />
                                             @else
-                                            <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid trending-default-image"
-                                                alt="post-title" />
+                                            <img src="{{ asset('assets/back/not-found.png') }}"
+                                                class="img-fluid trending-default-image" alt="post-title" />
                                             @endif
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="title mt-3">
-                                            <p class="text-center">@if(isset($trending_2)) {{ $trending_2->judul }} @else Judul artikel
+                                            <p class="text-center">@if(isset($trending_2)) {{ $trending_2->judul }}
+                                                @else Judul artikel
                                                 @endif</p>
                                         </div>
                                         <div class="wrap-trending-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                            data-status="trending_2" data-title="Trending" onclick="trendingValue(this)">
+                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
+                                            @endif data-status="trending_2" data-title="Trending"
+                                            onclick="trendingValue(this)">
                                             @if (!empty($trending_2))
                                             <img src="{{ Storage::url($trending_2->gambar) }}" class="img-fluid image"
                                                 style="width: 510px; width:100%; object-fit: cover;" alt="post-title" />
                                             @else
-                                            <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid trending-default-image"
-                                                alt="post-title" />
+                                            <img src="{{ asset('assets/back/not-found.png') }}"
+                                                class="img-fluid trending-default-image" alt="post-title" />
                                             @endif
                                         </div>
                                     </div>
@@ -376,35 +386,39 @@ Page
                                 <div class="row justify-content-between mt-4">
                                     <div class="col-sm-6 mt-2">
                                         <div class="title mt-3">
-                                            <p class="text-center">@if(isset($trending_3)) {{ $trending_3->judul }} @else Judul artikel
+                                            <p class="text-center">@if(isset($trending_3)) {{ $trending_3->judul }}
+                                                @else Judul artikel
                                                 @endif</p>
                                         </div>
                                         <div class="wrap-trending-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                            data-status="trending_3" data-title="Trending" onclick="trendingValue(this)">
+                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
+                                            @endif data-status="trending_3" data-title="Trending"
+                                            onclick="trendingValue(this)">
                                             @if (!empty($trending_3))
                                             <img src="{{ Storage::url($trending_3->gambar) }}" class="img-fluid image"
                                                 style="width: 510px;" alt="post-title" />
                                             @else
-                                            <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid trending-default-image"
-                                                alt="post-title" />
+                                            <img src="{{ asset('assets/back/not-found.png') }}"
+                                                class="img-fluid trending-default-image" alt="post-title" />
                                             @endif
                                         </div>
                                     </div>
                                     <div class="col-sm-6 mt-2">
                                         <div class="title mt-3">
-                                            <p class="text-center">@if(isset($trending_4)) {{ $trending_4->judul }} @else Judul Artikle
+                                            <p class="text-center">@if(isset($trending_4)) {{ $trending_4->judul }}
+                                                @else Judul Artikle
                                                 @endif</p>
                                         </div>
                                         <div class="wrap-trending-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                            data-status="trending_4" data-title="Trending" onclick="trendingValue(this)">
+                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
+                                            @endif data-status="trending_4" data-title="Trending"
+                                            onclick="trendingValue(this)">
                                             @if (!empty($trending_4))
                                             <img src="{{ Storage::url($trending_4->gambar) }}" class="img-fluid image"
                                                 style="width: 510px;" alt="post-title" />
                                             @else
-                                            <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid trending-default-image"
-                                                alt="post-title" />
+                                            <img src="{{ asset('assets/back/not-found.png') }}"
+                                                class="img-fluid trending-default-image" alt="post-title" />
                                             @endif
                                         </div>
                                     </div>
@@ -412,35 +426,39 @@ Page
                                 <div class="row justify-content-between mt-4">
                                     <div class="col-sm-6 mt-2">
                                         <div class="title mt-3">
-                                            <p class="text-center">@if(isset($trending_5)) {{ $trending_5->judul }} @else Judul artikel
+                                            <p class="text-center">@if(isset($trending_5)) {{ $trending_5->judul }}
+                                                @else Judul artikel
                                                 @endif</p>
                                         </div>
                                         <div class="wrap-trending-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                            data-status="trending_5" data-title="Trending" onclick="trendingValue(this)">
+                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
+                                            @endif data-status="trending_5" data-title="Trending"
+                                            onclick="trendingValue(this)">
                                             @if (!empty($trending_5))
                                             <img src="{{ Storage::url($trending_5->gambar) }}" class="img-fluid image"
                                                 style="width: 510px;" alt="post-title" />
                                             @else
-                                            <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid trending-default-image"
-                                                alt="post-title" />
+                                            <img src="{{ asset('assets/back/not-found.png') }}"
+                                                class="img-fluid trending-default-image" alt="post-title" />
                                             @endif
                                         </div>
                                     </div>
                                     <div class="col-sm-6 mt-2">
                                         <div class="title mt-3">
-                                            <p class="text-center">@if(isset($trending_6)) {{ $trending_6->judul }} @else Judul artikel
+                                            <p class="text-center">@if(isset($trending_6)) {{ $trending_6->judul }}
+                                                @else Judul artikel
                                                 @endif</p>
                                         </div>
                                         <div class="wrap-trending-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                            data-status="trending_6" data-title="Trending" onclick="trendingValue(this)">
+                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
+                                            @endif data-status="trending_6" data-title="Trending"
+                                            onclick="trendingValue(this)">
                                             @if (!empty($trending_6))
                                             <img src="{{ Storage::url($trending_6->gambar) }}" class="img-fluid image"
                                                 style="width: 510px;" alt="post-title" />
                                             @else
-                                            <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid trending-default-image"
-                                                alt="post-title" />
+                                            <img src="{{ asset('assets/back/not-found.png') }}"
+                                                class="img-fluid trending-default-image" alt="post-title" />
                                             @endif
                                         </div>
                                     </div>
@@ -448,62 +466,7 @@ Page
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 mt-2">
-                        <div class="title mt-3">
-                            <p class="text-center">{{ $trending_4->judul }}</p>
-                        </div>
-                        <div class="wrap-trending-images mt-4"  data-toggle="modal" data-target="#selectedArticleModal" data-status="trending_4" data-title="Trending" onclick="trendingValue(this)">
-                            @if (!empty($trending_4))
-                            <img src="{{ Storage::url($trending_4->gambar) }}" class="img-fluid image" style="width: 510px;" alt="post-title" />
-                            @else
-                            <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid trending-default-image"
-                                alt="post-title" />
-                            @endif
-                        </div>
-                    </div>
                 </div>
-                <div class="row justify-content-between mt-4">
-                    <div class="col-sm-6 mt-2">
-                        <div class="title mt-3">
-                            <p class="text-center">{{ $trending_5->judul }}</p>
-                        </div>
-                        <div class="wrap-trending-images mt-4" data-toggle="modal" data-target="#selectedArticleModal" data-status="trending_5" data-title="Trending" onclick="trendingValue(this)">
-                            @if (!empty($trending_5))
-                            <img src="{{ Storage::url($trending_5->gambar) }}" class="img-fluid image" style="width: 510px;" alt="post-title" />
-                            @else
-                            <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid trending-default-image"
-                                alt="post-title" />
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mt-2">
-                        <div class="title mt-3">
-                            <p class="text-center">{{ $trending_6->judul }}</p>
-                        </div>
-                        <div class="wrap-trending-images mt-4" data-toggle="modal" data-target="#selectedArticleModal" data-status="trending_6" data-title="Trending" onclick="trendingValue(this)">
-                            @if (!empty($trending_6))
-                            <img src="{{ Storage::url($trending_6->gambar) }}" class="img-fluid image" style="width: 510px;" alt="post-title" />
-                            @else
-                            <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid trending-default-image"
-                                alt="post-title" />
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-12">
-        <div class="card p-2">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <h4>Event</h4>
-                    <button class="btn btn-sm btn-secondary" onclick="eventButton(this)"><i class="fas fa-plus" id="iconChangeOnEvent"></i></button>
-                </div>
-                
             </div>
             <div class="tab-pane fade" id="pills-event" role="tabpanel" aria-labelledby="pills-event-tab">
                 <div class="row">
@@ -518,7 +481,8 @@ Page
                                 <div class="row justify-content-center mt-4">
                                     <div class="col-sm-6">
                                         <div class="title mt-3">
-                                            <p class="text-center">@if(isset($event_1)) {{ $event_1->judul }} @else Judul artikel @endif
+                                            <p class="text-center">@if(isset($event_1)) {{ $event_1->judul }} @else Judul artikel
+                                                @endif
                                             </p>
                                         </div>
                                         <div class="wrap-event-images mt-4" data-toggle="modal" @if(empty($article))
@@ -528,14 +492,15 @@ Page
                                             <img src="{{ Storage::url($event_1->gambar) }}" class="img-fluid image"
                                                 style="width: 510px; width:100%; object-fit: cover;" alt="post-title" />
                                             @else
-                                            <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid event-default-image"
-                                                alt="post-title" />
+                                            <img src="{{ asset('assets/back/not-found.png') }}"
+                                                class="img-fluid event-default-image" alt="post-title" />
                                             @endif
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="title mt-3">
-                                            <p class="text-center">@if(isset($event_2)) {{ $event_2->judul }} @else Judul artikel @endif
+                                            <p class="text-center">@if(isset($event_2)) {{ $event_2->judul }} @else Judul artikel
+                                                @endif
                                             </p>
                                         </div>
                                         <div class="wrap-event-images mt-4" data-toggle="modal" @if(empty($article))
@@ -545,8 +510,8 @@ Page
                                             <img src="{{ Storage::url($event_2->gambar) }}" class="img-fluid image"
                                                 style="width: 510px; width:100%; object-fit: cover;" alt="post-title" />
                                             @else
-                                            <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid event-default-image"
-                                                alt="post-title" />
+                                            <img src="{{ asset('assets/back/not-found.png') }}"
+                                                class="img-fluid event-default-image" alt="post-title" />
                                             @endif
                                         </div>
                                     </div>
@@ -567,7 +532,8 @@ Page
                         <div class="row mt-4">
                             <div class="col-sm-6">
                                 <div class="title mt-3">
-                                    <p class="text-center">@if(isset($selected_category_post_1)) {{ $selected_category_post_1->judul }}
+                                    <p class="text-center">@if(isset($selected_category_post_1))
+                                        {{ $selected_category_post_1->judul }}
                                         @else Judul artikel @endif</p>
                                 </div>
                                 <div class="wrap-category-images mt-4" data-toggle="modal" @if(empty($article))
@@ -578,14 +544,15 @@ Page
                                     <img src="{{ Storage::url($selected_category_post_1->gambar) }}" class="img-fluid image"
                                         style="width: 510px;" alt="post-title" />
                                     @else
-                                    <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid image" style="width: 510px;"
-                                        alt="post-title" />
+                                    <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid image"
+                                        style="width: 510px;" alt="post-title" />
                                     @endif
                                 </div>
                             </div>
                             <div div class="col-sm-6">
                                 <div class="title mt-3">
-                                    <p class="text-center">@if(isset($selected_category_post_2)) {{ $selected_category_post_2->judul }}
+                                    <p class="text-center">@if(isset($selected_category_post_2))
+                                        {{ $selected_category_post_2->judul }}
                                         @else Judul artikel @endif</p>
                                 </div>
                                 <div class="wrap-category-images mt-4" data-toggle="modal" @if(empty($article))
@@ -596,17 +563,21 @@ Page
                                     <img src="{{ Storage::url($selected_category_post_2->gambar) }}" class="img-fluid image"
                                         style="width: 510px;" alt="post-title" />
                                     @else
-                                    <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid image" style="width: 510px;"
-                                        alt="post-title" />
+                                    <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid image"
+                                        style="width: 510px;" alt="post-title" />
                                     @endif
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>            
+        </div>
     </div>
 </div>
+
+
+
 
 
 
