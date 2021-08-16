@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('comments', CommentController::class);
     Route::post('comments/reply', [CommentController::class, 'commentReplies'])->name('comments.reply');
     Route::post('comments/restore/{reply}', [CommentController::class, 'commentRestore'])->name('comments.restore');
+    Route::post('comments/delete-permanently/{reply}', [CommentController::class, 'destroy_permanently'])->name('comments.destroy_permanently');
     Route::post('get-data', [CommentController::class, 'getData'])->name('getData');
     Route::post('replies/status/{reply}', [CommentController::class, 'replies'])->name('replies.update');
     Route::post('replies/destroy/{reply}', [CommentController::class, 'destroy_reply'])->name('replies.destroy');

@@ -151,6 +151,18 @@ class CommentController extends Controller
         return redirect()->back();
     }
 
+    public function destroy_permanently($id)
+    {
+        Reply::where('comment', $id)->delete();
+        
+        $commentDelete = Comment::onlyTrashed()->where('id', $id);
+        $commentDelete->forceDelete()
+        ? Alert::success('Berhasil', 'Komentar telah berhasil di hapus')
+        : Alert::error('Error', 'Komentar gagal di hapus');
+
+        return redirect()->back();
+    }
+
     public function destroy_reply($id)
     {
         $reply = Reply::find($id);

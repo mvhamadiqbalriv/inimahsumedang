@@ -87,7 +87,7 @@ Comment
             <li class="nav-item" role="presentation">
                 @php
                 $jumlahApprove = \App\Models\Comment::whereHas('replies', function($query) {
-                    $query->where('status', '=', 'approved');
+                $query->where('status', '=', 'approved');
                 })->orWhere('status', '=', 'approved')->count();
                 @endphp
                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#approved" role="tab"
@@ -787,18 +787,13 @@ Comment
                             <div class="d-block">
                                 <p class="text-dark ml-4">{{ $comments->nama }} @if($comments->status)<span
                                         class="badge badge-pill badge-secondary ml-1">{{ ucfirst(trans($comments->status)) }}</span>@endif
-
-
                                 </p>
                                 <p class="text-dark ml-4">{{ $comments->email }}</p>
                                 @if($comments->web)
                                 <p class="text-dark ml-4">{{ $comments->web }}</p>
                                 @endif
                             </div>
-
                         </div>
-
-
                     </div>
                     <div class="col-sm-6">
                         <p class="text-dark ml-2">{{ $comments->comment }}
@@ -829,7 +824,10 @@ Comment
                             id="cardAction3{{ $comments->id }}">
                             <button type="button" class="btn-action" style="color: #023b68;" data-toggle="modal"
                                 data-target="#restoreCommentModal"
-                                onclick="restoreCommentModal({{$comments->id}})">Pulihkan</button>
+                                onclick="restoreComment({{$comments->id}})">Pulihkan</button>
+                            <button type="button" class="btn-action" style="color: #023b68;" data-toggle="modal"
+                                data-target="#deleteCommentPermanentlyModal"
+                                onclick="deleteCommentPermanently({{$comments->id}})">Hapus Permanen</button>
                         </div>
                     </div>
                     <div class="col-sm-6 ">
@@ -1075,6 +1073,33 @@ Comment
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="deleteCommentPermanentlyModal" tabindex="-1" role="dialog" aria-labelledby="deleteCommentPermanentlyModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteCommentPermanentlyModalTitle">Konfirmasi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <form action="{{ route('comments.destroy_permanently', '')}}" method="post" id="deletePermanentlyCommentForm">
+                @csrf
+                <div class="modal-body">
+                    Apakah anda yakin akan <b>menghapus</b> secara <b>permanen</b> komentar ini berserta balasan nya ?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-dark">Ya</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">
+                        Kembali
+                    </button>
+                </div>
+            </form>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 @section('js')
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
@@ -1142,9 +1167,17 @@ Comment
     }
 
 </script>
-{{-- HapusCommentModal --}}
+{{-- DeleteCommentPermanentlyModal --}}
 <script>
-    function restoreCommentModal(restore)
+    function deleteCommentPermanently(element)
+    {
+        const deletePermanentlyId = $("#deletePermanentlyCommentForm").attr('action');
+        $("#deletePermanentlyCommentForm").attr('action', `${deletePermanentlyId}/${element}`);
+    }
+</script>
+{{-- RestoreCommentModal --}}
+<script>
+    function restoreComment(restore)
     {
         const restoreId = $("#restoreCommentForm").attr('action');
         $("#restoreCommentForm").attr('action', `${restoreId}/${restore}`);

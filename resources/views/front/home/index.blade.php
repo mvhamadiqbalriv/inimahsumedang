@@ -103,7 +103,7 @@ Beranda
 
 							<div class="post post-list-sm circle">
 								<div class="thumb circle">
-									<a href="blog-single.html">
+									<a href="{{ route('artikel.show', $popular_article->slug) }}">
 										<div class="inner">
 											<img src="{{ Storage::url($popular_article->gambar) }}" alt="post-title"
 												style="width:60px; height:58px; object-fit:cover;" />
@@ -112,7 +112,7 @@ Beranda
 								</div>
 								<div class="details clearfix">
 									<h6 class="post-title my-0"><a
-											href="blog-single.html">{{ $popular_article->judul }}</a></h6>
+											href="{{ route('artikel.show', $popular_article->slug) }}">{{ $popular_article->judul }}</a></h6>
 									<ul class="meta list-inline mt-1 mb-0">
 										<li class="list-inline-item">{{ $popular_article->created_at->format('d M Y') }}
 										</li>
@@ -597,15 +597,14 @@ Beranda
 									@endif</li>
 							</ul>
 						</div>
-						<a
-							href="@if(isset($selected_category_post_1)) {{ route('artikel.show', $selected_category_post_1->slug) }} @endif">
+						<a href="@if(isset($selected_category_post_1)) {{ route('artikel.show', $selected_category_post_1->slug) }} @endif">
 							<div class="thumb rounded">
 								<div class="inner">
-									@if(!empty($selected_category_posts_1))
-									<img src="{{ Storage::url($selected_category_post_1->gambar) }}"
-										style="width: 580px; height: 484px; object-fit: cover;" alt="thumb" />
+									@if (!empty($selected_category_post_1))
+										<img src="{{ Storage::url($selected_category_post_1->gambar) }}"
+										style="width: 580px; height: 356px; object-fit: cover;" alt="post-title" />
 									@else
-									<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+										<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
 									@endif
 								</div>
 							</div>
@@ -644,11 +643,11 @@ Beranda
 							href="@if(isset($selected_category_post_2)) {{ route('artikel.show', $selected_category_post_2->slug) }} @endif">
 							<div class="thumb rounded">
 								<div class="inner">
-									@if(!empty($selected_category_posts_2))
-									<img src="{{ Storage::url($selected_category_posts_2->gambar) }}"
-										style="width: 580px; height: 484px; object-fit: cover;" alt="thumb" />
+									@if (!empty($selected_category_post_2))
+										<img src="{{ Storage::url($selected_category_post_2->gambar) }}"
+										style="width: 580px; height: 356px; object-fit: cover;" alt="post-title" />
 									@else
-									<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+										<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
 									@endif
 								</div>
 							</div>

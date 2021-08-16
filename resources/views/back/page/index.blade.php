@@ -159,12 +159,12 @@ Page
                             <p class="text-center">@if(isset($feature_post)) {{ $feature_post->judul }} @else Judul
                                 artikel @endif</p>
                         </div>
-                        <div class="wrap-image mb-1 d-flex justify-content-center">
+                        <div class="d-flex justify-content-center mt-3">
                             @if (!empty($feature_post))
-                            <img src="{{ Storage::url($feature_post->gambar) }}" style="" class="img-fluid image "
+                            <img src="{{ Storage::url($feature_post->gambar) }}" style="" class="wrap-image img-fluid image "
                                 alt="post-title" />
                             @else
-                            <img src="{{ asset('assets/back/not-found.png') }}" style="" class="img-fluid image "
+                            <img src="{{ asset('assets/back/not-found.png') }}" style="" class="wrap-image img-fluid image "
                                 alt="post-title" />
                             @endif
                         </div>

@@ -20,7 +20,8 @@ class HomeController extends Controller
         $data['recent_article'] = Article::orderBy('updated_at', 'desc')->take(4)->get();
         $data['web'] = Web::find(1);
         $data['feature_post'] = Article::where('selected_article', '=', 'feature_post')->first();
-        $data['ads'] = Article::where('selected_article', '=', 'ads')->first();
+        $data['horizontal_ads'] = Article::where('selected_article', '=', 'horizontal_ads')->first();
+        $data['widget_ads'] = Article::where('selected_article', '=', 'widget_ads')->first();
         $data['selected_category_post_1'] = Article::where('selected_article', '=', 'selected_category_post_1')->first();
         $data['selected_category_post_2'] = Article::where('selected_article', '=', 'selected_category_post_2')->first();
         $data['editors_pick_1'] = Article::where('selected_article', '=', 'editors_pick_1')->first();
