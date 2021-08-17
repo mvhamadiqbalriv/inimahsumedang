@@ -10,11 +10,11 @@ class Category_article extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama', 'slug'
+        'nama', 'slug', 'category_icon'
     ];
 
-    public function Article()
+    public function articles()
     {
-        return $this->hasMany(Article::class);
+        return $this->hasMany(Article::class, 'category');
     }
 }

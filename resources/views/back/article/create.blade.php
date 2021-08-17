@@ -80,11 +80,28 @@ Tambah Artikel
                             <div class="col-4">
                                 <input type="file" class="form-control dropify mt-5" name="gambar" id="gambar"
                                     data-allowed-file-extensions="png jpg jpeg">
+                                    @error('gambar')
+                                    <style>
+                                       .dropify-wrapper {
+                                            border: 1px solid #dc3545 !important;
+                                            border-radius: .3rem !important;
+                                            height: 100% !important;
+                                        }
+
+                                        .categoryStyle .select2-selection {
+                                                margin-top: 20px !important;
+                                            }
+                                    </style>
+                                    <div class="mt-1">
+                                        <span class="text-danger">{{ $message }}</span>
+                                    </div>
+                                 
+                                    @enderror
                             </div>
                         </div>
 
                     </div>
-                    <div class="form-group @error('category') has-error @enderror">
+                    <div class="form-group categoryStyle @error('category') has-error @enderror">
                         <select class="category form-control" name="category" id="category"></select>
                         @error('category')
                         <style>
