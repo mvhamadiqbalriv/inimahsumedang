@@ -10,6 +10,6 @@ class Ad extends Model
     use HasFactory;
 
     protected $fillable = [
-        'gambar', 'status'
+        'gambar', 'tautan', 'status'
     ];
 }

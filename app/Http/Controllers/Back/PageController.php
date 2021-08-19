@@ -16,7 +16,7 @@ class PageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {   
         $data['article'] = Article::all();
         $data['feature_post'] = Article::where('selected_article', '=', 'feature_post')->first();
@@ -37,6 +37,22 @@ class PageController extends Controller
         $data['trending_6'] = Article::where('selected_article', '=', 'trending_6')->first();
         $data['event_1'] = Article::where('selected_article', '=', 'event_1')->first();
         $data['event_2'] = Article::where('selected_article', '=', 'event_2')->first();
+
+        $data['artikelAjax'] = Article::join("visitors", "visitors.article", "=", "articles.id")
+            ->where("visitors.created_at", ">=", date("Y-m-d H:i:s", strtotime('-24 hours', time())))
+            ->where("selected_article", "=", "")
+            ->groupBy("articles.id")
+            ->orderBy(DB::raw('COUNT(articles.id)'), 'desc')
+            ->select('articles.*', DB::raw('COUNT(articles.id) as total_views'))
+            ->limit(6)
+            ->paginate(3);
+          
+
+
+        if ($request->ajax()) {
+            return view('load_books_data', $data);
+        }
+         
         return view('back.page.index', $data);
     }
 
@@ -45,6 +61,14 @@ class PageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function fetchAjax(Request $request)
+    {
+        $data['dataPagination'] = Article::paginate(5);
+        if ($request->ajax()) {
+            return view('presult', $data);
+        }   
+    }
 
     public function searchlive(Request $request)
     {
@@ -102,11 +126,13 @@ class PageController extends Controller
 
         $request->validate([
             'gambar' => 'required',
+            'tautan' => 'required',
             'status' => 'required'
         ]);
 
         $data = [
             'gambar' => $request->file('gambar')->store('/public/input/ads'),
+            'tautan' => $request->tautan,
             'status' => $request->status
         ];
 

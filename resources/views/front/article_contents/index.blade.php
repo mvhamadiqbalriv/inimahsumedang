@@ -57,7 +57,7 @@
                     <div class="post-header">
                         <h1 class="title mt-0 mb-3">{{ $article->judul }}</h1>
                         <ul class="meta list-inline mb-0">
-                            <li class="list-inline-item"><a href="{{ route('users.show', $article->creator) }}">
+                            <li class="list-inline-item"><a href="{{ route('artikel.author', $article->creators->username) }}">
                                     @php
                                     $path = asset('assets/back/images/avatars/default_user.png');
                                     if ($article->creators->photo) {
@@ -328,7 +328,9 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="g-recaptcha" data-sitekey="6LczZQEcAAAAANZR7kGNilET6t1n9qm5rQdAkzmk" data-callback="verifyCaptchaComment"></div>
+                                    {!! NoCaptcha::renderJs() !!}
+
+                                    <div class="g-recaptcha" data-sitekey="6LfiZg4cAAAAALiMwFgNM-QdZkM5cQopvGKVCH-f" data-callback="verifyCaptchaComment"></div>
                                     <div id="g-recaptcha-error-comment"></div>
                                 </div>
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Ad;
 use App\Models\Web;
 use DB;
 
@@ -20,8 +21,8 @@ class HomeController extends Controller
         $data['recent_article'] = Article::orderBy('updated_at', 'desc')->take(4)->get();
         $data['web'] = Web::find(1);
         $data['feature_post'] = Article::where('selected_article', '=', 'feature_post')->first();
-        $data['horizontal_ads'] = Article::where('selected_article', '=', 'horizontal_ads')->first();
-        $data['widget_ads'] = Article::where('selected_article', '=', 'widget_ads')->first();
+        $data['horizontal_ads'] = Ad::where('status', '=', 'horizontal_ads')->first();
+        $data['widget_ads'] = Ad::where('status', '=', 'widget_ads')->first();
         $data['selected_category_post_1'] = Article::where('selected_article', '=', 'selected_category_post_1')->first();
         $data['selected_category_post_2'] = Article::where('selected_article', '=', 'selected_category_post_2')->first();
         $data['editors_pick_1'] = Article::where('selected_article', '=', 'editors_pick_1')->first();
@@ -38,14 +39,14 @@ class HomeController extends Controller
         $data['event_1'] = Article::where('selected_article', '=', 'event_1')->first();
         $data['event_2'] = Article::where('selected_article', '=', 'event_2')->first();
 
-        $data['popular'] = Article::join("visitors", "visitors.article", "=", "articles.id")
-            // ->where("visitors.created_at", ">=", now()->subdays(1))
-            ->groupBy("articles.id")
-            ->orderBy(DB::raw('COUNT(articles.id)'), 'desc')
-            ->limit(4)
-            ->get([DB::raw('COUNT(articles.id) as total_views'), 'articles.*']);
+        // $data['popular'] = Article::join("visitors", "visitors.article", "=", "articles.id")
+        //     // ->where("visitors.created_at", ">=", now()->subdays(1))
+        //     ->groupBy("articles.id")
+        //     ->orderBy(DB::raw('COUNT(articles.id)'), 'desc')
+        //     ->limit(4)
+        //     ->get([DB::raw('COUNT(articles.id) as total_views'), 'articles.*']);
           
-            $data['trending'] = Article::join("visitors", "visitors.article", "=", "articles.id")
+            $data['popular'] = Article::join("visitors", "visitors.article", "=", "articles.id")
             ->where("visitors.created_at", ">=", date("Y-m-d H:i:s", strtotime('-24 hours', time())))
             ->groupBy("articles.id")
             ->orderBy(DB::raw('COUNT(articles.id)'), 'desc')

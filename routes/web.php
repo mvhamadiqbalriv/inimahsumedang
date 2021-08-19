@@ -12,6 +12,7 @@ use App\Http\Controllers\Back\PageController;
 use App\Http\Controllers\Back\CommentController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\FrontArticleController;
+use App\Http\Controllers\Front\AuthorController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,7 @@ Route::get('/artikel/reload-captcha', [FrontArticleController::class, 'reloadCap
 Route::post('artikel/kategori', [FrontArticleController::class, 'kategori'])->name('artikel.kategori');
 Route::post('artikel/pencarian', [FrontArticleController::class, 'pencarian_artikel'])->name('artikel.pencarian');
 Route::post('artikel/autocomplete', [FrontArticleController::class, 'pencarian_autocomplete'])->name('artikel.pencarian_autocomplete');
+Route::get('artikel/author/{user}', [AuthorController::class, 'author'])->name('artikel.author');
 
 // Back
 Route::group(['middleware' => 'auth'], function () {
@@ -74,6 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('page/ads', [PageController::class, 'ads'])->name('page.ads');
     Route::get('article/search-live', [PageController::class, 'searchLive'])->name('artikel.searchLive');
     Route::get('article/search-live-trending', [PageController::class, 'searchliveTrending'])->name('artikel.searchliveTrending');
+    Route::post('pagination/fetch', [PageController::class, 'fetchAjax'])->name('page.fetchAjax');
 
 
     Route::get('/role-has-permissions/{id}', [RoleController::class, 'roleHasPermission']);
