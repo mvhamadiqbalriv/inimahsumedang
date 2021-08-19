@@ -615,7 +615,6 @@ function verifyCaptchaReply(token) {
                 rules: {
                     comment:{
                         required: true,
-                        minlength: 10,
                         maxlength: 1000,
                     },
                     email:{
@@ -664,7 +663,6 @@ function verifyCaptchaReply(token) {
                 rules: {
                     reply:{
                         required: true,
-                        minlength: 10,
                         maxlength: 1000,
                     },
                     email:{
