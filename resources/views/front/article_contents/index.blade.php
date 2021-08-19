@@ -524,7 +524,13 @@
                     <div class="widget no-container rounded text-md-center">
                         <span class="ads-title">- Sponsored Ad -</span>
                         <a href="#" class="widget-ads">
-                            <img src="{{ asset('assets/front/images/ads/ad-360.png') }}" alt="Advertisement" />
+                            @if (!empty($widget_ads))
+							<img src="{{ Storage::url($widget_ads->gambar) }}" style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;" alt="post-title" />
+							@else
+							<img src="{{ asset('assets/back/not-found.png') }}"
+								style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
+								alt="Advertisement" />
+							@endif
                         </a>
                     </div>
 

@@ -768,21 +768,24 @@ Page
                     <i class="material-icons">close</i>
                 </button>
             </div>
-            <form action="{{ route('page.ads') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('page.ads') }}" method="post" enctype="multipart/form-data" id="widgetAdsForm">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="hidden" name="status" value="widget_ads">
                         <input type="file" class="form-control dropify mt-5 gambarIklan" name="gambar"
-                            id="widgetAdsValue"
-                            data-allowed-file-extensions="png jpg jpeg" data-default-file="@if(!empty($widget_ads->gambar) &&
-                    Storage::exists($widget_ads->gambar)){{ Storage::url($widget_ads->gambar) }}@endif">
+                            id="horizontalAdsValue"
+                            data-allowed-file-extensions="png jpg jpeg"
+                            data-default-file="@if(!empty($widget_ads->gambar) &&
+                            Storage::exists($widget_ads->gambar)){{ Storage::url($widget_ads->gambar) }}@endif">
+                        <sapn class="errorGambar"></sapn>
+                        <br>
                         <input type="text" class="form-control" name="tautan" id="tautanValue" placeholder="Tautan"
                             value="@if(!empty($widget_ads->tautan)){{ $widget_ads->tautan }}@endif">
                     </div>
                 </div>
                 <div class="modal-footer">'
-                    <button type="submit" class="btn btn-sm btn-primary" disabled style="pointer-events: none;"
+                    <button type="submit" class="btn btn-sm btn-primary"
                         id="widgetAdsButton">Terapkan</button>
                     <button type="button" class="btn btn-sm btn-secondary" class="close"
                         data-dismiss="modal">Kembali</button>
@@ -804,6 +807,44 @@ Page
                 }
             });
             $("#horizontalAdsForm").validate({
+                rules: {
+                    gambar:{
+                        required: true,
+                    },
+                    tautan:{
+                        required: true,
+                    }
+                },
+                messages: {
+                    gambar: {
+                        required: "Gambar belum di input",
+                    },
+                    tautan: {
+                        required: "Tautan harus di isi",
+                    },
+                },
+                
+                errorPlacement: function(error, element) {
+                    if(element.attr("name") == "gambar") {
+                        error.appendTo( $(".errorGambar"));
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                
+            });
+        });
+
+       
+</script>
+<script>
+    $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $("#widgetAdsForm").validate({
                 rules: {
                     gambar:{
                         required: true,
