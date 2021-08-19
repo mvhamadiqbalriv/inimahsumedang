@@ -74,6 +74,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('replies/destroy/{reply}', [CommentController::class, 'destroy_reply'])->name('replies.destroy');
     Route::resource('pages', PageController::class);
     Route::post('page/ads', [PageController::class, 'ads'])->name('page.ads');
+    Route::post('page/ads/update/{reply}', [PageController::class, 'ads_update'])->name('page.ads_update');
     Route::get('article/search-live', [PageController::class, 'searchLive'])->name('artikel.searchLive');
     Route::get('article/search-live-trending', [PageController::class, 'searchliveTrending'])->name('artikel.searchliveTrending');
     Route::post('pagination/fetch', [PageController::class, 'fetchAjax'])->name('page.fetchAjax');

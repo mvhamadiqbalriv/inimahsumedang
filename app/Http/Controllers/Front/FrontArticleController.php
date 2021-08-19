@@ -124,9 +124,6 @@ class FrontArticleController extends Controller
      */
 
     public function komentar(Request $request) {
-        $request->validate([
-            'g-recaptcha-response' => 'required'
-        ]);
 
         $data = [
             'nama' => $request->nama,
@@ -156,7 +153,7 @@ class FrontArticleController extends Controller
         ];
 
         Reply::create($data)
-        ? Alert::success('Berhasil', 'Komentar anda akan tampil ketika sudah disetujui oleh admin')
+        ? Alert::success('Berhasil', 'Balasan anda akan tampil ketika sudah disetujui oleh admin')
         : Alert::error('Error', 'Komentar gagal di dikirim');
 
         return redirect()->back();

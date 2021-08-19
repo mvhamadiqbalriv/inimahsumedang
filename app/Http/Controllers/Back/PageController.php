@@ -8,6 +8,7 @@ use App\Models\Article;
 use App\Models\Ad;
 use DB;
 use Alert;
+use Storage;
 
 class PageController extends Controller
 {
@@ -114,16 +115,9 @@ class PageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function ads(Request $request)
+    public function ads(Request $request, Ad $ad)
     {
-        if($request->status == 'horizontal_ads'){
-            Ad::where('status', 'horizontal_ads')->delete();
-        }
-
-        if($request->status == 'widget_ads'){
-            Ad::where('status', 'widget_ads')->delete();
-        }
-
+        
         $request->validate([
             'gambar' => 'required',
             'tautan' => 'required',
@@ -136,12 +130,46 @@ class PageController extends Controller
             'status' => $request->status
         ];
 
+       
         Ad::create($data)
         ? Alert::success('Berhasil', 'Iklan telah berhasil diterapkan!')
         : Alert::error('Error', 'Ikbal gagal diterapkan');
 
         return redirect()->back();
     }
+
+    
+        public function ads_update(Request $request, $id)
+        {
+            $request->validate([
+                'tautan' => 'required',
+                'status' => 'required'
+            ]);
+
+            $ads = Ad::findOrFail($id);
+            if ($request->hasFile('gambar')) {
+                if (Storage::exists($ads->gambar) && !empty($ads->gambar)) { 
+                    Storage::delete($ads->gambar);
+                }
+                $gambar = $request->file('gambar')->store("/public/input/articles");
+            }
+    
+            $data = [
+                'gambar' => $request->hasFile('gambar') ? $gambar : $ads->gambar,
+                'tautan' => $request->tautan ? $request->tautan : $ads->tautan,
+                'status' => $request->status
+    
+            ];
+            
+           
+            $ads->update($data)
+            ? Alert::success('Suskes', 'Iklan telah berhasil diterapkan!')
+            : Alert::error('Error', 'Iklan gagal diterapkan!');
+    
+            return redirect()->back();
+        }
+    
+ 
     public function store(Request $request)
     {
         
