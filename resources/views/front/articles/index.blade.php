@@ -131,7 +131,8 @@ Beranda
                             data-bg-image="{{ asset('assets/front/images/map-bg.png') }}">
                             <img src="{{ asset('assets/front/logo_inimahsumedang_500x.png') }}" style="width: 100px;"
                                 alt="logo" class="mb-4" />
-                            <p class="mb-4">@if(isset($web)) {{ $web->description }} @else Deskripsi web belum tersedia @endif</p>
+                            <p class="mb-4">@if(isset($web)) {{ $web->description }} @else Deskripsi web belum tersedia
+                                @endif</p>
                             <ul class="social-icons list-unstyled list-inline mb-0">
                                 <li class="list-inline-item"><a href="https://www.facebook.com/inimahsumedangcom/"><i
                                             class="fab fa-facebook-f"></i></a></li>
@@ -209,64 +210,75 @@ Beranda
                                     <div class="thumb rounded">
                                         @if(isset($event_1))
                                         <form action="{{ route('artikel.kategori') }}" method="post"
-											style="display: inline;">
-											@csrf
-											<input type="hidden" name="kategori" value="{{ $event_1->category }}">
-											<button type="submit" class="category-badge position-absolute"
-												style="border: none;">{{ ucfirst(trans($event_1->categories->nama))  }}</button>
-										</form>
-                                        @else 
+                                            style="display: inline;">
+                                            @csrf
+                                            <input type="hidden" name="kategori" value="{{ $event_1->category }}">
+                                            <button type="submit" class="category-badge position-absolute"
+                                                style="border: none;">{{ ucfirst(trans($event_1->categories->nama))  }}</button>
+                                        </form>
+                                        @else
                                         <button type="submit" class="category-badge position-absolute"
-                                        style="border: none;">Belum ada kategori</button>
+                                            style="border: none;">Belum ada kategori</button>
                                         @endif
-                                        <a href="@if(isset($event_1)) {{ route('artikel.show', $event_1->slug)}} @endif">
+                                        <a
+                                            href="@if(isset($event_1)) {{ route('artikel.show', $event_1->slug)}} @endif">
                                             <div class="inner">
                                                 @if (!empty($event_1))
-												<img src="{{ Storage::url($event_1->gambar) }}" alt="post-title" />
-												@else
-												<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
-												@endif
+                                                <img src="{{ Storage::url($event_1->gambar) }}" alt="post-title" />
+                                                @else
+                                                <img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+                                                @endif
                                             </div>
                                         </a>
                                     </div>
-                                    <h5 class="post-title mb-0 mt-4"><a href="@if(isset($event_1)) {{ route('artikel.show', $event_1->slug)}} @endif">@if(isset($event_1)) {{ $event_1->judul }} @else Judul artikel @endif</a></h5>
+                                    <h5 class="post-title mb-0 mt-4"><a
+                                            href="@if(isset($event_1)) {{ route('artikel.show', $event_1->slug)}} @endif">@if(isset($event_1))
+                                            {{ $event_1->judul }} @else Judul artikel @endif</a></h5>
                                     <ul class="meta list-inline mt-2 mb-0">
-                                        <li class="list-inline-item"><a
-                                            href="#">@if(isset($event_1)) {{ ucfirst(trans($event_1->creators->name)) }} @else Nama penulis @endif</a></li>
-                                        <li class="list-inline-item">@if(isset($event_1)) {{ $event_1->updated_at->format('d M Y') }} @else Tanggal terbit @endif</li>
+                                        <li class="list-inline-item"><a href="#">@if(isset($event_1))
+                                                {{ ucfirst(trans($event_1->creators->name)) }} @else Nama penulis
+                                                @endif</a></li>
+                                        <li class="list-inline-item">@if(isset($event_1))
+                                            {{ $event_1->updated_at->format('d M Y') }} @else Tanggal terbit @endif</li>
                                     </ul>
                                 </div>
-                                
+
                                 <!-- post -->
                                 <div class="post post-carousel">
                                     <div class="thumb rounded">
                                         @if(isset($event_1))
                                         <form action="{{ route('artikel.kategori') }}" method="post"
-											style="display: inline;">
-											@csrf
-											<input type="hidden" name="kategori" value="{{ $event_2->category }}">
-											<button type="submit" class="category-badge position-absolute"
-												style="border: none;">{{ ucfirst(trans($event_2->categories->nama))  }}</button>
-										</form>
-                                        @else 
+                                            style="display: inline;">
+                                            @csrf
+                                            <input type="hidden" name="kategori" value="{{ $event_2->category }}">
+                                            <button type="submit" class="category-badge position-absolute"
+                                                style="border: none;">{{ ucfirst(trans($event_2->categories->nama))  }}</button>
+                                        </form>
+                                        @else
                                         <button type="submit" class="category-badge position-absolute"
-                                        style="border: none;">Belum ada kategori</button>
+                                            style="border: none;">Belum ada kategori</button>
                                         @endif
-                                        <a href="@if(isset($event_2)) {{ route('artikel.show', $event_2->slug)}} @endif">
+                                        <a
+                                            href="@if(isset($event_2)) {{ route('artikel.show', $event_2->slug)}} @endif">
                                             <div class="inner">
                                                 @if (!empty($event_2))
-												<img src="{{ Storage::url($event_2->gambar) }}" alt="post-title" />
-												@else
-												<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
-												@endif
+                                                <img src="{{ Storage::url($event_2->gambar) }}" alt="post-title" />
+                                                @else
+                                                <img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+                                                @endif
                                             </div>
                                         </a>
                                     </div>
-                                    <h5 class="post-title mb-0 mt-4"><a href="@if(isset($event_2)) {{ route('artikel.show', $event_2->slug)}} @endif">@if(isset($event_2)) {{ $event_2->judul }} @else Judul artikel @endif</a></h5>
+                                    <h5 class="post-title mb-0 mt-4"><a
+                                            href="@if(isset($event_2)) {{ route('artikel.show', $event_2->slug)}} @endif">@if(isset($event_2))
+                                            {{ $event_2->judul }} @else Judul artikel @endif</a></h5>
                                     <ul class="meta list-inline mt-2 mb-0">
                                         <li class="list-inline-item"><a
-                                            href="#">@if(isset($event_2)){{ ucfirst(trans($event_2->creators->name)) }} @else Nama penulis @endif</a></li>
-                                    <li class="list-inline-item">@if(isset($event_2)) {{ $event_2->updated_at->format('d M Y') }} @else Tanggal terbit @endif</li></ul>
+                                                href="#">@if(isset($event_2)){{ ucfirst(trans($event_2->creators->name)) }}
+                                                @else Nama penulis @endif</a></li>
+                                        <li class="list-inline-item">@if(isset($event_2))
+                                            {{ $event_2->updated_at->format('d M Y') }} @else Tanggal terbit @endif</li>
+                                    </ul>
                                 </div>
                             </div>
                             <!-- carousel arrows -->
@@ -283,7 +295,13 @@ Beranda
                     <div class="widget no-container rounded text-md-center">
                         <span class="ads-title">- Sponsored Ad -</span>
                         <a href="#" class="widget-ads">
-                            <img src="{{ asset('assets/front/images/ads/ad-360.png') }}" alt="Advertisement" />
+                            @if (!empty($widget_ads))
+							<img src="{{ Storage::url($widget_ads->gambar) }}" style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;" alt="post-title" />
+							@else
+							<img src="{{ asset('assets/back/not-found.png') }}"
+								style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
+								alt="Advertisement" />
+							@endif
                         </a>
                     </div>
 

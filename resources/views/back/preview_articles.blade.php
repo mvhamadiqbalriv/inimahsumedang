@@ -302,7 +302,7 @@
                 <!-- widget post carousel -->
                 <div class="widget rounded">
                     <div class="widget-header text-center">
-                        <h3 class="widget-title">Celebration</h3>
+                        <h3 class="widget-title">Event</h3>
                         <img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
                     </div>
                     <div class="widget-content">
@@ -386,7 +386,13 @@
                 <div class="widget no-container rounded text-md-center">
                     <span class="ads-title">- Sponsored Ad -</span>
                     <a href="#" class="widget-ads">
-                        <img src="{{ asset('assets/front/images/ads/ad-360.png') }}" alt="Advertisement" />
+                        @if (!empty($widget_ads))
+							<img src="{{ Storage::url($widget_ads->gambar) }}" style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;" alt="post-title" />
+							@else
+							<img src="{{ asset('assets/back/not-found.png') }}"
+								style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
+								alt="Advertisement" />
+							@endif
                     </a>
                 </div>
 

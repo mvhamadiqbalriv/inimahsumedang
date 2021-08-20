@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Web;
 use App\Models\Category_article;
+use App\Models\Ad;
 use Alert;
 use Auth;
 use Str;
@@ -190,6 +191,7 @@ class ArticleController extends Controller
      */
     public function preview($slug, Request $request) 
     {
+        $data['widget_ads'] = Ad::where('status', '=', 'widget_ads')->first();
         $data['article'] = Article::where('slug', $slug)->first();
         $data['web'] = Web::find(1);
         $data['event_1'] = Article::where('selected_article', '=', 'event_1')->first();

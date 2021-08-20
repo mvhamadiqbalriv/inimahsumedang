@@ -35,4 +35,13 @@ class Article extends Model
         return DB::table('articles')->where('category',$this->id);
     }
 
+    public function visitors()
+    {
+        return $this->hasMany(Visitor::class, 'article');
+    }
+    public function getArticleCountAttribute()
+    {
+        return $this->visitors()->count();
+    }
+
 }

@@ -15,6 +15,28 @@
         font-family: 'Poppins', sans-serif !important;
     }
 
+    .msg-reply-captcha-error {
+        color: #f1556c;
+        font-size: 14px !important;
+        font-weight: 400;
+        line-height: 1.5;
+        margin-top: 10px;
+        margin-left: 5px;
+        padding: 0;
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .msg-comment-captcha-error {
+        color: #f1556c;
+        font-size: 14px !important;
+        font-weight: 400;
+        line-height: 1.5;
+        margin-top: 10px;
+        margin-left: 5px;
+        padding: 0;
+        font-family: 'Poppins', sans-serif !important;
+    }
+
     .captchaValidation {
         color: #f1556c;
         font-size: 14px !important;
@@ -25,6 +47,7 @@
         padding: 0;
         font-family: 'Poppins', sans-serif !important;
     }
+
     input.error {
         color: #f1556c;
         border: 1px solid #f1556c;
@@ -57,7 +80,8 @@
                     <div class="post-header">
                         <h1 class="title mt-0 mb-3">{{ $article->judul }}</h1>
                         <ul class="meta list-inline mb-0">
-                            <li class="list-inline-item"><a href="{{ route('users.show', $article->creator) }}">
+                            <li class="list-inline-item"><a
+                                    href="{{ route('artikel.author', $article->creators->username) }}">
                                     @php
                                     $path = asset('assets/back/images/avatars/default_user.png');
                                     if ($article->creators->photo) {
@@ -190,7 +214,7 @@
                                     </div>
                                     <div class="comment-form rounded bordered padding-30 mt-3">
                                         <form action="{{ route('artikel.reply') }}" id="replyForm{{ $comments->id }}"
-                                            method="post" class="replyForm" onsubmit="submitReplyForm();">
+                                            method="post" class="replyForm">
                                             @csrf
                                             <input type="hidden" name="comment_id" value="{{ $comments->id }}">
                                             <div class="row">
@@ -235,9 +259,10 @@
                                                     {!! NoCaptcha::renderJs() !!}
                                                     {!! NoCaptcha::display() !!}  
                                                 </div>
+
                                             </div>
 
-                                            <button type="submit" name="submit" id="submit" value="Submit"
+                                            <button type="submit" name="submit" id="btnReplySubmit" value="Submit"
                                                 class="btn btn-default" onclick="replyValidation(this)"
                                                 data-id="{{ $comments->id }}">Submit</button>
                                         </form>
@@ -288,7 +313,7 @@
                     <div class="comment-form rounded bordered padding-30">
 
                         <form action="{{ route('artikel.komentar') }}" id="commentForm" class="comment-form"
-                            method="post" onsubmit="submitCommentForm();">
+                            method="post">
                             @csrf
                             <input type="hidden" name="article_id" value="{{ $article->id }}">
 
@@ -332,11 +357,11 @@
                                     <div id="g-recaptcha-error-comment"></div>
                                 </div>
 
-                                
+
 
                             </div>
 
-                            <button type="submit" name="submit" id="btnSubmit" value="Submit"
+                            <button type="submit" name="submit" id="btnCommentSubmit" value="Submit"
                                 class="btn btn-default">Submit</button><!-- Submit Button -->
 
                         </form>
@@ -522,7 +547,15 @@
                     <div class="widget no-container rounded text-md-center">
                         <span class="ads-title">- Sponsored Ad -</span>
                         <a href="#" class="widget-ads">
-                            <img src="{{ asset('assets/front/images/ads/ad-360.png') }}" alt="Advertisement" />
+                            @if (!empty($widget_ads))
+                            <img src="{{ Storage::url($widget_ads->gambar) }}"
+                                style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
+                                alt="post-title" />
+                            @else
+                            <img src="{{ asset('assets/back/not-found.png') }}"
+                                style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
+                                alt="Advertisement" />
+                            @endif
                         </a>
                     </div>
 
@@ -552,33 +585,24 @@
 @endsection
 
 @section('js')
-<script>
-var recaptcha_response = '';
-function submitCommentForm() {
-    if(recaptcha_response.length == 0) {
-        document.getElementById('g-recaptcha-error-comment').innerHTML = '<label class="captchaValidation">Harap lengkapi kolom captcha</label>';
-        return false;
-    }
-    return true;
-}
-
-function submitReplyForm() {
-    if(recaptcha_response.length == 0) {
-        document.getElementById('g-recaptcha-error-reply').innerHTML = '<label class="captchaValidation">Harap lengkapi kolom captcha</label>';
-        return false;
-    }
-    return true;
-}
-function verifyCaptchaComment(token) {
-    recaptcha_response = token;
-    document.getElementById('g-recaptcha-error-comment').innerHTML = '';
-}
-
-function verifyCaptchaReply(token) {
-    recaptcha_response = token;
-    document.getElementById('g-recaptcha-error-reply').innerHTML = '';
-}
+{{-- Google captcha --}}
+<script src="https://www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit"></script>
+<script type="text/javascript">
+    var CaptchaCallback = function() {
+    var widgetId1;
+    var widgetId2;
+    widgetId1 = grecaptcha.render('commentRecaptchaField', {'sitekey' : '6LfiZg4cAAAAALiMwFgNM-QdZkM5cQopvGKVCH-f', 'callback' : commentRecaptcha});
+    widgetId2 = grecaptcha.render('replyRecaptchaField', {'sitekey' : '6LfiZg4cAAAAALiMwFgNM-QdZkM5cQopvGKVCH-f', 'callback' : replyRecaptcha});
+};
+var commentRecaptcha = function(response) {
+    $("#comment_recaptcha").val(response);
+};
+var replyRecaptcha = function(response) {
+    $("#reply_recaptcha").val(response);
+};
 </script>
+
+
 <script>
     function categoryWidgetSubmit(element)
     {
@@ -604,10 +628,13 @@ function verifyCaptchaReply(token) {
                 }
             });
             $("#commentForm").validate({
+                ignore: [],
                 rules: {
+                    comment_recaptcha: { 
+                        required: true, 
+                    },
                     comment:{
                         required: true,
-                        minlength: 10,
                         maxlength: 1000,
                     },
                     email:{
@@ -622,6 +649,9 @@ function verifyCaptchaReply(token) {
                     },
                 },
                 messages: {
+                    comment_recaptcha: {
+                        required: "Harap lengkapi kolom captcha",
+                    },
                     comment: {
                         required: "Komentar harus di isi",
                         minlength: "Komentar tidak boleh kurang dari 3 karakter",
@@ -638,9 +668,11 @@ function verifyCaptchaReply(token) {
                         minlength: "Nama tidak boleh kurang dari 3 karakter",
                         maxlength: "Nama tidak boleh lebih dari 30 karakter",
                     },
-                }
+                },
             });
         });
+
+       
 </script>
 <script>
     function replyValidation(validation)
@@ -653,10 +685,13 @@ function verifyCaptchaReply(token) {
 
             var id = $(validation).data('id');
             $("#replyForm" + id).validate({
+                ignore: [],
                 rules: {
+                    reply_recaptcha: { 
+                        required: true, 
+                    },
                     reply:{
                         required: true,
-                        minlength: 10,
                         maxlength: 1000,
                     },
                     email:{
@@ -671,6 +706,9 @@ function verifyCaptchaReply(token) {
                     },
                 },
                 messages: {
+                    reply_recaptcha: {
+                        required: "Harap lengkapi kolom captcha",
+                    },
                     reply: {
                         required: "Balasan harus di isi",
                         minlength: "Balasan tidak boleh kurang dari 3 karakter",
@@ -687,9 +725,12 @@ function verifyCaptchaReply(token) {
                         minlength: "Nama tidak boleh kurang dari 3 karakter",
                         maxlength: "Nama tidak boleh lebih dari 30 karakter",
                     },
-                }
+                },
+               
             });             
     }
+
+    
 </script>
 <script>
     function replyTrigger(replyAttr)

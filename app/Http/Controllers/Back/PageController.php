@@ -8,6 +8,7 @@ use App\Models\Article;
 use App\Models\Ad;
 use DB;
 use Alert;
+use Storage;
 
 class PageController extends Controller
 {
@@ -16,7 +17,7 @@ class PageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {   
         $data['article'] = Article::all();
         $data['feature_post'] = Article::where('selected_article', '=', 'feature_post')->first();
@@ -37,6 +38,22 @@ class PageController extends Controller
         $data['trending_6'] = Article::where('selected_article', '=', 'trending_6')->first();
         $data['event_1'] = Article::where('selected_article', '=', 'event_1')->first();
         $data['event_2'] = Article::where('selected_article', '=', 'event_2')->first();
+
+        $data['artikelAjax'] = Article::join("visitors", "visitors.article", "=", "articles.id")
+            ->where("visitors.created_at", ">=", date("Y-m-d H:i:s", strtotime('-24 hours', time())))
+            ->where("selected_article", "=", "")
+            ->groupBy("articles.id")
+            ->orderBy(DB::raw('COUNT(articles.id)'), 'desc')
+            ->select('articles.*', DB::raw('COUNT(articles.id) as total_views'))
+            ->limit(6)
+            ->paginate(3);
+          
+
+
+        if ($request->ajax()) {
+            return view('load_books_data', $data);
+        }
+         
         return view('back.page.index', $data);
     }
 
@@ -45,6 +62,14 @@ class PageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function fetchAjax(Request $request)
+    {
+        $data['dataPagination'] = Article::paginate(5);
+        if ($request->ajax()) {
+            return view('presult', $data);
+        }   
+    }
 
     public function searchlive(Request $request)
     {
@@ -90,32 +115,61 @@ class PageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function ads(Request $request)
+    public function ads(Request $request, Ad $ad)
     {
-        if($request->status == 'horizontal_ads'){
-            Ad::where('status', 'horizontal_ads')->delete();
-        }
-
-        if($request->status == 'widget_ads'){
-            Ad::where('status', 'widget_ads')->delete();
-        }
-
+        
         $request->validate([
             'gambar' => 'required',
+            'tautan' => 'required',
             'status' => 'required'
         ]);
 
         $data = [
             'gambar' => $request->file('gambar')->store('/public/input/ads'),
+            'tautan' => $request->tautan,
             'status' => $request->status
         ];
 
+       
         Ad::create($data)
         ? Alert::success('Berhasil', 'Iklan telah berhasil diterapkan!')
         : Alert::error('Error', 'Ikbal gagal diterapkan');
 
         return redirect()->back();
     }
+
+    
+        public function ads_update(Request $request, $id)
+        {
+            $request->validate([
+                'tautan' => 'required',
+                'status' => 'required'
+            ]);
+
+            $ads = Ad::findOrFail($id);
+            if ($request->hasFile('gambar')) {
+                if (Storage::exists($ads->gambar) && !empty($ads->gambar)) { 
+                    Storage::delete($ads->gambar);
+                }
+                $gambar = $request->file('gambar')->store("/public/input/articles");
+            }
+    
+            $data = [
+                'gambar' => $request->hasFile('gambar') ? $gambar : $ads->gambar,
+                'tautan' => $request->tautan ? $request->tautan : $ads->tautan,
+                'status' => $request->status
+    
+            ];
+            
+           
+            $ads->update($data)
+            ? Alert::success('Suskes', 'Iklan telah berhasil diterapkan!')
+            : Alert::error('Error', 'Iklan gagal diterapkan!');
+    
+            return redirect()->back();
+        }
+    
+ 
     public function store(Request $request)
     {
         

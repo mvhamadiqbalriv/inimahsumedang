@@ -10,6 +10,7 @@ use App\Models\Comment;
 use App\Models\Reply;
 use App\Models\Web;
 use App\Models\Visitor;
+use App\Models\Ad;
 use Alert;
 use DB;
 use Str;
@@ -30,7 +31,7 @@ class FrontArticleController extends Controller
         $data['category_select_button'] = '1';
         $data['event_1'] = Article::where('selected_article', '=', 'event_1')->first();
         $data['event_2'] = Article::where('selected_article', '=', 'event_2')->first();
-       
+        $data['widget_ads'] = Ad::where('status', '=', 'widget_ads')->first();
 
         return view('front.articles.index', $data);
     }
@@ -123,9 +124,6 @@ class FrontArticleController extends Controller
      */
 
     public function komentar(Request $request) {
-        $request->validate([
-            'g-recaptcha-response' => 'required'
-        ]);
 
         $data = [
             'nama' => $request->nama,
@@ -155,7 +153,7 @@ class FrontArticleController extends Controller
         ];
 
         Reply::create($data)
-        ? Alert::success('Berhasil', 'Komentar anda akan tampil ketika sudah disetujui oleh admin')
+        ? Alert::success('Berhasil', 'Balasan anda akan tampil ketika sudah disetujui oleh admin')
         : Alert::error('Error', 'Komentar gagal di dikirim');
 
         return redirect()->back();
@@ -185,6 +183,7 @@ class FrontArticleController extends Controller
      */
     public function show($slug, Request $request)
     {
+        $data['widget_ads'] = Ad::where('status', '=', 'widget_ads')->first();
         $data['event_1'] = Article::where('selected_article', '=', 'event_1')->first();
         $data['event_2'] = Article::where('selected_article', '=', 'event_2')->first();
         $article = Article::where('slug', $slug)->first();
