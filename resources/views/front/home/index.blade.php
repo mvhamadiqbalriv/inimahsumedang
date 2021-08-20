@@ -30,7 +30,7 @@ Beranda
 								{{ $feature_post->judul }} @else Judul artikel @endif</a>
 						</h2>
 						<ul class="meta list-inline mb-0">
-							<li class="list-inline-item"><a href="#">@if(isset($feature_post))
+							<li class="list-inline-item"><a href="@if(isset($feature_post)) {{ route('artikel.author', $feature_post->creators->username) }} @endif">@if(isset($feature_post))
 									{{ ucfirst(trans($feature_post->creators->name)) }} @else Nama penulis @endif</a>
 							</li>
 							<li class="list-inline-item">@if(isset($feature_post))
@@ -112,7 +112,8 @@ Beranda
 								</div>
 								<div class="details clearfix">
 									<h6 class="post-title my-0"><a
-											href="{{ route('artikel.show', $popular_article->slug) }}">{{ $popular_article->judul }}</a></h6>
+											href="{{ route('artikel.show', $popular_article->slug) }}">{{ $popular_article->judul }}</a>
+									</h6>
 									<ul class="meta list-inline mt-1 mb-0">
 										<li class="list-inline-item">{{ $popular_article->created_at->format('d M Y') }}
 										</li>
@@ -160,7 +161,8 @@ Beranda
 											style="border: none;">{{ $editors_pick_1->categories->nama }}</button>
 									</form>
 									@else
-									<button type="button" class="category-badge position-absolute" style="border: none;">Belum ada
+									<button type="button" class="category-badge position-absolute"
+										style="border: none;">Belum ada
 										kategori</button>
 									@endif
 									<span class="post-format">
@@ -171,7 +173,8 @@ Beranda
 										href="@if(isset($editors_pick_1)) {{ route('artikel.show', $editors_pick_1->slug) }} @endif">
 										<div class="inner">
 											@if (!empty($editors_pick_1))
-											<img src="{{ Storage::url($editors_pick_1->gambar) }}" alt="post-title" style="width: 350px; height: 325px; object-fit: cover;" />
+											<img src="{{ Storage::url($editors_pick_1->gambar) }}" alt="post-title"
+												style="width: 350px; height: 325px; object-fit: cover;" />
 											@else
 											<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
 											@endif
@@ -180,7 +183,7 @@ Beranda
 								</div>
 								<ul class="meta list-inline mt-4 mb-0">
 									<li class="list-inline-item"><a
-											href="@if(isset($editors_pick_1)) {{ route('users.show', $editors_pick_1->creator) }} @endif">
+											href="@if(isset($editors_pick_1)) {{ route('artikel.author', $editors_pick_1->creators->username) }} @endif">
 											@if(isset($editors_pick_1))<img
 												src="{{ Storage::url($editors_pick_1->creators->photo) }}"
 												style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;"
@@ -197,7 +200,8 @@ Beranda
 										href="@if(isset($editors_pick_1)) {{ route('artikel.show', $editors_pick_1->id) }} @endif">@if(isset($editors_pick_1))
 										{{ $editors_pick_1->judul }} @else Judul artikel @endif</a>
 								</h5>
-								<p class="excerpt mb-0">@if(isset($editors_pick_1)) {!! Str::limit($editors_pick_1->konten, 90) !!}
+								<p class="excerpt mb-0">@if(isset($editors_pick_1)) {!!
+									Str::limit($editors_pick_1->konten, 90) !!}
 									@else Konten artikel @endif</p>
 
 							</div>
@@ -318,7 +322,13 @@ Beranda
 				<div class="ads-horizontal text-md-center">
 					<span class="ads-title">- Sponsored Ad -</span>
 					<a href="#">
-						<img src="{{ asset('assets/front/images/ads/ad-750.png') }}" alt="Advertisement" />
+						@if (!empty($horizontal_ads))
+						<img src="{{ Storage::url($horizontal_ads->gambar) }}" style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;" alt="post-title" />
+						@else
+						<img src="{{ asset('assets/back/not-found.png') }}"
+							style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
+							alt="Advertisement" />
+						@endif
 					</a>
 				</div>
 
@@ -345,7 +355,8 @@ Beranda
 											style="border: none;">{{ $trending_1->categories->nama }}</button>
 									</form>
 									@else
-									<button type="button" class="category-badge position-absolute" style="border: none;">Belum ada
+									<button type="button" class="category-badge position-absolute"
+										style="border: none;">Belum ada
 										kategori</button>
 									@endif
 									<span class="post-format">
@@ -366,7 +377,7 @@ Beranda
 									</a>
 								</div>
 								<ul class="meta list-inline mt-4 mb-0">
-									<li class="list-inline-item"><a href="#">
+									<li class="list-inline-item"><a href="{{ route('artikel.author', $trending_1->creators->username) }}">
 											@if(isset($trending_1))
 											<img src="{{ Storage::url($trending_1->creators->photo) }}"
 												style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;"
@@ -455,7 +466,8 @@ Beranda
 											style="border: none;">{{ $trending_2->categories->nama }}</button>
 									</form>
 									@else
-									<button type="button" class="category-badge position-absolute" style="border: none;">Belum ada
+									<button type="button" class="category-badge position-absolute"
+										style="border: none;">Belum ada
 										kategori</button>
 									@endif
 									<span class="post-format">
@@ -476,7 +488,7 @@ Beranda
 									</a>
 								</div>
 								<ul class="meta list-inline mt-4 mb-0">
-									<li class="list-inline-item"><a href="#">@if(isset($trending_2))<img
+									<li class="list-inline-item"><a href="{{ route('artikel.author', $trending_2->creators->username) }}">@if(isset($trending_2))<img
 												src="{{ Storage::url($trending_2->creators->photo) }}"
 												style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;"
 												class="author" alt="author" /> @endif @if(isset($trending_2))
@@ -490,7 +502,8 @@ Beranda
 										href="@if(isset($trending_2)) {{ route('artikel.show', $trending_2->slug) }} @endif">@if(isset($trending_2))
 										{{ $trending_2->judul }} @else Judul artikel @endif</a>
 								</h5>
-								<p class="excerpt mb-0">@if(isset($trending_2)) {!! Str::limit($trending_2->konten, 50) !!} @else Konten
+								<p class="excerpt mb-0">@if(isset($trending_2)) {!! Str::limit($trending_2->konten, 50)
+									!!} @else Konten
 									artikel @endif</p>
 							</div>
 							<!-- post -->
@@ -587,7 +600,7 @@ Beranda
 									{{ $selected_category_post_1->judul }} @else Judul artikel @endif</a>
 							</h4>
 							<ul class="meta list-inline mb-0">
-								<li class="list-inline-item"><a href="#">@if(isset($selected_category_post_1))
+								<li class="list-inline-item"><a href="{{ route('artikel.author', $selected_category_post_1->creators->username) }}">@if(isset($selected_category_post_1))
 										{{ ucfirst(trans($selected_category_post_1->creators->name)) }} @else Nama
 										penulis @endif</a>
 								</li>
@@ -597,14 +610,15 @@ Beranda
 									@endif</li>
 							</ul>
 						</div>
-						<a href="@if(isset($selected_category_post_1)) {{ route('artikel.show', $selected_category_post_1->slug) }} @endif">
+						<a
+							href="@if(isset($selected_category_post_1)) {{ route('artikel.show', $selected_category_post_1->slug) }} @endif">
 							<div class="thumb rounded">
 								<div class="inner">
 									@if (!empty($selected_category_post_1))
-										<img src="{{ Storage::url($selected_category_post_1->gambar) }}"
+									<img src="{{ Storage::url($selected_category_post_1->gambar) }}"
 										style="width: 580px; height: 356px; object-fit: cover;" alt="post-title" />
 									@else
-										<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+									<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
 									@endif
 								</div>
 							</div>
@@ -629,7 +643,7 @@ Beranda
 									{{ $selected_category_post_2->judul }} @else Judul artikel @endif</a>
 							</h4>
 							<ul class="meta list-inline mb-0">
-								<li class="list-inline-item"><a href="#">@if(isset($selected_category_post_2))
+								<li class="list-inline-item"><a href="{{ route('artikel.author', $selected_category_post_2->creators->username) }}">@if(isset($selected_category_post_2))
 										{{ ucfirst(trans($selected_category_post_2->creators->name)) }} @else Nama
 										penulis @endif</a>
 								</li>
@@ -644,10 +658,10 @@ Beranda
 							<div class="thumb rounded">
 								<div class="inner">
 									@if (!empty($selected_category_post_2))
-										<img src="{{ Storage::url($selected_category_post_2->gambar) }}"
+									<img src="{{ Storage::url($selected_category_post_2->gambar) }}"
 										style="width: 580px; height: 356px; object-fit: cover;" alt="post-title" />
 									@else
-										<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+									<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
 									@endif
 								</div>
 							</div>
@@ -773,7 +787,8 @@ Beranda
 												style="border: none;">{{ $event_1->categories->nama }}</button>
 										</form>
 										@else
-										<button type="button" class="category-badge position-absolute" style="border: none;">Belum ada
+										<button type="button" class="category-badge position-absolute"
+											style="border: none;">Belum ada
 											kategori</button>
 										@endif
 										<a
@@ -792,7 +807,7 @@ Beranda
 											{{ $event_1->judul }} @else Judul artikel @endif</a>
 									</h5>
 									<ul class="meta list-inline mt-2 mb-0">
-										<li class="list-inline-item"><a href="#">@if(isset($event_1))
+										<li class="list-inline-item"><a href="@if(isset($event_1)){{ route('artikel.authors', $event_1->creators->username) }}@endif">@if(isset($event_1))
 												{{ ucfirst(trans($event_1->creators->name)) }} @else Nama penulis
 												@endif</a></li>
 										<li class="list-inline-item">@if(isset($event_1))
@@ -811,7 +826,8 @@ Beranda
 												style="border: none;">{{ $event_2->categories->nama }}</button>
 										</form>
 										@else
-										<button type="button" class="category-badge position-absolute" style="border: none;">Belum ada
+										<button type="button" class="category-badge position-absolute"
+											style="border: none;">Belum ada
 											kategori</button>
 										@endif
 										<a
@@ -830,7 +846,7 @@ Beranda
 											{{ $event_2->judul }} @else Judul artikel @endif</a>
 									</h5>
 									<ul class="meta list-inline mt-2 mb-0">
-										<li class="list-inline-item"><a href="#">@if(isset($event_2))
+										<li class="list-inline-item"><a href="@if(isset($event_2)){{ route('artikel.authors', $event_2->creators->username) }}@endif">@if(isset($event_2))
 												{{ ucfirst(trans($event_2->creators->name)) }} @else Nama penulis
 												@endif</a></li>
 										<li class="list-inline-item">@if(isset($event_2))
@@ -854,7 +870,13 @@ Beranda
 					<div class="widget no-container rounded text-md-center">
 						<span class="ads-title">- Sponsored Ad -</span>
 						<a href="#" class="widget-ads">
-							<img src="{{ asset('assets/front/images/ads/ad-360.png') }}" alt="Advertisement" />
+							@if (!empty($widget_ads))
+							<img src="{{ Storage::url($widget_ads->gambar) }}" style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;" alt="post-title" />
+							@else
+							<img src="{{ asset('assets/back/not-found.png') }}"
+								style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
+								alt="Advertisement" />
+							@endif
 						</a>
 					</div>
 

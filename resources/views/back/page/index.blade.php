@@ -4,12 +4,34 @@ Page
 @endsection
 
 @section('css')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<style>
+    label.error {
+        color: #f1556c;
+        font-size: 13px;
+        font-size: .875rem;
+        font-weight: 400;
+        line-height: 1.5;
+        margin-top: 5px;
+        padding: 0;
+    }
+
+    input.error {
+        color: #f1556c;
+        border: 1px solid #f1556c;
+    }
+    
+    .form-group .gambarIklan .error {
+        color: #f1556c;
+        border: 1px solid #f1556c !important;
+    }
+</style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css"
     integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
     .dropify-wrapper {
-        border: 1px solid #e2e7f1 !important;
+        border: 1px solid #e2e7f1;
         border-radius: .3rem !important;
     }
 </style>
@@ -110,6 +132,7 @@ Page
         background-color: #f2f2f2 !important;
     }
 </style>
+
 <div class="row justify-content-center">
     <div class="col-sm-12">
         <div class="card">
@@ -161,11 +184,11 @@ Page
                         </div>
                         <div class="d-flex justify-content-center mt-3">
                             @if (!empty($feature_post))
-                            <img src="{{ Storage::url($feature_post->gambar) }}" style="" class="wrap-image img-fluid image "
-                                alt="post-title" />
+                            <img src="{{ Storage::url($feature_post->gambar) }}" style=""
+                                class="wrap-image img-fluid image " alt="post-title" />
                             @else
-                            <img src="{{ asset('assets/back/not-found.png') }}" style="" class="wrap-image img-fluid image "
-                                alt="post-title" />
+                            <img src="{{ asset('assets/back/not-found.png') }}" style=""
+                                class="wrap-image img-fluid image " alt="post-title" />
                             @endif
                         </div>
 
@@ -179,10 +202,11 @@ Page
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <h4>Horizontal Ads</h4>
-                                    <button class="btn btn-sm btn-secondary" data-toggle="modal" @if(empty($article))
-                                        data-target="#ifArticleEmpty" @else data-target="#horizontalAdsModal" @endif"><i class="fas fa-plus"></i></button>
+                                    <button class="btn btn-sm btn-secondary" id="buttonHorizontalAds" data-toggle="modal" @if(empty($article))
+                                        data-target="#ifArticleEmpty" @else data-target="#horizontalAdsModal" @endif @if(!empty($horizontal_ads)) data-id="{{ $horizontal_ads->id }}" onclick="updateHorizontalAds(this)" @endif><i
+                                            class="fas fa-plus"></i></button>
                                 </div>
-                               
+
                                 <div class="wrap-image mt-3">
                                     @if (!empty($horizontal_ads))
                                     <img src="{{ Storage::url($horizontal_ads->gambar) }}" class="img-fluid image "
@@ -201,9 +225,10 @@ Page
                                 <div class="d-flex justify-content-between">
                                     <h4>Widget Ads</h4>
                                     <button class="btn btn-sm btn-secondary" data-toggle="modal" @if(empty($article))
-                                        data-target="#ifArticleEmpty" @else data-target="#widgetAdsModal" @endif><i class="fas fa-plus"></i></button>
+                                        data-target="#ifArticleEmpty" @else data-target="#widgetAdsModal" @endif @if(!empty($widget_ads)) data-id="{{ $widget_ads->id }}" onclick="updateWidgetAds(this)" @endif><i
+                                            class="fas fa-plus"></i></button>
                                 </div>
-                              
+
                                 <div class="wrap-image mt-3">
                                     @if (!empty($widget_ads))
                                     <img src="{{ Storage::url($widget_ads->gambar) }}" class="img-fluid image "
@@ -643,17 +668,25 @@ Page
                 @csrf
                 <input type="hidden" name="selected_article" id="selected_trending_article">
                 <div class="modal-body" id="modal-body-publish">
-                    <input type="text" class="form-control" id="searchTrendingTxt" placeholder="Cari artikel..."
-                        onkeyup="modalButtonDisable2()">
+                    {{-- <input type="text" class="form-control" id="searchTrendingTxt" placeholder="Cari artikel..."
+                        onkeyup="modalButtonDisable2()"> --}}
                     <br>
                     <div id="trendingArticle">
 
                     </div>
+                    @if (count($artikelAjax) > 0)
+                    <section class="books">
+                        @include('load_books_data')
+                    </section>
+                    @else
+                    No data found
+                    @endif
                 </div>
+
                 <div class="modal-footer">'
                     <button type="submit" class="btn btn-sm btn-primary" disabled style="pointer-events: none;"
                         id="applyButton2">Terapkan</button>
-                    <button type="button" class="btn btn-sm btn-secondary" class="close"
+                    <button type="button" class="btn btn-sm btn-secondary closeBtn" class="close"
                         data-dismiss="modal">Kembali</button>
                 </div>
             </form>
@@ -688,7 +721,8 @@ Page
 
 
 <!-- Modal Horizontal Ads -->
-<div class="modal fade" id="horizontalAdsModal" tabindex="-1" role="dialog" aria-labelledby="horizontalAdsModal" aria-hidden="true">
+<div class="modal fade" id="horizontalAdsModal" tabindex="-1" role="dialog" aria-labelledby="horizontalAdsModal"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -697,19 +731,26 @@ Page
                     <i class="material-icons">close</i>
                 </button>
             </div>
-            <form action="{{ route('page.ads') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('page.ads') }}" method="post" enctype="multipart/form-data" id="horizontalAdsForm">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="hidden" name="status" value="horizontal_ads">
-                        <input type="file" class="form-control dropify mt-5 gambarIklan" name="gambar" id="horizontalAdsValue" onchange="checkImageHorizontalAds()"
+                        <input type="file" class="form-control dropify mt-5 gambarIklan" name="gambar"
                             data-allowed-file-extensions="png jpg jpeg" data-default-file="@if(!empty($horizontal_ads->gambar) &&
-                    Storage::exists($horizontal_ads->gambar)){{ Storage::url($horizontal_ads->gambar) }}@endif">
+                            Storage::exists($horizontal_ads->gambar)){{ Storage::url($horizontal_ads->gambar) }}@endif">
+                        <input type="hidden" name="gambarCheck" id="gambarCheck" value="@if(!empty($horizontal_ads)) {{ $horizontal_ads->gambar }} @endif">
+                        <span class="errorGambar"></span>
+
+                        <br>      
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control  @error('tautan') is-invalid @enderror" name="tautan" id="tautanValue" placeholder="Tautan"
+                        value="@if(!empty($horizontal_ads)) {{ $horizontal_ads->tautan }} @endif">
                     </div>
                 </div>
-                <div class="modal-footer">'
-                    <button type="submit" class="btn btn-sm btn-primary" disabled style="pointer-events: none;"
-                        id="horizontalAdsButton">Terapkan</button>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-primary" id="horizontalAdsButton">Terapkan</button>
                     <button type="button" class="btn btn-sm btn-secondary" class="close"
                         data-dismiss="modal">Kembali</button>
                 </div>
@@ -718,8 +759,10 @@ Page
     </div>
 </div>
 
+
 <!-- Modal Widget Ads -->
-<div class="modal fade" id="widgetAdsModal" tabindex="-1" role="dialog" aria-labelledby="widgetAdsModal" aria-hidden="true">
+<div class="modal fade" id="widgetAdsModal" tabindex="-1" role="dialog" aria-labelledby="widgetAdsModal"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -728,18 +771,26 @@ Page
                     <i class="material-icons">close</i>
                 </button>
             </div>
-            <form action="{{ route('page.ads') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('page.ads') }}" method="post" enctype="multipart/form-data" id="widgetAdsForm">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="hidden" name="status" value="widget_ads">
-                        <input type="file" class="form-control dropify mt-5 gambarIklan" name="gambar" id="widgetAdsValue" onchange="checkImageWidgetAds()"
-                            data-allowed-file-extensions="png jpg jpeg" data-default-file="@if(!empty($widget_ads->gambar) &&
-                    Storage::exists($widget_ads->gambar)){{ Storage::url($widget_ads->gambar) }}@endif">
+                        <input type="file" class="form-control dropify mt-5 gambarIklan" name="gambar"
+                            data-allowed-file-extensions="png jpg jpeg" data-default-file="@if(!empty($horizontal_ads->gambar) &&
+                            Storage::exists($horizontal_ads->gambar)){{ Storage::url($horizontal_ads->gambar) }}@endif">
+                        <input type="hidden" name="gambarCheck" id="gambarCheck2" value="@if(!empty($horizontal_ads)) {{ $horizontal_ads->gambar }} @endif">
+                        <span class="errorGambar2"></span>
+
+                        <br>      
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control  @error('tautan') is-invalid @enderror" name="tautan" id="tautanValue" placeholder="Tautan"
+                        value="@if(!empty($horizontal_ads)) {{ $horizontal_ads->tautan }} @endif">
                     </div>
                 </div>
                 <div class="modal-footer">'
-                    <button type="submit" class="btn btn-sm btn-primary" disabled style="pointer-events: none;"
+                    <button type="submit" class="btn btn-sm btn-primary"
                         id="widgetAdsButton">Terapkan</button>
                     <button type="button" class="btn btn-sm btn-secondary" class="close"
                         data-dismiss="modal">Kembali</button>
@@ -752,6 +803,117 @@ Page
 
 @endsection
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+
+<script>
+function updateHorizontalAds(element)
+{
+    var id = $(element).attr('data-id');
+    console.log(id);
+
+    const updateLink = "{{ route('page.ads_update', '') }}";
+    $('#horizontalAdsForm').attr('action',  `${updateLink}/${id}`);
+}   
+
+function updateWidgetAds(element)
+{
+    var id = $(element).attr('data-id');
+    console.log(id);
+
+    const updateLink = "{{ route('page.ads_update', '') }}";
+    $('#widgetAdsForm').attr('action',  `${updateLink}/${id}`);
+}   
+       
+</script>
+<script>
+    $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $("#horizontalAdsForm").validate({
+                rules: {
+                    gambar:{
+                        required: '#gambarCheck:blank'
+                    },
+                    tautan:{
+                        required: true,
+                    }
+                },
+                messages: {
+                    gambar: {
+                        required: "Gambar belum di input",
+                    },
+                    tautan: {
+                        required: "Tautan harus di isi",
+                    },
+                },
+                
+                errorPlacement : function(error, element) {
+                    if(element.attr("name") == "gambar") {
+                        $(".errorGambar").html(error);
+                        $(".dropify-wrapper").css("border", "1px solid #f1556c");
+                    }
+                    else {
+                        error.insertAfter(element); // default error placement.
+                    }
+                },
+
+                success: function (error) {
+                    $(".dropify-wrapper").css("border", "1px solid #e2e7f1");
+                }
+                
+            });
+        });
+
+       
+</script>
+<script>
+    $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $("#widgetAdsForm").validate({
+                rules: {
+                    gambar:{
+                        required: '#gambarCheck2:blank'
+                    },
+                    tautan:{
+                        required: true,
+                    }
+                },
+                messages: {
+                    gambar: {
+                        required: "Gambar belum di input",
+                    },
+                    tautan: {
+                        required: "Tautan harus di isi",
+                    },
+                },
+                
+                errorPlacement : function(error, element) {
+                    if(element.attr("name") == "gambar") {
+                        $(".errorGambar2").html(error);
+                        $(".dropify-wrapper").css("border", "1px solid #f1556c");
+                    }
+                    else {
+                        error.insertAfter(element); // default error placement.
+                    }
+                },
+
+                success: function (error) {
+                    $(".dropify-wrapper").css("border", "1px solid #e2e7f1");
+                }
+                
+            });
+        });
+
+       
+</script>
+
 {{-- Dropify --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"
     integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew=="
@@ -759,9 +921,36 @@ Page
 
 <script>
     $('.dropify').dropify();
+</script>
+<script>
+    $('#trendingArticleModal').on('hidden.bs.modal', function (event) {
+        var clean_uri = location.protocol + "//" + location.host + location.pathname;
+        window.history.replaceState({}, document.title, clean_uri);
+})
 
-   
 
+
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('body').on('click', '.pagination a', function (e) {
+            e.preventDefault();
+            $('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 10000;" src="https://i.imgur.com/v3KWF05.gif />');
+            var url = $(this).attr('href');
+            window.history.pushState("", "", url);
+            loadBooks(url);
+        });
+
+        function loadBooks(url) {
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                $('.books').html(data);
+            }).fail(function () {
+                console.log("Failed to load data!");
+            });
+        }
+    });
 </script>
 {{-- Keep tab active on reload --}}
 <script>
@@ -788,21 +977,28 @@ Page
 
     // ADS JS
 
-    $(".dropify-clear").click(function() {
-            $("#horizontalAdsButton").css('pointer-events', 'none');
-            $("#horizontalAdsButton").prop("disabled", true);
-            $("#widgetAdsButton").css('pointer-events', 'none');
-            $("#widgetAdsButton").prop("disabled", true);
-    });
 
-    function checkImageHorizontalAds()
-    {
-        if($('#horizontalAdsValue').val() !=='') {
-            console.log("file selected.");
-            $("#horizontalAdsButton").css('pointer-events', 'auto');
-            $("#horizontalAdsButton").prop("disabled", false);
-        }
-    }
+    // function checkTautanValue()
+    // {
+    //     if($('#horizontalAdsValue').val() !=='' && $('#tautanValue').val() !=='') {
+           
+    //         $("#horizontalAdsButton").css('pointer-events', 'auto');
+    //         $("#horizontalAdsButton").prop("disabled", false);
+    //     } 
+    //      console.log("file selected.");
+    // }
+
+    // function checkImageHorizontalAds()
+    // {
+    //     if($('#horizontalAdsValue').val() !=='' && $('#tautanValue').val() !=='') {
+    //         console.log("file selected.");
+    //         $("#horizontalAdsButton").css('pointer-events', 'auto');
+    //         $("#horizontalAdsButton").prop("disabled", false);
+    //     } else {
+    //         $("#horizontalAdsButton").css('pointer-events', 'none');
+    //         $("#horizontalAdsButton").prop("disabled", true);
+    //     }
+    // }
 
     function checkImageWidgetAds()
     {
