@@ -12,7 +12,7 @@ Beranda
             <h1 class="mt-0 mb-2">{{ $title_upper }}</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item"><a href="{{ route('beranda.index') }}">Beranda</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url('/') }}">Beranda</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{ $breadcrumb }}</li>
                 </ol>
             </nav>

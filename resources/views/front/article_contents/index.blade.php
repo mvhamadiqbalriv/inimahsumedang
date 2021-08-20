@@ -42,7 +42,7 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('beranda.index') }}">Beranda</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('/') }}">Beranda</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('artikel.index') }}">Artikel</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $article->judul }}</li>
             </ol>
@@ -227,7 +227,7 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <div class="g-recaptcha" data-sitekey="6LczZQEcAAAAANZR7kGNilET6t1n9qm5rQdAkzmk" data-callback="verifyCaptchaReply"></div>
+                                                    <div class="g-recaptcha" data-sitekey="6LcHn-waAAAAABRuzNwcQVCUptNh_YrZEGPQSXlu" data-callback="verifyCaptchaReply"></div>
                                                     <div id="g-recaptcha-error-reply"></div>
                                                 </div>
                                                 
@@ -328,7 +328,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="g-recaptcha" data-sitekey="6LczZQEcAAAAANZR7kGNilET6t1n9qm5rQdAkzmk" data-callback="verifyCaptchaComment"></div>
+                                    <div class="g-recaptcha" data-sitekey="6LcHn-waAAAAABRuzNwcQVCUptNh_YrZEGPQSXlu" data-callback="verifyCaptchaComment"></div>
                                     <div id="g-recaptcha-error-comment"></div>
                                 </div>
 

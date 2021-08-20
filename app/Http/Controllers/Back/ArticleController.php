@@ -108,7 +108,8 @@ class ArticleController extends Controller
 
     public function create()
     {
-        return view('back.article.create');
+        $data['categories'] = Category_article::all();
+        return view('back.article.create', $data);
     }
 
     /**
@@ -120,7 +121,7 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required|unique:articles|min:20|max:60',
+            'judul' => 'required|unique:articles|min:20|max:150',
             'konten' => 'required|min:80',
             'category' => 'required',
             'gambar' => 'required',
@@ -223,7 +224,7 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
         $request->validate([
-            'judul' => "required|unique:articles,judul,$article->id|min:20|max:70",
+            'judul' => "required|unique:articles,judul,$article->id|min:20|max:150",
             'konten' => 'required|min:80',
             'category' => 'required',
         ],

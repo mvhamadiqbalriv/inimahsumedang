@@ -90,7 +90,7 @@
             <nav class="navbar navbar-expand-lg">
                 <div class="container-xl">
                     <!-- site logo -->
-                    <a class="navbar-brand" href="{{ route('beranda.index') }}"><img
+                    <a class="navbar-brand" href="{{ url('/') }}"><img
                             src="{{ asset('assets/front/logo_inimahsumedang_500x.png') }}" style="width: 130px;"
                             alt="logo" /></a>
 
@@ -99,9 +99,12 @@
                         <ul class="navbar-nav mr-auto">
                             @php
                             $url = explode("/", url()->current());
+                            if (empty($url[3])) {
+                                $url[3] = 'home';
+                            }
                             @endphp
-                            <li class="nav-item {{($url[3] == 'beranda') ? 'active' :null}}">
-                                <a class="nav-link" href="{{ route('beranda.index') }}">Beranda</a>
+                            <li class="nav-item {{($url[3] == 'home') ? 'active' : null}}">
+                                <a class="nav-link" href="{{ url('/') }}">Beranda</a>
                             </li>
                             <li class="nav-item {{($url[3] == 'artikel') ? 'active' : null}}">
                                 <a class="nav-link" href="{{ route('artikel.index') }}">Artikel</a>
@@ -273,7 +276,7 @@
         <!-- menu -->
         <nav>
             <ul class="vertical-menu">
-                <li><a href="{{ route('beranda.index') }}">Beranda</a></li>
+                <li><a href="{{ url('/') }}">Beranda</a></li>
                 <li><a href="{{ route('artikel.index') }}">Artikel</a></li>
                 <li>
                     <a href="#">Info</a>

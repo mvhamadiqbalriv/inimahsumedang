@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Article;
+use App\Models\Web;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -14,7 +17,17 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('back.dashboard');
+        $data['recent_article'] = Article::orderBy('updated_at', 'desc')->take(4)->get();
+        $data['popular'] = Article::join("visitors", "visitors.article", "=", "articles.id")
+            // ->where("visitors.created_at", ">=", now()->subdays(1))
+            ->groupBy("articles.id")
+            ->orderBy(DB::raw('COUNT(articles.id)'), 'desc')
+            ->limit(2)
+            ->get([DB::raw('COUNT(articles.id) as total_views'), 'articles.*']);
+          
+        $data['web'] = Web::find(1);
+
+        return view('back.dashboard', $data);
     }
 
     /**

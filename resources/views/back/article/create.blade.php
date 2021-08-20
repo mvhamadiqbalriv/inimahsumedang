@@ -102,7 +102,11 @@ Tambah Artikel
 
                     </div>
                     <div class="form-group categoryStyle @error('category') has-error @enderror">
-                        <select class="category form-control" name="category" id="category"></select>
+                        <select class="category form-control" name="category" id="category">
+                            @foreach ($categories as $item)
+                                <option value="{{$item->id}}">{{$item->nama}}</option>
+                            @endforeach
+                        </select>
                         @error('category')
                         <style>
                             .has-error .select2-selection {
@@ -247,7 +251,7 @@ file.addEventListener('change', function() {
 
 <script>
     $(".tag").select2({
-        placeholder: 'Pilih Tag',
+        placeholder: 'Masukan tag',
         tags: true,
         tokenSeparators: [',', ' ']
     });

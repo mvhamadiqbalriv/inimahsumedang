@@ -42,29 +42,25 @@
                 <div class="card-body">
                     <h5 class="card-title">Artikel terbaru</h5>
                     <div class="popular-products">
-                        <img width="300" height="150" style="object-fit: cover"
-                            src="https://images.unsplash.com/photo-1512314889357-e157c22f938d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80"
+                        <img width="300" height="150" style="object-fit: cover;border-radius:20px;"
+                        @php
+                            $path = 'https://images.unsplash.com/photo-1512314889357-e157c22f938d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80';
+                            if (!empty($recent_article[0]->gambar)) {
+                                $path = Storage::url($recent_article[0]->gambar);
+                            }
+                        @endphp
+                            src="{{$path}}"
                             alt="">
                         <div class="popular-product-list">
                             <ul class="list-unstyled">
+                                @foreach ($recent_article as $item)
                                 <li id="popular-product3">
-                                    <a href="#" style="color: darkslategray"><b><span>{{ substr('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus cupiditate quod quam maiores consequuntur praesentium molestias! Cupiditate, facilis quae quam quis similique corporis amet temporibus cumque ad qui illo nihil? ', 0, 50) }}
+                                    <a href="{{route('artikel.show', $item->slug)}}" style="color: darkslategray"><b><span>{{ substr($item->judul, 0, 50) }}
                                             </span></b> </a>
                                     <span class="badge badge-pill badge-success" data-toggle="tooltip" data-placement="top"
-                                        title="Dibaca">Kategori <i class="fa fa-tags"></i> </span>
+                                        title="Kategori">{{$item->categories->nama}} &nbsp;<i class="fa fa-tags"></i> </span>
                                 </li>
-                                <li id="popular-product3">
-                                    <a href="#" style="color: darkslategray"><b><span>{{ substr('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus cupiditate quod quam maiores consequuntur praesentium molestias! Cupiditate, facilis quae quam quis similique corporis amet temporibus cumque ad qui illo nihil? ', 0, 50) }}
-                                            </span></b> </a>
-                                    <span class="badge badge-pill badge-success" data-toggle="tooltip" data-placement="top"
-                                        title="Dibaca">Kategori <i class="fa fa-tags"></i> </span>
-                                </li>
-                                <li id="popular-product3">
-                                    <a href="#" style="color: darkslategray"><b><span>{{ substr('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus cupiditate quod quam maiores consequuntur praesentium molestias! Cupiditate, facilis quae quam quis similique corporis amet temporibus cumque ad qui illo nihil? ', 0, 50) }}
-                                            </span></b> </a>
-                                    <span class="badge badge-pill badge-success" data-toggle="tooltip" data-placement="top"
-                                        title="Dibaca">Kategori <i class="fa fa-tags"></i> </span>
-                                </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -76,29 +72,25 @@
                 <div class="card-body">
                     <h5 class="card-title">Artikel terpopuler</h5>
                     <div class="popular-products">
-                        <img width="300" height="150" style="object-fit: cover"
-                            src="https://images.unsplash.com/photo-1512314889357-e157c22f938d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80"
+                        <img width="300" height="150" style="object-fit: cover;border-radius:20px;"
+                        @php
+                            $path = 'https://images.unsplash.com/photo-1512314889357-e157c22f938d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80';
+                            if (!empty($popular[0]->gambar)) {
+                                $path = Storage::url($popular[0]->gambar);
+                            }
+                        @endphp
+                            src="{{$path}}"
                             alt="">
                         <div class="popular-product-list">
                             <ul class="list-unstyled">
-                                <li id="popular-product3">
-                                    <a href="#" style="color: darkslategray"><b><span>{{ substr('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus cupiditate quod quam maiores consequuntur praesentium molestias! Cupiditate, facilis quae quam quis similique corporis amet temporibus cumque ad qui illo nihil? ', 0, 50) }}
-                                            </span></b> </a>
-                                    <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="top"
-                                        title="Dibaca">15.000.000 <i class="fa fa-eye"></i> </span>
-                                </li>
-                                <li id="popular-product3">
-                                    <a href="#" style="color: darkslategray"><b><span>{{ substr('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus cupiditate quod quam maiores consequuntur praesentium molestias! Cupiditate, facilis quae quam quis similique corporis amet temporibus cumque ad qui illo nihil? ', 0, 50) }}
-                                            </span></b> </a>
-                                    <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="top"
-                                        title="Dibaca">15.000.000 <i class="fa fa-eye"></i> </span>
-                                </li>
-                                <li id="popular-product3">
-                                    <a href="#" style="color: darkslategray"><b><span>{{ substr('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus cupiditate quod quam maiores consequuntur praesentium molestias! Cupiditate, facilis quae quam quis similique corporis amet temporibus cumque ad qui illo nihil? ', 0, 50) }}
-                                            </span></b> </a>
-                                    <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="top"
-                                        title="Dibaca">15.000.000 <i class="fa fa-eye"></i> </span>
-                                </li>
+                                @foreach ($popular as $item)
+                                        <li id="popular-product3">
+                                            <a href="{{route('artikel.show', $item->slug)}}" style="color: darkslategray"><b><span>{{ substr($item->judul, 0, 50) }}
+                                                    </span></b> </a>
+                                            <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="top"
+                                                title="Dibaca">{{$item->total_views}} &nbsp;<i class="fa fa-eye"></i> </span>
+                                        </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -115,7 +107,7 @@
                                 <i class="fab fa-instagram"></i>
                             </div>
                             <div class="social-text" >
-                                <p><a href="https://instagram.com/inimahsumedang" target="_blank">inimahsumedang</a></p>
+                                <p><a href="https://instagram.com/{{$web->instagram ?? '-'}}" target="_blank">{{$web->instagram ?? '-'}}</a></p>
                                 <span>Instagram</span>
                             </div>
                         </div>
@@ -124,7 +116,7 @@
                                 <i class="fab fa-facebook-f"></i>
                             </div>
                             <div class="social-text">
-                                <p>Inimahsumedang</p>
+                                <p><a href="https://fb.com/{{$web->facebook ?? '-'}}" target="_blank">{{$web->facebook ?? '-'}}</a></p>
                                 <span>Facebook</span>
                             </div>
                         </div>
@@ -133,7 +125,7 @@
                                 <i class="fab fa-twitter"></i>
                             </div>
                             <div class="social-text">
-                                <p>inimahsumedang</p>
+                                <p><a href="https://twitter.com/{{$web->twitter ?? '-'}}" target="_blank">{{$web->twitter ?? '-'}}</a></p>
                                 <span>Twitter</span>
                             </div>
                         </div>
@@ -142,7 +134,7 @@
                                 <i class="fab fa-whatsapp"></i>
                             </div>
                             <div class="social-text">
-                                <p>085156574497</p>
+                                <p><a href="https://wa.me/{{$web->whatsapp ?? '-'}}" target="_blank">{{$web->whatsapp ?? '-'}}</a></p>
                                 <span>Whatsapp</span>
                             </div>
                         </div>
@@ -151,7 +143,7 @@
                                 <i class="fa fa-envelope"></i>
                             </div>
                             <div class="social-text">
-                                <p><a href="mailto:inimahsumedang@gmail.com">inimahsumedang@gmail.com</a> </p>
+                                <p><a href="mailto:{{$web->email ?? 'tahungoding@gmail.com'}}">{{$web->email ?? '-'}}</a> </p>
                                 <span>Email</span>
                             </div>
                         </div>

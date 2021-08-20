@@ -176,6 +176,9 @@
                                 <label for="jenis_user">Jenis User</label>
                                 <select name="jenis_user" id="jenis_user" class="form-control">
                                     <option value="">-- Pilih --</option>
+                                    @foreach ($roles as $item)
+                                        <option value="">-- Pilih --</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-6">

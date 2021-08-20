@@ -23,7 +23,7 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('beranda.index') }}">Beranda</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('/') }}">Beranda</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('artikel.index') }}">Artikel</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $article->judul }}</li>
             </ol>

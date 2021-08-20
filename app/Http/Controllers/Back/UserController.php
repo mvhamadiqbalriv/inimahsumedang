@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -28,7 +29,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('back.user.create');
+        $data['roles'] = Role::pluck('name','name')->all();
+        return view('back.user.create', $data);
     }
 
     /**
@@ -72,6 +74,7 @@ class UserController extends Controller
         ]);
 
         if ($new->save()) {
+            $new->assignRole($request->post('roles'));
             return redirect('/users')->with('success', 'Pengguna berhasil ditambahkan!');
         }else{
             return redirect('/users')->with('error', 'Pengguna gagal ditambahkan!');
@@ -100,6 +103,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $data['detail'] = User::findOrFail($id);
+        $data['roles'] = Role::pluck('name','name')->all();
+        $data['userRole'] = $data['detail']->roles->pluck('name','name')->all();
+
         return view('back.user.edit', $data);
     }
 
@@ -143,6 +149,7 @@ class UserController extends Controller
         $update->alamat = $request->post('alamat');
 
         if ($update->save()) {
+            $update->assignRole($request->post('roles'));
             return redirect('/users')->with('success', 'Pengguna berhasil diperbaharui!');
         }else{
             return redirect('/users')->with('error', 'Pengguna gagal diperbaharui!');

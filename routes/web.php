@@ -26,11 +26,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-// Front
-Route::resource('beranda', HomeController::class);
+Route::resource('/', HomeController::class);
 Route::resource('artikel', FrontArticleController::class);
 Route::post('artikel/tag', [FrontArticleController::class, 'tag'])->name('artikel.tag');
 Route::post('artikel/komentar', [FrontArticleController::class, 'komentar'])->name('artikel.komentar');

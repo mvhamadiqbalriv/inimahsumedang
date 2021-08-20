@@ -56,11 +56,11 @@ Beranda
 					<ul class="nav nav-tabs nav-pills nav-fill" id="postsTab" role="tablist">
 						<li class="nav-item" role="presentation"><button aria-controls="recent" aria-selected="false"
 								class="nav-link" data-bs-target="#recent" data-bs-toggle="tab" id="recent-tab"
-								role="tab" type="button">Recent</button>
+								role="tab" type="button">Terbaru</button>
 						</li>
 						<li class="nav-item" role="presentation"><button aria-controls="popular" aria-selected="true"
 								class="nav-link active" data-bs-target="#popular" data-bs-toggle="tab" id="popular-tab"
-								role="tab" type="button">Popular</button>
+								role="tab" type="button">Populer</button>
 						</li>
 					</ul>
 					<!-- tab contents -->
@@ -72,33 +72,38 @@ Beranda
 
 						<div aria-labelledby="recent-tab" class="tab-pane fade show" id="recent" role="tabpanel">
 							<!-- post -->
-							@foreach ($recent_article as $recent_articles)
-							<div class="post post-list-sm circle">
-								<div class="thumb circle">
-									<a href="{{ route('artikel.show', $recent_articles->id) }}">
-										<div class="inner">
-											<img src="{{ Storage::url($recent_articles->gambar) }}" alt="post-title"
-												style="width:60px; height:58px; object-fit:cover;" />
-										</div>
-									</a>
+							@if ($recent_article->isNotEmpty())
+								@foreach ($recent_article as $recent_articles)
+								<div class="post post-list-sm circle">
+									<div class="thumb circle">
+										<a href="{{ route('artikel.show', $recent_articles->id) }}">
+											<div class="inner">
+												<img src="{{ Storage::url($recent_articles->gambar) }}" alt="post-title"
+													style="width:60px; height:58px; object-fit:cover;" />
+											</div>
+										</a>
+									</div>
+									<div class="details clearfix">
+										<h6 class="post-title my-0"><a
+												href="{{ route('artikel.show', $recent_articles->slug) }}">{{ $recent_articles->judul }}</a>
+										</h6>
+										<ul class="meta list-inline mt-1 mb-0">
+											<li class="list-inline-item">{{ $recent_articles->updated_at->format('d M y')}}
+											</li>
+										</ul>
+									</div>
 								</div>
-								<div class="details clearfix">
-									<h6 class="post-title my-0"><a
-											href="{{ route('artikel.show', $recent_articles->slug) }}">{{ $recent_articles->judul }}</a>
-									</h6>
-									<ul class="meta list-inline mt-1 mb-0">
-										<li class="list-inline-item">{{ $recent_articles->updated_at->format('d M y')}}
-										</li>
-									</ul>
-								</div>
-							</div>
-							@endforeach
+								@endforeach
+							@else 
+								<i>Belum ada data</i>
+							@endif
 						</div>
 
 						<!-- popular posts -->
 						<div aria-labelledby="popular-tab" class="tab-pane fade show active" id="popular"
 							role="tabpanel">
 							<!-- post -->
+							@if ($popular->isNotEmpty())
 							@foreach ($popular as $popular_article)
 
 							<div class="post post-list-sm circle">
@@ -120,6 +125,10 @@ Beranda
 								</div>
 							</div>
 							@endforeach
+							@else
+								<i>Belum ada data</i>
+							@endif
+							
 						</div>
 					</div>
 				</div>
@@ -141,7 +150,7 @@ Beranda
 
 				<!-- section header -->
 				<div class="section-header">
-					<h3 class="section-title">Editor’s Pick</h3>
+					<h3 class="section-title">Artikel Pilihan</h3>
 					<img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
 				</div>
 
@@ -557,7 +566,7 @@ Beranda
 
 				<!-- section header -->
 				<div class="section-header">
-					<h3 class="section-title">Inspiration</h3>
+					<h3 class="section-title">Inspirasi</h3>
 					<img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
 					<div class="slick-arrows-top">
 						<button type="button" data-role="none" class="carousel-topNav-prev slick-custom-buttons"
@@ -656,7 +665,7 @@ Beranda
 					<!-- post -->
 					<div class="post post-over-content col-md-6">
 						<div class="details clearfix">
-							<a href="category.html" class="category-badge">Inspiration</a>
+							<a href="category.html" class="category-badge">Inspirasi</a>
 							<h4 class="post-title"><a href="blog-single.html">Your Light Is About To Stop Being
 									Relevant</a></h4>
 							<ul class="meta list-inline mb-0">
@@ -704,8 +713,8 @@ Beranda
 					<!-- widget categories -->
 					<div class="widget rounded">
 						<div class="widget-header text-center">
-							<h3 class="widget-title">Explore Topics</h3>
-							<img src="images/wave.svg" class="wave" alt="wave" />
+							<h3 class="widget-title">Kategori</h3>
+							<img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
 						</div>
 						<div class="widget-content">
 							<ul class="list">
@@ -733,25 +742,6 @@ Beranda
 						</div>
 
 					</div>
-
-					<!-- widget newsletter -->
-					<!-- <div class="widget rounded">
-							<div class="widget-header text-center">
-								<h3 class="widget-title">Newsletter</h3>
-								<img src="images/wave.svg" class="wave" alt="wave" />
-							</div>
-							<div class="widget-content">
-								<span class="newsletter-headline text-center mb-3">Join 70,000 subscribers!</span>
-								<form>
-									<div class="mb-2">
-										<input class="form-control w-100 text-center" placeholder="Email address…" type="email">
-									</div>
-									<button class="btn btn-default btn-full" type="submit">Sign Up</button>
-								</form>
-								<span class="newsletter-privacy text-center mt-3">By signing up, you agree to our <a href="#">Privacy Policy</a></span>
-							</div>		
-						</div> -->
-
 					<!-- widget post carousel -->
 					<div class="widget rounded">
 						<div class="widget-header text-center">
