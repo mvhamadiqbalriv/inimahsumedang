@@ -140,9 +140,12 @@
                         </div>
                         <div class="form-row mb-3">
                             <div class="col-6">
-                                <label for="jenis_user">Jenis User</label>
-                                <select name="jenis_user" id="jenis_user" class="form-control">
+                                <label for="roles">Jenis User</label>
+                                <select name="roles" id="roles" class="form-control">
                                     <option value="">-- Pilih --</option>
+                                    @foreach ($roles as $item)
+                                        <option value="{{$item}}" {{(Auth::user()->roles->pluck('name')->first() == $item) ? 'selected' : null}}>{{$item}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-6">

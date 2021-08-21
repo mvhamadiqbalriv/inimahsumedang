@@ -75,10 +75,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('article/search-live-trending', [PageController::class, 'searchliveTrending'])->name('artikel.searchliveTrending');
     Route::post('pagination/fetch', [PageController::class, 'fetchAjax'])->name('page.fetchAjax');
 
-
     Route::get('/role-has-permissions/{id}', [RoleController::class, 'roleHasPermission']);
 
     Route::put('/change_password/{id}', [UserController::class, 'changePassword'])->name('change_password');
+
+    Route::get('/setting', [UserController::class, 'setting'])->name('setting');
 });
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {

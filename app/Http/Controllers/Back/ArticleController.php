@@ -19,15 +19,31 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        $data['article'] = Article::orderBy('created_at', 'desc')->paginate(5);
-        $data['published'] = Article::where('is_publish', '=', '1')->paginate(5);
-        $data['draft'] = Article::where('is_publish', '=', '0')->paginate(5);
-        $data['count_all'] = Article::all()->count();
-        $data['count_published'] = Article::where('is_publish', '=' , '1')->count();
-        $data['count_draft'] = Article::where('is_publish', '=' , '0')->count();
-        $data['comment_count'] = Article::with('comments')->get();
+        $userRole = Auth::user()->roles->pluck('name')->first();
+        $data['article'] = Article::when($userRole == 'guest', function($query) {
+            return $query->where('creator', Auth::id());
+        })->orderBy('created_at', 'desc')->paginate(5);
+        $data['published'] = Article::when($userRole == 'guest', function($query) {
+            return $query->where('creator', Auth::id());
+        })->where('is_publish', '=', '1')->paginate(5);
+        $data['draft'] = Article::when($userRole == 'guest', function($query) {
+            return $query->where('creator', Auth::id());
+        })->where('is_publish', '=', '0')->paginate(5);
+        $data['count_all'] = Article::when($userRole == 'guest', function($query) {
+            return $query->where('creator', Auth::id());
+        })->count();
+        $data['count_published'] = Article::when($userRole == 'guest', function($query) {
+            return $query->where('creator', Auth::id());
+        })->where('is_publish', '=' , '1')->count();
+        $data['count_draft'] = Article::when($userRole == 'guest', function($query) {
+            return $query->where('creator', Auth::id());
+        })->where('is_publish', '=' , '0')->count();
+        $data['comment_count'] = Article::when($userRole == 'guest', function($query) {
+            return $query->where('creator', Auth::id());
+        })->with('comments')->get();
         $data['status'] = '';
         return view('back.article.index',$data);
     }
@@ -40,15 +56,24 @@ class ArticleController extends Controller
 
     public function filterArticle(Request $request)
     {
-        $data['count_all'] = Article::all()->count();
-        $data['count_published'] = Article::where('is_publish', '=' , '1')->count();
-        $data['count_draft'] = Article::where('is_publish', '=' , '0')->count();
+        $userRole = Auth::user()->roles->pluck('name')->first();
+        $data['count_all'] = Article::when($userRole == 'guest', function($query) {
+            return $query->where('creator', Auth::id());
+        })->count();
+        $data['count_published'] = Article::when($userRole == 'guest', function($query) {
+            return $query->where('creator', Auth::id());
+        })->where('is_publish', '=' , '1')->count();
+        $data['count_draft'] = Article::when($userRole == 'guest', function($query) {
+            return $query->where('creator', Auth::id());
+        })->where('is_publish', '=' , '0')->count();
         $status = $request->status;
         if($request->status == 'all')
         {
            return redirect()->route('articles.index');
         } else {
-            $data['article'] = Article::where('is_publish', '=', $status)->paginate(5);
+            $data['article'] = Article::when($userRole == 'guest', function($query) {
+                return $query->where('creator', Auth::id());
+            })->where('is_publish', '=', $status)->paginate(5);
         }
 
         return view('back.article.index', $data, compact('status'));

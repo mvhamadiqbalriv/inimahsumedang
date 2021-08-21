@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -44,11 +45,11 @@ class UserController extends Controller
 
         $validation = ([
             'name' => 'required|max:255|regex:/^[\pL\s\-]+$/u',
-            'username' => 'required|unique:users|max:20|min:6|alpha_dash',
-            'password' => 'required|min:6',
-            'confirm_password' => 'required|min:6|same:password',
+            'username' => 'required|unique:users|max:20|min:5|alpha_dash',
+            'password' => 'required|min:5',
+            'confirm_password' => 'required|min:5|same:password',
             'email' => 'required|unique:users',
-            'telepon' => 'required|unique:users|max:13',
+            'roles' => 'required',
         ]);
         if (empty($request->file('photo'))) {
             $validation['photo'] = 'mimes:jpeg,bmp,png,jpg|max:2048';
@@ -120,9 +121,8 @@ class UserController extends Controller
     {
         $validation = ([
             'name' => 'required|max:255|regex:/^[\pL\s\-]+$/u',
-            'username' => 'required|max:20|min:6|alpha_dash|unique:users,username,'.$id,
+            'username' => 'required|max:20|min:5|alpha_dash|unique:users,username,'.$id,
             'email' => 'required|unique:users,email,'.$id,
-            'telepon' => 'required|max:13|unique:users,telepon,'.$id,
         ]);
         if (empty($request->file('photo'))) {
             $validation['photo'] = 'mimes:jpeg,bmp,png,jpg|max:2048';
@@ -147,9 +147,9 @@ class UserController extends Controller
         $update->tempat_lahir = $request->post('tempat_lahir');
         $update->tanggal_lahir = $request->post('tanggal_lahir');
         $update->alamat = $request->post('alamat');
+        $update->assignRole($request->post('roles'));
 
         if ($update->save()) {
-            $update->assignRole($request->post('roles'));
             return redirect('/users')->with('success', 'Pengguna berhasil diperbaharui!');
         }else{
             return redirect('/users')->with('error', 'Pengguna gagal diperbaharui!');
@@ -182,8 +182,8 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         $request->validate([
-            'new_password' => 'required|min:6',
-            'confirm_password' => 'required|min:6|same:new_password'
+            'new_password' => 'required|min:5',
+            'confirm_password' => 'required|min:5|same:new_password'
         ]);
 
         if (!Hash::check($request->old_password, $user->password)) {
@@ -198,5 +198,14 @@ class UserController extends Controller
             return redirect(route('users.edit', $id))->with('error', 'Password gagal diperbaharui!');
         }
 
+    }
+
+    public function setting()
+    {
+        $data['detail'] = User::findOrFail(Auth::user()->id);
+        $data['roles'] = Role::pluck('name','name')->all();
+        $data['userRole'] = $data['detail']->roles->pluck('name','name')->all();
+
+        return view('back.user.edit', $data);
     }
 }

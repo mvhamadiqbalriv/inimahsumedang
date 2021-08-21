@@ -92,6 +92,7 @@ $web = \App\Models\Web::findOrFail(1);
                     <a href="{{url('users')}}" class="{{($url[3] == 'users') ? 'active' : null}}"><i
                             class="material-icons">person_outline</i>Users</a>
                 </li>
+                @role('admin')
                 <li>
                     <a href="#"><i class="material-icons">aspect_ratio</i>Hak Akses<i
                             class="material-icons has-sub-menu">keyboard_arrow_left</i></a>
@@ -105,6 +106,7 @@ $web = \App\Models\Web::findOrFail(1);
                         </li>
                     </ul>
                 </li>
+                @endrole
             </ul>
         </div>
     </div>
@@ -136,7 +138,8 @@ $web = \App\Models\Web::findOrFail(1);
                             <i class="material-icons">more_vert</i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><span class="dropdown-item">{{Auth::user()->name}}</span></li>
+                            <li><a class="dropdown-item" href="{{route('setting')}}">Settings</a></li>
                             <li class="divider"></li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf

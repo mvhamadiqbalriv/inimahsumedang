@@ -39,7 +39,9 @@
                             <th scope="col"></th>
                             <th scope="col">Nama Lengkap</th>
                             <th scope="col">Email</th>
+                            @role('admin')
                             <th scope="col">Aksi</th>
+                            @endrole
                         </tr>
                     </thead>
                     <tbody>
@@ -64,10 +66,12 @@
                                     </a>
                                 </td>
                                 <td>{{$item->email}}</td>
+                                @role('admin')
                                 <td>
                                     <a href="{{route('users.edit', $item->id)}}" class="btn btn-success"><i class="fa fa-edit"></i> </a>
                                     <a href="javascript:void(0)" data-name="{{$item->name}}" data-uid="{{$item->id}}" onclick="deleteUserModal(this)" class="btn btn-danger"><i class="fa fa-trash"></i> </a>
                                 </td>
+                                @endrole
                             </tr>
                         @endforeach
                     </tbody>

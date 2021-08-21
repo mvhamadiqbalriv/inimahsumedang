@@ -386,7 +386,7 @@ Beranda
 									</a>
 								</div>
 								<ul class="meta list-inline mt-4 mb-0">
-									<li class="list-inline-item"><a href="{{ route('artikel.author', $trending_1->creators->username) }}">
+									<li class="list-inline-item"><a href="@if(isset($trending_1)){{ route('artikel.author', $trending_1->creators->username) }}@endif">
 											@if(isset($trending_1))
 											<img src="{{ Storage::url($trending_1->creators->photo) }}"
 												style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;"
@@ -497,7 +497,7 @@ Beranda
 									</a>
 								</div>
 								<ul class="meta list-inline mt-4 mb-0">
-									<li class="list-inline-item"><a href="{{ route('artikel.author', $trending_2->creators->username) }}">@if(isset($trending_2))<img
+									<li class="list-inline-item"><a href="@if(isset($trending_2)){{ route('artikel.author', $trending_2->creators->username) }}@endif">@if(isset($trending_2))<img
 												src="{{ Storage::url($trending_2->creators->photo) }}"
 												style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;"
 												class="author" alt="author" /> @endif @if(isset($trending_2))
@@ -609,7 +609,7 @@ Beranda
 									{{ $selected_category_post_1->judul }} @else Judul artikel @endif</a>
 							</h4>
 							<ul class="meta list-inline mb-0">
-								<li class="list-inline-item"><a href="{{ route('artikel.author', $selected_category_post_1->creators->username) }}">@if(isset($selected_category_post_1))
+								<li class="list-inline-item"><a href="@if(isset($selected_category_post_1)){{ route('artikel.author', $selected_category_post_1->creators->username) }}@endif">@if(isset($selected_category_post_1))
 										{{ ucfirst(trans($selected_category_post_1->creators->name)) }} @else Nama
 										penulis @endif</a>
 								</li>
@@ -652,7 +652,7 @@ Beranda
 									{{ $selected_category_post_2->judul }} @else Judul artikel @endif</a>
 							</h4>
 							<ul class="meta list-inline mb-0">
-								<li class="list-inline-item"><a href="{{ route('artikel.author', $selected_category_post_2->creators->username) }}">@if(isset($selected_category_post_2))
+								<li class="list-inline-item"><a href="@if(isset($selected_category_post_2)){{ route('artikel.author', $selected_category_post_2->creators->username) }}@endif">@if(isset($selected_category_post_2))
 										{{ ucfirst(trans($selected_category_post_2->creators->name)) }} @else Nama
 										penulis @endif</a>
 								</li>
