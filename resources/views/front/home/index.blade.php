@@ -209,8 +209,8 @@ Beranda
 										href="@if(isset($editors_pick_1)) {{ route('artikel.show', $editors_pick_1->slug) }} @endif">@if(isset($editors_pick_1))
 										{{ $editors_pick_1->judul }} @else Judul artikel @endif</a>
 								</h5>
-								<p class="excerpt mb-0">@if(isset($editors_pick_1)) {{
-									Str::limit($editors_pick_1->konten, 90) }}
+								<p class="excerpt mb-0">@if(isset($editors_pick_1)) {!!
+									Str::limit($editors_pick_1->konten, 90) !!}
 									@else Konten artikel @endif</p>
 
 							</div>
