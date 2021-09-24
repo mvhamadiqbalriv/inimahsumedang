@@ -877,7 +877,7 @@ Beranda
 					<!-- widget tags -->
 					<div class="widget rounded">
 						<div class="widget-header text-center">
-							<h3 class="widget-title">Tag Clouds</h3>
+							<h3 class="widget-title">Tag</h3>
 							<img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
 						</div>
 						<div class="widget-content">
