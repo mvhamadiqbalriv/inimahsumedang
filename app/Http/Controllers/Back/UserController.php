@@ -70,6 +70,7 @@ class UserController extends Controller
             'jenis_kelamin' => $request->post('jenis_kelamin'),
             'tempat_lahir' => $request->post('tempat_lahir'),
             'tanggal_lahir' => $request->post('tanggal_lahir'),
+            'tentang' => $request->post('tentang'),
             'alamat' => $request->post('alamat'),
             'photo' => $path
         ]);
@@ -147,6 +148,7 @@ class UserController extends Controller
         $update->tempat_lahir = $request->post('tempat_lahir');
         $update->tanggal_lahir = $request->post('tanggal_lahir');
         $update->alamat = $request->post('alamat');
+        $update->tentang = $request->post('tentang');
         $update->assignRole($request->post('roles'));
 
         if ($update->save()) {
