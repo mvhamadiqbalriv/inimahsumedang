@@ -206,7 +206,7 @@ Beranda
 								</ul>
 
 								<h5 class="post-title mb-3 mt-3"><a
-										href="@if(isset($editors_pick_1)) {{ route('artikel.show', $editors_pick_1->id) }} @endif">@if(isset($editors_pick_1))
+										href="@if(isset($editors_pick_1)) {{ route('artikel.show', $editors_pick_1->slug) }} @endif">@if(isset($editors_pick_1))
 										{{ $editors_pick_1->judul }} @else Judul artikel @endif</a>
 								</h5>
 								<p class="excerpt mb-0">@if(isset($editors_pick_1)) {!!
@@ -326,19 +326,21 @@ Beranda
 				</div>
 
 				<div class="spacer" data-height="50"></div>
-
 				<!-- horizontal ads -->
-				<div class="ads-horizontal text-md-center">
+				<div class="text-md-center">
 					<span class="ads-title">- Sponsored Ad -</span>
-					<a href="#">
-						@if (!empty($horizontal_ads))
-						<img src="{{ Storage::url($horizontal_ads->gambar) }}" style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;" alt="post-title" />
-						@else
-						<img src="{{ asset('assets/back/not-found.png') }}"
-							style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
-							alt="Advertisement" />
-						@endif
-					</a>
+					
+					@if (!empty($horizontal_ads))
+						<a href="{{$horizontal_ads->tautan}}">
+							<img src="{{ Storage::url($horizontal_ads->gambar) }}" style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;" alt="post-title" />
+						</a>
+					@else 
+						<a href="#">
+							<img src="{{ asset('assets/front/images/ads736x126.png') }}"
+								style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
+								alt="Advertisement" />
+						</a>
+					@endif
 				</div>
 
 				<div class="spacer" data-height="50"></div>
@@ -859,15 +861,17 @@ Beranda
 					<!-- widget advertisement -->
 					<div class="widget no-container rounded text-md-center">
 						<span class="ads-title">- Sponsored Ad -</span>
-						<a href="#" class="widget-ads">
-							@if (!empty($widget_ads))
-							<img src="{{ Storage::url($widget_ads->gambar) }}" style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;" alt="post-title" />
-							@else
-							<img src="{{ asset('assets/back/not-found.png') }}"
-								style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
-								alt="Advertisement" />
-							@endif
-						</a>
+						@if (!empty($widget_ads))
+							<a href="{{$widget_ads->tautan}}" class="widget-content">
+								<img src="{{ Storage::url($widget_ads->gambar) }}" style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;" alt="post-title" />
+							</a>
+						@else
+							<a href="#">
+								<img src="{{ asset('assets/front/images/ads356x361.png') }}"
+									style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
+									alt="Advertisement" />
+							</a>
+						@endif
 					</div>
 
 					<!-- widget tags -->

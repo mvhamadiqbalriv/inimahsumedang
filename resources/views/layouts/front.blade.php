@@ -109,7 +109,7 @@
                             <li class="nav-item {{($url[3] == 'artikel') ? 'active' : null}}">
                                 <a class="nav-link" href="{{ route('artikel.index') }}">Artikel</a>
                             </li>
-                            <li class="nav-item dropdown">
+                            {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#">Info</a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#">Samsat Keliling</a></li>
@@ -117,7 +117,7 @@
                                     <li><a class="dropdown-item" href="#">Nomor telepon penting</a></li>
                                     <li><a class="dropdown-item" href="#">Jadwal Bus</a></li>
                                 </ul>
-                            </li>
+                            </li> --}}
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Tentang</a>
                             </li>
@@ -278,7 +278,7 @@
             <ul class="vertical-menu">
                 <li><a href="{{ url('/') }}">Beranda</a></li>
                 <li><a href="{{ route('artikel.index') }}">Artikel</a></li>
-                <li>
+                {{-- <li>
                     <a href="#">Info</a>
                     <ul class="submenu">
                         <li><a href="#">Samsat Keliling</a></li>
@@ -286,7 +286,7 @@
                         <li><a href="#">Nomor telepon penting</a></li>
                         <li><a href="#">Jadwal Bus</a></li>
                     </ul>
-                </li>
+                </li> --}}
                 <li><a href="#">Tentang</a></li>
                 <li><a href="#">Kontak</a></li>
             </ul>
