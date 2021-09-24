@@ -799,7 +799,7 @@ Beranda
 											{{ $event_1->judul }} @else Judul artikel @endif</a>
 									</h5>
 									<ul class="meta list-inline mt-2 mb-0">
-										<li class="list-inline-item"><a href="@if(isset($event_1)){{ route('artikel.authors', $event_1->creators->username) }}@endif">@if(isset($event_1))
+										<li class="list-inline-item"><a href="@if(isset($event_1)){{ route('artikel.author', $event_1->creators->username) }}@endif">@if(isset($event_1))
 												{{ ucfirst(trans($event_1->creators->name)) }} @else Nama penulis
 												@endif</a></li>
 										<li class="list-inline-item">@if(isset($event_1))
@@ -838,7 +838,7 @@ Beranda
 											{{ $event_2->judul }} @else Judul artikel @endif</a>
 									</h5>
 									<ul class="meta list-inline mt-2 mb-0">
-										<li class="list-inline-item"><a href="@if(isset($event_2)){{ route('artikel.authors', $event_2->creators->username) }}@endif">@if(isset($event_2))
+										<li class="list-inline-item"><a href="@if(isset($event_2)){{ route('artikel.author', $event_2->creators->username) }}@endif">@if(isset($event_2))
 												{{ ucfirst(trans($event_2->creators->name)) }} @else Nama penulis
 												@endif</a></li>
 										<li class="list-inline-item">@if(isset($event_2))
