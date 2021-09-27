@@ -20,7 +20,7 @@ Page
         color: #f1556c;
         border: 1px solid #f1556c;
     }
-    
+
     .form-group .gambarIklan .error {
         color: #f1556c;
         border: 1px solid #f1556c !important;
@@ -202,9 +202,11 @@ Page
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <h4>Horizontal Ads</h4>
-                                    <button class="btn btn-sm btn-secondary" id="buttonHorizontalAds" data-toggle="modal" @if(empty($article))
-                                        data-target="#ifArticleEmpty" @else data-target="#horizontalAdsModal" @endif @if(!empty($horizontal_ads)) data-id="{{ $horizontal_ads->id }}" onclick="updateHorizontalAds(this)" @endif><i
-                                            class="fas fa-plus"></i></button>
+                                    <button class="btn btn-sm btn-secondary" id="buttonHorizontalAds"
+                                        data-toggle="modal" @if(empty($article)) data-target="#ifArticleEmpty" @else
+                                        data-target="#horizontalAdsModal" @endif @if(!empty($horizontal_ads))
+                                        data-id="{{ $horizontal_ads->id }}" onclick="updateHorizontalAds(this)"
+                                        @endif><i class="fas fa-plus"></i></button>
                                 </div>
 
                                 <div class="wrap-image mt-3">
@@ -225,8 +227,9 @@ Page
                                 <div class="d-flex justify-content-between">
                                     <h4>Widget Ads</h4>
                                     <button class="btn btn-sm btn-secondary" data-toggle="modal" @if(empty($article))
-                                        data-target="#ifArticleEmpty" @else data-target="#widgetAdsModal" @endif @if(!empty($widget_ads)) data-id="{{ $widget_ads->id }}" onclick="updateWidgetAds(this)" @endif><i
-                                            class="fas fa-plus"></i></button>
+                                        data-target="#ifArticleEmpty" @else data-target="#widgetAdsModal" @endif
+                                        @if(!empty($widget_ads)) data-id="{{ $widget_ads->id }}"
+                                        onclick="updateWidgetAds(this)" @endif><i class="fas fa-plus"></i></button>
                                 </div>
 
                                 <div class="wrap-image mt-3">
@@ -674,7 +677,7 @@ Page
                     <div id="trendingArticle">
 
                     </div>
-                    @if (count($artikelAjax) > 0)
+                    @if (count($artikelAjax))
                     <section class="books">
                         @include('load_books_data')
                     </section>
@@ -737,16 +740,19 @@ Page
                     <div class="form-group">
                         <input type="hidden" name="status" value="horizontal_ads">
                         <input type="file" class="form-control dropify mt-5 gambarIklan" name="gambar"
-                            data-allowed-file-extensions="png jpg jpeg" data-default-file="@if(!empty($horizontal_ads->gambar) &&
+                            data-allowed-file-extensions="png jpg jpeg"
+                            data-default-file="@if(!empty($horizontal_ads->gambar) &&
                             Storage::exists($horizontal_ads->gambar)){{ Storage::url($horizontal_ads->gambar) }}@endif">
-                        <input type="hidden" name="gambarCheck" id="gambarCheck" value="@if(!empty($horizontal_ads)) {{ $horizontal_ads->gambar }} @endif">
+                        <input type="hidden" name="gambarCheck" id="gambarCheck"
+                            value="@if(!empty($horizontal_ads)) {{ $horizontal_ads->gambar }} @endif">
                         <span class="errorGambar"></span>
 
-                        <br>      
+                        <br>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control  @error('tautan') is-invalid @enderror" name="tautan" id="tautanValue" placeholder="Tautan"
-                        value="@if(!empty($horizontal_ads)) {{ $horizontal_ads->tautan }} @endif">
+                        <input type="text" class="form-control  @error('tautan') is-invalid @enderror" name="tautan"
+                            id="tautanValue" placeholder="Tautan"
+                            value="@if(!empty($horizontal_ads)) {{ $horizontal_ads->tautan }} @endif">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -777,21 +783,23 @@ Page
                     <div class="form-group">
                         <input type="hidden" name="status" value="widget_ads">
                         <input type="file" class="form-control dropify mt-5 gambarIklan" name="gambar"
-                            data-allowed-file-extensions="png jpg jpeg" data-default-file="@if(!empty($horizontal_ads->gambar) &&
+                            data-allowed-file-extensions="png jpg jpeg"
+                            data-default-file="@if(!empty($horizontal_ads->gambar) &&
                             Storage::exists($horizontal_ads->gambar)){{ Storage::url($horizontal_ads->gambar) }}@endif">
-                        <input type="hidden" name="gambarCheck" id="gambarCheck2" value="@if(!empty($horizontal_ads)) {{ $horizontal_ads->gambar }} @endif">
+                        <input type="hidden" name="gambarCheck" id="gambarCheck2"
+                            value="@if(!empty($horizontal_ads)) {{ $horizontal_ads->gambar }} @endif">
                         <span class="errorGambar2"></span>
 
-                        <br>      
+                        <br>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control  @error('tautan') is-invalid @enderror" name="tautan" id="tautanValue" placeholder="Tautan"
-                        value="@if(!empty($horizontal_ads)) {{ $horizontal_ads->tautan }} @endif">
+                        <input type="text" class="form-control  @error('tautan') is-invalid @enderror" name="tautan"
+                            id="tautanValue" placeholder="Tautan"
+                            value="@if(!empty($horizontal_ads)) {{ $horizontal_ads->tautan }} @endif">
                     </div>
                 </div>
                 <div class="modal-footer">'
-                    <button type="submit" class="btn btn-sm btn-primary"
-                        id="widgetAdsButton">Terapkan</button>
+                    <button type="submit" class="btn btn-sm btn-primary" id="widgetAdsButton">Terapkan</button>
                     <button type="button" class="btn btn-sm btn-secondary" class="close"
                         data-dismiss="modal">Kembali</button>
                 </div>
@@ -806,7 +814,7 @@ Page
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
 
 <script>
-function updateHorizontalAds(element)
+    function updateHorizontalAds(element)
 {
     var id = $(element).attr('data-id');
     console.log(id);

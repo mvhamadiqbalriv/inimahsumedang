@@ -41,7 +41,7 @@ class PageController extends Controller
 
         $data['artikelAjax'] = Article::join("visitors", "visitors.article", "=", "articles.id")
             ->where("visitors.created_at", ">=", date("Y-m-d H:i:s", strtotime('-24 hours', time())))
-            ->where("selected_article", "=", "")
+            ->where("selected_article", "=", null)
             ->groupBy("articles.id")
             ->orderBy(DB::raw('COUNT(articles.id)'), 'desc')
             ->select('articles.*', DB::raw('COUNT(articles.id) as total_views'))

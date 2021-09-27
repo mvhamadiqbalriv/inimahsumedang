@@ -160,8 +160,28 @@
         <div class="instagram">
             <div class="container-xl">
                 <!-- button -->
+                @if(count(\App\Models\FeedToken::all()))
+                <a href="https://www.instagram.com/inimahsumedang/" class="btn btn-default btn-instagram" target="_blank">@inimahsumedang on Instagram</a>
+                @else
                 <a href="#" class="btn btn-default btn-instagram">Belum ada feed instagram</a>
+                @endif
                 <!-- images -->
+                @php
+                if (count(\App\Models\FeedToken::all())) {
+                    $feed = \Dymantic\InstagramFeed\Profile::where('username', 'hippies_67')->first()->feed();
+                }
+                @endphp
+                @if(isset($feed))
+                <div class="instagram-feed d-flex flex-wrap">
+                    @foreach($feed as $post)
+                    <div class="insta-item col-sm-2 col-6 col-md-2">
+                        <a href="https://www.instagram.com/inimahsumedang/">
+                            <img src="{{ $post['url']}}"  alt="insta-title" />
+                        </a>
+                    </div> 
+                    @endforeach
+                </div>
+                @else
                 <div class="instagram-feed d-flex flex-wrap">
                     <div class="insta-item col-sm-2 col-6 col-md-2">
                         <a href="#">
@@ -194,6 +214,7 @@
                         </a>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
 

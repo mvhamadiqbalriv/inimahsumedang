@@ -10,6 +10,7 @@ use App\Http\Controllers\Back\CategoryArticleController;
 use App\Http\Controllers\Back\ArticleController;
 use App\Http\Controllers\Back\PageController;
 use App\Http\Controllers\Back\CommentController;
+use App\Http\Controllers\Back\InstaFeedController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\FrontArticleController;
 use App\Http\Controllers\Front\AuthorController;
@@ -80,6 +81,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/change_password/{id}', [UserController::class, 'changePassword'])->name('change_password');
 
     Route::get('/setting', [UserController::class, 'setting'])->name('setting');
+
+    Route::resource('instagram-feeds', InstaFeedController::class);
+    Route::post('instagram-feeds/checkUsername', [InstaFeedController::class, 'checkUsername'])->name('instagram-feeds.checkUsername');
+    Route::post('instagram-feeds/get-feed', [InstaFeedController::class, 'getFeed'])->name('instagram-feeds.getFeed');
+    Route::get('instagram-auth-response', [InstaFeedController::class, 'complete']);
 });
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
