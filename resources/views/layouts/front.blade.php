@@ -168,7 +168,11 @@
                 <!-- images -->
                 @php
                 if (count(\App\Models\FeedToken::all())) {
-                    $feed = \Dymantic\InstagramFeed\Profile::where('username', 'hippies_67')->first()->feed();
+                    $instafeed = \Dymantic\InstagramFeed\Profile::all();
+                    foreach($instafeed as $instafeeds) {
+                        $username = $instafeeds->username;
+                    }
+                    $feed = \Dymantic\InstagramFeed\Profile::where('username', $username)->first()->feed();
                 }
                 @endphp
                 @if(isset($feed))

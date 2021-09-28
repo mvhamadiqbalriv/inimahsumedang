@@ -50,7 +50,7 @@ class InstaFeedController extends Controller
     public function getFeed(Request $request)
     {
         $profile = Profile::where('username', $request->username)->first();
-        $profile->refreshFeed(6)
+        $profile->refreshFeed($request->limit)
         ? Alert::success('Berhasil', "Feed telah berhasil diambil!")
         : Alert::error('Error', "Feed gagal diambil!");
 

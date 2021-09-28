@@ -75,6 +75,9 @@ Pengguna
                         @endphp
                         @foreach($instafeed as $instafeeds)
                         <tr>
+                            @php
+                                $username = $instafeeds->username;
+                            @endphp
                             <td>{{ $increment++ }}</td>
                             <td>{{ $instafeeds->username }}</td>
                             <td>
@@ -100,13 +103,15 @@ Pengguna
                 </table>
             </div>
         </div>
+        @php
+        if (count(\Dymantic\InstagramFeed\Profile::all())) {
+            $feed = \Dymantic\InstagramFeed\Profile::where('username', $username)->first()->feed();
+        }
+        @endphp
+        @if(count($feed) >= 1)
         <div class="card">
             <div class="card-body">
-                @php
-                if (count(\Dymantic\InstagramFeed\Profile::all())) {
-                    $feed = \Dymantic\InstagramFeed\Profile::where('username', 'hippies_67')->first()->feed();
-                }
-                @endphp
+               
                 @isset($feed)
                 <h5 class="card-title">Photo ({{ count($feed)}})</h5>
                 @foreach($feed as $post)
@@ -115,6 +120,7 @@ Pengguna
                 @endisset
             </div>
         </div>
+        @endif
     </div>
 </div>
 
@@ -176,7 +182,7 @@ Pengguna
             </div>
             <div class="modal-footer">
 
-                <a href="{{ $getPerizinanUrl }}" class="btn btn-primary" id="perizinanButton" target="_blank">Dapatkan
+                <a href="{{ $getPerizinanUrl }}" class="btn btn-primary" id="perizinanButton">Dapatkan
                     izin instagram</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Kembali</button>
             </div>
@@ -203,7 +209,7 @@ Pengguna
                 <div class="modal-body">
                     <div class="row justify-content-between">
                         <div class="col-sm-12">
-                            <p>Apakah anda merefresh feed dari akun ini?</p>
+                            <input type="number" class="form-control" min="0" name="limit" placeholder="Batas Feed" required>
                         </div>
                     </div>
                 </div>
