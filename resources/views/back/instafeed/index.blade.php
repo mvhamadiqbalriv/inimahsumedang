@@ -329,7 +329,7 @@ Instagram Feed
     }
 
    
-    // check
+    // checks
     
 
 </script>
