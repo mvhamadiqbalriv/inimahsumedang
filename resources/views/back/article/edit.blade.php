@@ -244,7 +244,8 @@ Edit Artikel
       filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
       filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
       filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-      filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+      filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token=',
+      height:['450px']
     };
 </script>
 <script>

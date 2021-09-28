@@ -25,7 +25,7 @@ Profile Web
             <div class="card-body">
                 <form id="webForm" enctype="multipart/form-data">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm">
                             <label for="instagram">Instagram</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -43,7 +43,7 @@ Profile Web
                                 <small class="text-danger"><i id="instagramErrMsg"></i></small>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-sm">
                             <label for="facebook">Facebook</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -63,7 +63,7 @@ Profile Web
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm">
                             <label for="twitter">Twitter</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -81,7 +81,7 @@ Profile Web
                                 <small class="text-danger"><i id="twitterErrMsg"></i></small>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-sm">
                             <label for="whatsapp">Whatsapp</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -103,7 +103,7 @@ Profile Web
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm">
                             <label for="email">Email</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -119,7 +119,7 @@ Profile Web
                                 <small class="text-danger"><i id="emailErrMsg"></i></small>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-sm">
                             <label for="logo">Logo</label>
 
                             @php
@@ -146,7 +146,7 @@ Profile Web
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm">
                             <label for="email">Deskripsi</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -163,7 +163,7 @@ Profile Web
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col text-right">
+                        <div class="col-sm text-right">
                             <button class="btn btn-lg btn-primary perbaharui"><i class="fa fa-save"></i>
                                 Perbaharui</button>
                         </div>

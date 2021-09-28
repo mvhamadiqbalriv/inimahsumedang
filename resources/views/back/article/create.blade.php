@@ -15,6 +15,12 @@ Tambah Artikel
         border-radius: .3rem !important;
         height: 100% !important;
     }
+
+    @media (max-width: 767px) {
+        #gambarMobile {
+            margin-top: 13px !important;
+        }
+    }
 </style>
 @endsection
 
@@ -38,6 +44,7 @@ Tambah Artikel
         border: 1px solid #e9e9e9;
         border-width: thin;
     }
+  
 </style>
 <div class="row">
     <div class="col-xl">
@@ -62,7 +69,7 @@ Tambah Artikel
                     </div>
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-sm-8">
                                 <textarea name="konten" id="konten"
                                     class="form-control @error('konten') is-invalid @enderror">{{ old('konten') }}</textarea>
                                 @error('konten')
@@ -77,7 +84,7 @@ Tambah Artikel
                                 </div>
                                 @enderror
                             </div>
-                            <div class="col-4">
+                            <div class="col-sm-4" id="gambarMobile">
                                 <input type="file" class="form-control dropify mt-5" name="gambar" id="gambar"
                                     data-allowed-file-extensions="png jpg jpeg">
                                     @error('gambar')
@@ -102,7 +109,7 @@ Tambah Artikel
 
                     </div>
                     <div class="form-group categoryStyle @error('category') has-error @enderror">
-                        <select class="category form-control" name="category" id="category">
+                        <select class="category form-control" tabindex="-1" name="category" style="display: none; width: 100%">
                             @foreach ($categories as $item)
                                 <option value="{{$item->id}}">{{$item->nama}}</option>
                             @endforeach
@@ -259,23 +266,7 @@ file.addEventListener('change', function() {
 
 <script type="text/javascript">
     $('.category').select2({
-        placeholder: 'Cari Kategori',
-        ajax: {
-            url: '/article/search-category',
-            dataType: 'json',
-            delay: 250,
-            processResults: function (data) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            text: item.nama,
-                            id: item.id
-                        }
-                    })
-                };
-            },
-            cache: true
-        }
+        placeholder: 'Cari Kategori'
     });
 </script>
 
@@ -284,7 +275,8 @@ file.addEventListener('change', function() {
       filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
       filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
       filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-      filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+      filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token=',
+      height:['450px']
     };
 </script>
 <script>
