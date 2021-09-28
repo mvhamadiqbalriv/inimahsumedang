@@ -1,6 +1,6 @@
 @extends('layouts.back')
 @section('title')
-Pengguna
+Instagram Feed
 @endsection
 @section('css')
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
