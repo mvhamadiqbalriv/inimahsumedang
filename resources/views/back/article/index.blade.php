@@ -15,7 +15,7 @@ Article
     }
 
     .status {
-        border: 1px solid rgb(219, 219, 219);
+        border: 1px solid rgb(255, 255, 255);
         color: #37414d;
         border-radius: 5px;
         font-size: 13px;
@@ -23,10 +23,25 @@ Article
         cursor: pointer;
     }
 
+    .status option {
+        color: #37414d;
+        font-family: 'Poppins', sans-serif !important;
+    }
+
     .dropdown-item {
         color: rgb(2, 59, 104) !important;
     }
 
+   
+
+    @media screen and (max-width: 455px) {
+        .judul-artikel {
+            width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
 </style>
 @endsection
 
@@ -41,7 +56,7 @@ Article
                     <li class="breadcrumb-item active" aria-current="page">Artikel</li>
                 </ol>
             </nav>
-            <h3>Artikel</h3>
+            <h3>{{ $most_used_word }}</h3>
         </div>
     </div>
 </div>
@@ -97,7 +112,7 @@ Article
                                     style="border-radius:5px; width:70px; height:65px; object-fit: cover;">
                                 @else
                                 <div id="firstLetter"
-                                    style="border: 1px solid rgba(230, 229, 229, 0.87); border-radius:5px; width:60px; height:65px; text-align:center; font-size:40px; text-transform:capitalize; object-fit:cover;">
+                                    style=" border-radius:5px; width:60px; height:65px; text-align:center; font-size:40px; text-transform:capitalize; object-fit:cover;">
                                     @if(!empty($articles->judul))
                                     {{ substr($articles->judul, 0, 1) }}
                                     @else
@@ -110,7 +125,7 @@ Article
                                     @if(empty($articles->judul))
                                     <p class="text-muted">(Tanpa Judul)</p>
                                     @else
-                                    <p class="text-muted" id="judul">{{ Str::limit($articles->judul, 75) }}</p>
+                                    <p class="text-muted judul-artikel" id="judul">{{ Str::limit($articles->judul, 75) }}</p>
                                     @endif
                                     @php
                                     $month = 8;
@@ -183,7 +198,7 @@ Article
                                                 <i class="fas fa-ellipsis-v" style="color:rgb(2, 59, 104);"></i>
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
-                                                <a class="dropdown-item" href="#">Preview</a>
+                                                <a class="dropdown-item" href="{{ route('articles.preview', $articles->slug) }}">Preview</a>
                                                 <a class="dropdown-item" href="#" data-toggle="modal"
                                                     data-target="#confirmDeleteModal"
                                                     onclick="return setData2({{$articles}})">Hapus</a>
@@ -205,12 +220,16 @@ Article
                                         </div>
                                     </object>
                                 </div>
+                                @php
+                                    $comments = \App\Models\Comment::where('article', '=', $articles->id)->get();
+                                    $visitors = \App\Models\Visitor::where('article', '=', $articles->id)->get();
+                                @endphp
                                 <div class="icons d-flex justify-content-end">
                                     <object data-toggle="tooltip" data-placement="bottom"
-                                        data-original-title="Jumlah Komentar"><a href="" class="mr-3">0 <i
+                                        data-original-title="Jumlah Komentar"><a href="" class="mr-3">{{ count($comments) }} <i
                                                 class="fa fa-comments"></i></a></object>
                                     <object data-toggle="tooltip" data-placement="bottom"
-                                        data-original-title="Jumlah Pembaca"><a href="">0 <i
+                                        data-original-title="Jumlah Pembaca"><a href="">{{ count($visitors) }} <i
                                                 class="fa fa-chart-bar"></i></a></object>
                                 </div>
                             </div>
@@ -320,7 +339,7 @@ Article
                 @csrf
                 @method('delete')
                 <div class="modal-body">
-                    apakah anda yakin untuk menghapus <b id="namaItemModal">article</b> ?
+                    apakah anda yakin untuk menghapus <b> article</b> ini beserta seluruh data terkait <b>(comments, visitors)</b> ?
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-danger">Ya, Hapus !</button>

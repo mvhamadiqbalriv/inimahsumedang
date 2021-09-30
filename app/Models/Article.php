@@ -12,7 +12,7 @@ class Article extends Model
     
     protected $table = 'articles';
     protected $fillable = [
-        'judul', 'slug', 'gambar', 'konten', 'tag', 'category', 'creator', 'is_publish', 'selected_article'
+        'judul', 'slug', 'gambar', 'konten', 'tag', 'category', 'creator', 'is_publish', 'feature_post_selected', 'editors_pick_selected', 'trending_selected', 'event_selected', 'category_post_selected', 'selected_article', 'feature_post', 'editors_pick', 'trending', 'event', 'category_post'
     ];
 
     public function categories()

@@ -87,7 +87,7 @@ Instagram Feed
                                     @endphp
                                     @if($feedToken)
                                     <button class="btn btn-sm btn-dark" data-toggle="modal"
-                                        data-target="#instaFeedAmbil{{ $instafeeds->id }}">Refresh Feed</button>
+                                        data-target="#instaFeedAmbil{{ $instafeeds->id }}">Refresh</button>
                                     @else
                                     <button class="btn btn-sm btn-dark" data-toggle="modal"
                                         data-target="#instaFeedPerizinan{{ $instafeeds->id }}">Perizinan</button>
@@ -108,18 +108,20 @@ Instagram Feed
             $feed = \Dymantic\InstagramFeed\Profile::where('username', $username)->first()->feed();
         }
         @endphp
-        @if(count($feed) >= 1)
-        <div class="card">
-            <div class="card-body">
-               
-                @isset($feed)
-                <h5 class="card-title">Photo ({{ count($feed)}})</h5>
-                @foreach($feed as $post)
-                <img src="{{ $post['url']}}" class="img-fluid" width="100">
-                @endforeach
-                @endisset
+        @if(!empty($feed))
+            @if(count($feed) >= 1)
+            <div class="card">
+                <div class="card-body">
+                
+                    @isset($feed)
+                    <h5 class="card-title">Photo ({{ count($feed)}})</h5>
+                    @foreach($feed as $post)
+                    <img src="{{ $post['url']}}" class="img-fluid" width="100">
+                    @endforeach
+                    @endisset
+                </div>
             </div>
-        </div>
+            @endif
         @endif
     </div>
 </div>
@@ -214,7 +216,7 @@ Instagram Feed
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="ambilFeedButton">Ya, Refresh</button>
+                    <button type="submit" class="btn btn-primary" id="ambilFeedButton">Refresh</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         aria-label="Close">Kembali</button>
                 </div>
@@ -251,7 +253,7 @@ Instagram Feed
     </div>
 </div>
 @isset($was_successful)
-@if($was_successful))
+@if($was_successful)
 <script>
     Swal.fire({
         icon: 'success',
@@ -281,7 +283,7 @@ Instagram Feed
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap.min.js"></script>
 <script>
-    $(document).ready(function() {
+$(document).ready(function() {
     $('#instaFeedTable').DataTable( {
         responsive: true
     });

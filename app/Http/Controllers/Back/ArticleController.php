@@ -8,6 +8,8 @@ use App\Models\Article;
 use App\Models\Web;
 use App\Models\Category_article;
 use App\Models\Ad;
+use App\Models\Visitor;
+use App\Models\Comment;
 use Alert;
 use Auth;
 use Str;
@@ -45,6 +47,7 @@ class ArticleController extends Controller
             return $query->where('creator', Auth::id());
         })->with('comments')->get();
         $data['status'] = '';
+
         return view('back.article.index',$data);
     }
 
@@ -146,21 +149,58 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        foreach($request->tag as $a) {
+             dd($a);                
+        }
+        // $request->validate([
+        //     'judul' => 'required|unique:articles|min:20|max:150',
+        //     'konten' => 'required|min:80',
+        //     'category' => 'required',
+        //     'gambar' => 'required',
+        // ],
+        // [
+        //     'judul.required' => 'Kolom Judul harus di isi.',
+        //     'judul.unique' => 'Judul sudah tersedia.',
+        //     'judul.min' => 'minimal karakter yang dimasukan tidak boleh kurang dari 20 karakter.',
+        //     'judul.max' => 'maksimal karakter tidak boleh lebih dari 70 karakter.',
+        //     'konten.required' => 'Kolom Konten harus di isi.',
+        //     'konten.min' => 'minimal karakter yang dimasukan tidak boleh kurang dari 80 karakter.',
+        //     'category.required' => 'Kolom Kategori harus di isi.',
+        //     'gambar.required' => 'Thumbnail untuk artikel harus ada.',
+        // ]);
+
+        // $gambar = ($request->gambar)
+        // ? $request->file('gambar')->store("/public/input/articles")
+        // : null;
+
+        // $data = [
+        //     'judul' => $request->judul,
+        //     'slug' => Str::slug($request->judul),
+        //     'gambar' => $gambar,
+        //     'konten' => $request->konten,
+        //     'tag' => $request->tag ? implode(',', $request->tag) : null,
+        //     'creator' => Auth::user()->id,
+        //     'category' => $request->category,
+        //     'is_publish' => "1",
+        // ];
+
+        // Article::create($data)
+        // ? Alert::success('Suskes', 'Artikel telah berhasil dipublish!')
+        // : Alert::error('Error', 'Artikel gagal dipublish!');
+
+        // return redirect()->route('articles.index');
+    }
+
+    public function draf(Request $request)
+    {  
         $request->validate([
             'judul' => 'required|unique:articles|min:20|max:150',
-            'konten' => 'required|min:80',
-            'category' => 'required',
-            'gambar' => 'required',
         ],
         [
             'judul.required' => 'Kolom Judul harus di isi.',
             'judul.unique' => 'Judul sudah tersedia.',
             'judul.min' => 'minimal karakter yang dimasukan tidak boleh kurang dari 20 karakter.',
             'judul.max' => 'maksimal karakter tidak boleh lebih dari 70 karakter.',
-            'konten.required' => 'Kolom Konten harus di isi.',
-            'konten.min' => 'minimal karakter yang dimasukan tidak boleh kurang dari 80 karakter.',
-            'category.required' => 'Kolom Kategori harus di isi.',
-            'gambar.required' => 'Thumbnail untuk artikel harus ada.',
         ]);
 
         $gambar = ($request->gambar)
@@ -170,30 +210,6 @@ class ArticleController extends Controller
         $data = [
             'judul' => $request->judul,
             'slug' => Str::slug($request->judul),
-            'gambar' => $gambar,
-            'konten' => $request->konten,
-            'tag' => $request->tag ? implode(',', $request->tag) : null,
-            'creator' => Auth::user()->id,
-            'category' => $request->category,
-            'is_publish' => "1",
-        ];
-
-        Article::create($data)
-        ? Alert::success('Suskes', 'Artikel telah berhasil dipublish!')
-        : Alert::error('Error', 'Artikel gagal dipublish!');
-
-        return redirect()->route('articles.index');
-    }
-
-    public function draf(Request $request)
-    {  
-        $gambar = ($request->gambar)
-        ? $request->file('gambar')->store("/public/input/articles")
-        : null;
-
-        $data = [
-            'judul' => $request->judul,
-            'slug' => $request->slug,
             'gambar' => $gambar,
             'konten' => $request->konten,
             'tag' => $request->tag,
@@ -238,6 +254,7 @@ class ArticleController extends Controller
     public function edit($id)
     {
         $data['article'] = Article::findOrFail($id);
+        $data['category'] = Category_article::all();
         return view('back.article.edit', $data);
     }
 
@@ -254,6 +271,7 @@ class ArticleController extends Controller
             'judul' => "required|unique:articles,judul,$article->id|min:20|max:150",
             'konten' => 'required|min:80',
             'category' => 'required',
+            'gambar' => 'required'
         ],
         [
             'judul.required' => 'Kolom Judul harus di isi.',
@@ -264,6 +282,7 @@ class ArticleController extends Controller
             'judul.min' => 'minimal karakter yang dimasukan tidak boleh kurang dari 80 karakter.',
             'category.required' => 'Kolom Kategori harus di isi.',
             'tag.required' => 'Kolom Tag harus di isi.',
+            'gambar.required' => 'Thumbnail untuk artikel harus ada.'
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -303,168 +322,256 @@ class ArticleController extends Controller
             'creator' => Auth::user()->id,
             'category' => $article->category,
             'is_publish' => "1",
-            'selected_article' => $request->selected_article,
+            'feature_post_selected' => $request->feature_post_selected ? $request->feature_post_selected : $article->feature_post_selected,
+            'editors_pick_selected' => $request->editors_pick_selected ? $request->editors_pick_selected : $article->editors_pick_selected,
+            'trending_selected' => $request->trending_selected ? $request->trending_selected : $article->trending_selected,
+            'event_selected' => $request->event_selected ? $request->event_selected : $article->event_selected,
+            'category_post_selected' => $request->category_post_selected ? $request->category_post_selected : $article->category_post_selected,
+            'feature_post' => $request->feature_post_selected ? $request->feature_post_selected : $article->feature_post,
+            'editors_pick' => $request->editors_pick_selected ? $request->editors_pick_selected : $article->editors_pick,
+            'trending' => $request->trending_selected ? $request->trending_selected : $article->trending,
+            'event' => $request->event_selected ? $request->event_selected : $article->event_selected,
+            'category_post' => $request->category_post_selected ? $request->category_post_selected : $article->category_post,
         ];
 
-        if($request->selected_article == 'feature_post')
+        if($request->feature_post_selected == 'feature_post')
         {
-            if(Article::where('selected_article', '=', 'feature_post')->first())
+            if(Article::where('feature_post_selected', '=', 'feature_post')->first())
             {
-                $selected = Article::where('selected_article', '=', 'feature_post')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('feature_post_selected', '=', 'feature_post')->first();
+                $selected->update(['feature_post_selected' => null]);
+            }
+
+            if(Article::where('feature_post', '=', 'feature_post')->first())
+            {
+                $selected = Article::where('feature_post', '=', 'feature_post')->first();
+                $selected->update(['feature_post' => null]);
             }
         }
 
-        if($request->selected_article == 'ads')
+
+        if($request->category_post_selected == 'selected_category_post_1')
         {
-            if(Article::where('selected_article', '=', 'ads')->first())
+            if(Article::where('category_post_selected', '=', 'selected_category_post_1')->first())
             {
-                $selected = Article::where('selected_article', '=', 'ads')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('category_post_selected', '=', 'selected_category_post_1')->first();
+                $selected->update(['category_post_selected' => null]);
+            }
+
+            if(Article::where('category_post', '=', 'selected_category_post_1')->first())
+            {
+                $selected = Article::where('category_post', '=', 'selected_category_post_1')->first();
+                $selected->update(['category_post' => null]);
             }
         }
 
-        if($request->selected_article == 'ads_2')
+        if($request->category_post_selected == 'selected_category_post_2')
         {
-            if(Article::where('selected_article', '=', 'ads_2')->first())
+            if(Article::where('category_post_selected', '=', 'selected_category_post_2')->first())
             {
-                $selected = Article::where('selected_article', '=', 'ads_2')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('category_post_selected', '=', 'selected_category_post_2')->first();
+                $selected->update(['category_post_selected' => null]);
+            }
+
+            if(Article::where('category_post', '=', 'selected_category_post_2')->first())
+            {
+                $selected = Article::where('category_post', '=', 'selected_category_post_2')->first();
+                $selected->update(['category_post' => null]);
             }
         }
 
-        if($request->selected_article == 'selected_category_post_1')
+        if($request->editors_pick_selected == 'editors_pick_1')
         {
-            if(Article::where('selected_article', '=', 'selected_category_post_1')->first())
+            if(Article::where('editors_pick_selected', '=', 'editors_pick_1')->first())
             {
-                $selected = Article::where('selected_article', '=', 'selected_category_post_1')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('editors_pick_selected', '=', 'editors_pick_1')->first();
+                $selected->update(['editors_pick_selected' => null]);
+            }
+
+            if(Article::where('editors_pick', '=', 'editors_pick_1')->first())
+            {
+                $selected = Article::where('editors_pick', '=', 'editors_pick_1')->first();
+                $selected->update(['editors_pick' => null]);
             }
         }
 
-        if($request->selected_article == 'selected_category_post_2')
+        if($request->editors_pick_selected == 'editors_pick_2')
         {
-            if(Article::where('selected_article', '=', 'selected_category_post_2')->first())
+            if(Article::where('editors_pick_selected', '=', 'editors_pick_2')->first())
             {
-                $selected = Article::where('selected_article', '=', 'selected_category_post_2')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('editors_pick_selected', '=', 'editors_pick_2')->first();
+                $selected->update(['editors_pick_selected' => null]);
+            }
+
+            if(Article::where('editors_pick', '=', 'editors_pick_2')->first())
+            {
+                $selected = Article::where('editors_pick', '=', 'editors_pick_2')->first();
+                $selected->update(['editors_pick' => null]);
             }
         }
 
-        if($request->selected_article == 'editors_pick_1')
+        if($request->editors_pick_selected == 'editors_pick_3')
         {
-            if(Article::where('selected_article', '=', 'editors_pick_1')->first())
+            if(Article::where('editors_pick_selected', '=', 'editors_pick_3')->first())
             {
-                $selected = Article::where('selected_article', '=', 'editors_pick_1')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('editors_pick_selected', '=', 'editors_pick_3')->first();
+                $selected->update(['editors_pick_selected' => null]);
+            }
+
+            if(Article::where('editors_pick', '=', 'editors_pick_3')->first())
+            {
+                $selected = Article::where('editors_pick', '=', 'editors_pick_3')->first();
+                $selected->update(['editors_pick' => null]);
             }
         }
 
-        if($request->selected_article == 'editors_pick_2')
+        if($request->editors_pick_selected == 'editors_pick_4')
         {
-            if(Article::where('selected_article', '=', 'editors_pick_2')->first())
+            if(Article::where('editors_pick_selected', '=', 'editors_pick_4')->first())
             {
-                $selected = Article::where('selected_article', '=', 'editors_pick_2')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('editors_pick_selected', '=', 'editors_pick_4')->first();
+                $selected->update(['editors_pick_selected' => null]);
+            }
+
+            if(Article::where('editors_pick', '=', 'editors_pick_4')->first())
+            {
+                $selected = Article::where('editors_pick', '=', 'editors_pick_4')->first();
+                $selected->update(['editors_pick' => null]);
             }
         }
 
-        if($request->selected_article == 'editors_pick_3')
+        if($request->editors_pick_selected == 'editors_pick_5')
         {
-            if(Article::where('selected_article', '=', 'editors_pick_3')->first())
+            if(Article::where('editors_pick_selected', '=', 'editors_pick_5')->first())
             {
-                $selected = Article::where('selected_article', '=', 'editors_pick_3')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('editors_pick_selected', '=', 'editors_pick_5')->first();
+                $selected->update(['editors_pick_selected' => null]);
+            }
+
+            if(Article::where('editors_pick', '=', 'editors_pick_5')->first())
+            {
+                $selected = Article::where('editors_pick', '=', 'editors_pick_5')->first();
+                $selected->update(['editors_pick' => null]);
             }
         }
 
-        if($request->selected_article == 'editors_pick_4')
+        if($request->trending_selected == 'trending_1')
         {
-            if(Article::where('selected_article', '=', 'editors_pick_4')->first())
+            if(Article::where('trending_selected', '=', 'trending_1')->first())
             {
-                $selected = Article::where('selected_article', '=', 'editors_pick_4')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('trending_selected', '=', 'trending_1')->first();
+                $selected->update(['trending_selected' => null]);
+            }
+
+            if(Article::where('trending', '=', 'trending_1')->first())
+            {
+                $selected = Article::where('trending', '=', 'trending_1')->first();
+                $selected->update(['trending' => null]);
             }
         }
 
-        if($request->selected_article == 'editors_pick_5')
+        if($request->trending_selected == 'trending_2')
         {
-            if(Article::where('selected_article', '=', 'editors_pick_5')->first())
+            if(Article::where('trending_selected', '=', 'trending_2')->first())
             {
-                $selected = Article::where('selected_article', '=', 'editors_pick_5')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('trending_selected', '=', 'trending_3')->first();
+                $selected->update(['trending_selected' => null]);
+            }
+
+            if(Article::where('trending', '=', 'trending_2')->first())
+            {
+                $selected = Article::where('trending', '=', 'trending_2')->first();
+                $selected->update(['trending' => null]);
             }
         }
 
-        if($request->selected_article == 'trending_1')
+        if($request->trending_selected == 'trending_3')
         {
-            if(Article::where('selected_article', '=', 'trending_1')->first())
+            if(Article::where('trending_selected', '=', 'trending_3')->first())
             {
-                $selected = Article::where('selected_article', '=', 'trending_1')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('trending_selected', '=', 'trending_3')->first();
+                $selected->update(['trending_selected' => null]);
+            }
+
+            if(Article::where('trending', '=', 'trending_3')->first())
+            {
+                $selected = Article::where('trending', '=', 'trending_3')->first();
+                $selected->update(['trending' => null]);
             }
         }
 
-        if($request->selected_article == 'trending_2')
+        if($request->trending_selected == 'trending_4')
         {
-            if(Article::where('selected_article', '=', 'trending_2')->first())
+            if(Article::where('trending_selected', '=', 'trending_4')->first())
             {
-                $selected = Article::where('selected_article', '=', 'trending_3')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('trending_selected', '=', 'trending_4')->first();
+                $selected->update(['trending_selected' => null]);
+            }
+
+            if(Article::where('trending', '=', 'trending_4')->first())
+            {
+                $selected = Article::where('trending', '=', 'trending_4')->first();
+                $selected->update(['trending' => null]);
             }
         }
 
-        if($request->selected_article == 'trending_3')
+        if($request->trending_selected == 'trending_5')
         {
-            if(Article::where('selected_article', '=', 'trending_3')->first())
+            if(Article::where('trending_selected', '=', 'trending_5')->first())
             {
-                $selected = Article::where('selected_article', '=', 'trending_3')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('trending_selected', '=', 'trending_5')->first();
+                $selected->update(['trending_selected' => null]);
+            }
+
+            if(Article::where('trending', '=', 'trending_5')->first())
+            {
+                $selected = Article::where('trending', '=', 'trending_5')->first();
+                $selected->update(['trending' => null]);
             }
         }
 
-        if($request->selected_article == 'trending_4')
+        if($request->trending_selected == 'trending_6')
         {
-            if(Article::where('selected_article', '=', 'trending_4')->first())
+            if(Article::where('trending_selected', '=', 'trending_6')->first())
             {
-                $selected = Article::where('selected_article', '=', 'trending_4')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('trending_selected', '=', 'trending_6')->first();
+                $selected->update(['trending_selected' => null]);
+            }
+
+            if(Article::where('trending', '=', 'trending_6')->first())
+            {
+                $selected = Article::where('trending', '=', 'trending_6')->first();
+                $selected->update(['trending' => null]);
             }
         }
 
-        if($request->selected_article == 'trending_5')
+        if($request->event_selected == 'event_1')
         {
-            if(Article::where('selected_article', '=', 'trending_5')->first())
+            if(Article::where('event_selected', '=', 'event_1')->first())
             {
-                $selected = Article::where('selected_article', '=', 'trending_5')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('event_selected', '=', 'event_1')->first();
+                $selected->update(['event_selected' => null]);
+            }
+
+            if(Article::where('event', '=', 'event_1')->first())
+            {
+                $selected = Article::where('event', '=', 'event_1')->first();
+                $selected->update(['event' => null]);
             }
         }
 
-        if($request->selected_article == 'trending_6')
+        if($request->event_selected == 'event_2')
         {
-            if(Article::where('selected_article', '=', 'trending_6')->first())
+            if(Article::where('event_selected', '=', 'event_2')->first())
             {
-                $selected = Article::where('selected_article', '=', 'trending_6')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('event_selected', '=', 'event_2')->first();
+                $selected->update(['event_selected' => null]);
             }
-        }
 
-        if($request->selected_article == 'event_1')
-        {
-            if(Article::where('selected_article', '=', 'event_1')->first())
+            if(Article::where('event', '=', 'event_2')->first())
             {
-                $selected = Article::where('selected_article', '=', 'event_1')->first();
-                $selected->update(['selected_article' => null]);
-            }
-        }
-
-        if($request->selected_article == 'event_2')
-        {
-            if(Article::where('selected_article', '=', 'event_2')->first())
-            {
-                $selected = Article::where('selected_article', '=', 'event_2')->first();
-                $selected->update(['selected_article' => null]);
+                $selected = Article::where('event', '=', 'event_2')->first();
+                $selected->update(['event' => null]);
             }
         }
 
@@ -481,9 +588,19 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Article $Article)
+    public function destroy($id)
     {
-        $Article->delete()
+        $article = Article::findOrFail($id);
+
+        foreach($article->comments as $comments) {
+            $comments->delete();
+        }
+
+        foreach($article->visitors as $visitors) {
+            $visitors->delete();
+        }
+
+        $article->delete()
             ? Alert::success('Sukses', "Article berhasil dihapus.")
             : Alert::error('Error', "Article gagal dihapus!");
 

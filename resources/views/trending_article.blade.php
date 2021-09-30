@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="col-sm-6 text-sm-right">
-                    <span class="badge badge-light text-sm-right">{{ $articles->getArticleCountAttribute() }} Pembaca</span>
+                <span class="badge badge-light text-sm-right">{{ $articles->getArticleCountAttribute() }} Pembaca</span>
             </div>
         </div>
     </div>

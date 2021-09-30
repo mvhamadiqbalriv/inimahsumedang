@@ -2,6 +2,11 @@
 @section('title')
     Pengguna
 @endsection
+@section('css')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.9/css/fixedHeader.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css">
+@endsection
 @section('content')
 <div class="row">
     <div class="col-md-12">
@@ -31,16 +36,16 @@
                     </div>
                 @endif
                 <h5 class="card-title">Daftar Pengguna</h5>
-                <a href="{{route('users.create')}}" class="btn btn-info mb-1"><i class="fa fa-plus-circle"></i> Tambah</a>
-                <table class="table">
+                <a href="{{route('users.create')}}" class="btn btn-info mb-1"><i class="fa fa-plus-circle"></i> Tambah</a><br><br>
+                <table id="userTable" class="table table-striped table-bordered" style="width: 100%">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col"></th>
-                            <th scope="col">Nama Lengkap</th>
-                            <th scope="col">Email</th>
+                            <th>#</th>
+                            <th></th>
+                            <th>Nama Lengkap</th>
+                            <th>Email</th>
                             @role('admin')
-                            <th scope="col">Aksi</th>
+                            <th>Aksi</th>
                             @endrole
                         </tr>
                     </thead>
@@ -50,7 +55,7 @@
                         @endphp
                         @foreach ($list as $item)
                             <tr id="item_{{$item->id}}">
-                                <th scope="row">{{$no++}}</th>
+                                <th>{{$no++}}</th>
                                 <td>
                                     @php
                                         $path = asset('assets/back/images/avatars/default_user.png');
@@ -62,7 +67,7 @@
                                 </td>
                                 <td>
                                     <a href="{{route('users.show', $item->id)}}">
-                                        <b>{{$item->name}}</b>
+                                       {{$item->name}}
                                     </a>
                                 </td>
                                 <td>{{$item->email}}</td>
@@ -104,6 +109,18 @@
 </div>
 @endsection
 @section('js')
+<script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.0/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#userTable').DataTable( {
+        responsive: true
+    });
+} );
+</script>
     <script>
         function deleteUserModal(obj){
             var id = obj.getAttribute('data-uid');

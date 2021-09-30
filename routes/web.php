@@ -72,9 +72,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('pages', PageController::class);
     Route::post('page/ads', [PageController::class, 'ads'])->name('page.ads');
     Route::post('page/ads/update/{reply}', [PageController::class, 'ads_update'])->name('page.ads_update');
-    Route::get('article/search-live', [PageController::class, 'searchLive'])->name('artikel.searchLive');
+    Route::get('article/search-feature-post', [PageController::class, 'featurePostSearch'])->name('artikel.featurePostSearch');
+    Route::get('article/search-editors-pick', [PageController::class, 'editorsPickSearch'])->name('artikel.editorsPickSearch');
+    Route::get('article/search-event', [PageController::class, 'eventSearch'])->name('artikel.eventSearch');
+    Route::get('article/search-category-post', [PageController::class, 'categoryPostSearch'])->name('artikel.categoryPostSearch');
     Route::get('article/search-live-trending', [PageController::class, 'searchliveTrending'])->name('artikel.searchliveTrending');
-    Route::post('pagination/fetch', [PageController::class, 'fetchAjax'])->name('page.fetchAjax');
 
     Route::get('/role-has-permissions/{id}', [RoleController::class, 'roleHasPermission']);
 

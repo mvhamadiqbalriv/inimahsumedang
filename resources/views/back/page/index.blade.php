@@ -174,8 +174,8 @@ Page
                         <div class="d-flex justify-content-between">
                             <h4>Feature Post</h4>
                             <button class="btn btn-sm btn-secondary" data-toggle="modal" @if(empty($article))
-                                data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                data-status="feature_post" data-title="Feature Post" onclick="featurePost(this)"><i
+                                data-target="#ifArticleEmpty" @else data-target="#featurePostModal" @endif
+                                data-status="feature_post" onclick="featurePost(this)"><i
                                     class="fas fa-plus"></i></button>
                         </div>
                         <div class="title mt-3">
@@ -262,9 +262,8 @@ Page
                         <div class="row justify-content-center">
                             <div class="col-sm-6">
                                 <div class="wrap-editors-pick-images mt-2" data-toggle="modal" @if(empty($article))
-                                    data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                    data-status="editors_pick_1" data-title="Editors Pick"
-                                    onclick="editorsPickValue(this)">
+                                    data-target="#ifArticleEmpty" @else data-target="#editorsPickModal" @endif
+                                    data-status="editors_pick_1" onclick="editorsPickValue(this)">
                                     @if (!empty($editors_pick_1))
                                     <img src="{{ Storage::url($editors_pick_1->gambar) }}" class="img-fluid image"
                                         style="width: 510px;" alt="post-title" />
@@ -283,9 +282,8 @@ Page
                                         artikel @endif</p>
                                 </div>
                                 <div class="wrap-editors-pick-images mt-4" data-toggle="modal" @if(empty($article))
-                                    data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                    data-status="editors_pick_2" data-title="Editors Pick"
-                                    onclick="editorsPickValue(this)">
+                                    data-target="#ifArticleEmpty" @else data-target="#editorsPickModal" @endif
+                                    data-status="editors_pick_2" onclick="editorsPickValue(this)">
                                     @if (!empty($editors_pick_2))
                                     <img src="{{ Storage::url($editors_pick_2->gambar) }}" class="img-fluid image"
                                         style="width: 510px;" alt="post-title" />
@@ -302,9 +300,8 @@ Page
                                         artikel @endif</p>
                                 </div>
                                 <div class="wrap-editors-pick-images mt-4" data-toggle="modal" @if(empty($article))
-                                    data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                    data-status="editors_pick_3" data-title="Editors Pick"
-                                    onclick="editorsPickValue(this)">
+                                    data-target="#ifArticleEmpty" @else data-target="#editorsPickModal" @endif
+                                    data-status="editors_pick_3" onclick="editorsPickValue(this)">
                                     @if (!empty($editors_pick_3))
                                     <img src="{{ Storage::url($editors_pick_3->gambar) }}" class="img-fluid image"
                                         style="width: 510px;" alt="post-title" />
@@ -323,9 +320,8 @@ Page
                                         artikel @endif</p>
                                 </div>
                                 <div class="wrap-editors-pick-images mt-4" data-toggle="modal" @if(empty($article))
-                                    data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                    data-status="editors_pick_4" data-title="Editors Pick"
-                                    onclick="editorsPickValue(this)">
+                                    data-target="#ifArticleEmpty" @else data-target="#editorsPickModal" @endif
+                                    data-status="editors_pick_4" onclick="editorsPickValue(this)">
                                     @if (!empty($editors_pick_4))
                                     <img src="{{ Storage::url($editors_pick_4->gambar) }}" class="img-fluid image"
                                         style="width: 510px;" alt="post-title" />
@@ -342,9 +338,8 @@ Page
                                         artikel @endif</p>
                                 </div>
                                 <div class="wrap-editors-pick-images mt-4" data-toggle="modal" @if(empty($article))
-                                    data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                    data-status="editors_pick_5" data-title="Editors Pick"
-                                    onclick="editorsPickValue(this)">
+                                    data-target="#ifArticleEmpty" @else data-target="#editorsPickModal" @endif
+                                    data-status="editors_pick_5" onclick="editorsPickValue(this)">
                                     @if (!empty($editors_pick_5))
                                     <img src="{{ Storage::url($editors_pick_5->gambar) }}" class="img-fluid image"
                                         style="width: 510px;" alt="post-title" />
@@ -513,8 +508,8 @@ Page
                                             </p>
                                         </div>
                                         <div class="wrap-event-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
-                                            @endif data-status="event_1" data-title="Event" onclick="eventValue(this)">
+                                            data-target="#ifArticleEmpty" @else data-target="#eventModal" @endif
+                                            data-status="event_1" onclick="eventValue(this)">
                                             @if (!empty($event_1))
                                             <img src="{{ Storage::url($event_1->gambar) }}" class="img-fluid image"
                                                 style="width: 510px; width:100%; object-fit: cover;" alt="post-title" />
@@ -532,8 +527,8 @@ Page
                                             </p>
                                         </div>
                                         <div class="wrap-event-images mt-4" data-toggle="modal" @if(empty($article))
-                                            data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal"
-                                            @endif data-status="event_2" data-title="Event" onclick="eventValue(this)">
+                                            data-target="#ifArticleEmpty" @else data-target="#eventModal" @endif
+                                            data-status="event_2" onclick="eventValue(this)">
                                             @if (!empty($event_2))
                                             <img src="{{ Storage::url($event_2->gambar) }}" class="img-fluid image"
                                                 style="width: 510px; width:100%; object-fit: cover;" alt="post-title" />
@@ -566,9 +561,8 @@ Page
                                         @else Judul artikel @endif</p>
                                 </div>
                                 <div class="wrap-category-images mt-4" data-toggle="modal" @if(empty($article))
-                                    data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                    data-status="selected_category_post_1" data-title="Selected Category Posts"
-                                    onclick="selectedCategoryValue(this)">
+                                    data-target="#ifArticleEmpty" @else data-target="#categoryPostModal" @endif
+                                    data-status="selected_category_post_1" onclick="selectedCategoryValue(this)">
                                     @if (!empty($selected_category_post_1))
                                     <img src="{{ Storage::url($selected_category_post_1->gambar) }}"
                                         class="img-fluid image" style="width: 510px;" alt="post-title" />
@@ -585,9 +579,8 @@ Page
                                         @else Judul artikel @endif</p>
                                 </div>
                                 <div class="wrap-category-images mt-4" data-toggle="modal" @if(empty($article))
-                                    data-target="#ifArticleEmpty" @else data-target="#selectedArticleModal" @endif
-                                    data-status="selected_category_post_2" data-title="Selected Category Posts"
-                                    onclick="selectedCategoryValue(this)">
+                                    data-target="#ifArticleEmpty" @else data-target="#categoryPostModal" @endif
+                                    data-status="selected_category_post_2" onclick="selectedCategoryValue(this)">
                                     @if (!empty($selected_category_post_2))
                                     <img src="{{ Storage::url($selected_category_post_2->gambar) }}"
                                         class="img-fluid image" style="width: 510px;" alt="post-title" />
@@ -615,33 +608,34 @@ Page
 
 @foreach ($article as $articles)
 
-<!-- Modal Publish -->
-<div class="modal fade" id="selectedArticleModal" tabindex="-1" role="dialog" aria-labelledby="selectedArticleModal"
+<!-- Modal Feature Post -->
+<div class="modal fade" id="featurePostModal" tabindex="-1" role="dialog" aria-labelledby="featurePostModal"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="selectedArticleModalTitle"></h5>
+                <h5 class="modal-title" id="featurePostModalTitle">Feature Post</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="material-icons">close</i>
                 </button>
             </div>
             <form action="{{ route('articles.selectedContent', '') }}"
-                data-action="{{ route('articles.selectedContent', '') }}" method="post" id="selectedContentForm"
+                data-action="{{ route('articles.selectedContent', '') }}" method="post" id="featurePostForm"
                 autocomplete="off">
                 @csrf
-                <input type="hidden" name="selected_article" id="selected_article">
+                <input type="hidden" name="feature_post_selected" id="featurePostSelectedArticle">
+
                 <div class="modal-body" id="modal-body-publish">
-                    <input type="text" class="form-control" id="searchtxt" placeholder="Cari artikel..."
-                        onkeyup="modalButtonDisable()">
+                    <input type="text" class="form-control" id="featurePostSearch" placeholder="Cari artikel..."
+                        onkeyup="modalButtonPostFeatureDisable()">
                     <br>
                     <div id="Hintdate">
 
                     </div>
                 </div>
-                <div class="modal-footer">'
+                <div class="modal-footer">
                     <button type="submit" class="btn btn-sm btn-primary" disabled style="pointer-events: none;"
-                        id="applyButton">Terapkan</button>
+                        id="featurePostButton">Terapkan</button>
                     <button type="button" class="btn btn-sm btn-secondary" class="close"
                         data-dismiss="modal">Kembali</button>
                 </div>
@@ -654,7 +648,126 @@ Page
 
 @foreach ($article as $articles)
 
-<!-- Modal Publish -->
+<!-- Modal Feature Post -->
+<div class="modal fade" id="editorsPickModal" tabindex="-1" role="dialog" aria-labelledby="editorsPickModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editorsPickModalTitle">Editors Pick</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <form action="{{ route('articles.selectedContent', '') }}"
+                data-action="{{ route('articles.selectedContent', '') }}" method="post" id="editorsPickForm"
+                autocomplete="off">
+                @csrf
+                <input type="hidden" name="editors_pick_selected" id="editorsPickSelectedArticle">
+
+                <div class="modal-body" id="modal-body-publish">
+                    <input type="text" class="form-control" id="editorsPickSearch" placeholder="Cari artikel..."
+                        onkeyup="modalButtonEditorsPickDisable()">
+                    <br>
+                    <div id="editorsPickArticle">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-primary" disabled style="pointer-events: none;"
+                        id="editorsPickButton">Terapkan</button>
+                    <button type="button" class="btn btn-sm btn-secondary" class="close"
+                        data-dismiss="modal">Kembali</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@endforeach
+@foreach ($article as $articles)
+
+<!-- Modal Event -->
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventModalTitle">Event</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <form action="{{ route('articles.selectedContent', '') }}"
+                data-action="{{ route('articles.selectedContent', '') }}" method="post" id="eventForm"
+                autocomplete="off">
+                @csrf
+                <input type="hidden" name="event_selected" id="eventSelectedArticle">
+
+                <div class="modal-body" id="modal-body-publish">
+                    <input type="text" class="form-control" id="eventSearch" placeholder="Cari artikel..."
+                        onkeyup="modalButtonEventDisable()">
+                    <br>
+                    <div id="eventArticle">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-primary" disabled style="pointer-events: none;"
+                        id="eventButton">Terapkan</button>
+                    <button type="button" class="btn btn-sm btn-secondary" class="close"
+                        data-dismiss="modal">Kembali</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@endforeach
+
+@foreach ($article as $articles)
+
+<!-- Modal Category Post -->
+<div class="modal fade" id="categoryPostModal" tabindex="-1" role="dialog" aria-labelledby="categoryPostModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="categoryPostModalTitle">Category Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <form action="{{ route('articles.selectedContent', '') }}"
+                data-action="{{ route('articles.selectedContent', '') }}" method="post" id="categoryPostForm"
+                autocomplete="off">
+                @csrf
+                <input type="hidden" name="category_post_selected" id="categoryPostSelectedArticle">
+
+                <div class="modal-body" id="modal-body-publish">
+                    <input type="text" class="form-control" id="categoryPostSearch" placeholder="Cari artikel..."
+                        onkeyup="modalButtonCategoryPostDisable()">
+                    <br>
+                    <div id="categoryPostArticle">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-primary" disabled style="pointer-events: none;"
+                        id="categoryPostButton">Terapkan</button>
+                    <button type="button" class="btn btn-sm btn-secondary" class="close"
+                        data-dismiss="modal">Kembali</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@endforeach
+
+
+@foreach ($article as $articles)
+
+<!-- Modal Trending -->
 <div class="modal fade" id="trendingArticleModal" tabindex="-1" role="dialog" aria-labelledby="trendingArticleModal"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -669,7 +782,8 @@ Page
                 data-action="{{ route('articles.selectedContent', '') }}" method="post" id="trendingContentForm"
                 autocomplete="off">
                 @csrf
-                <input type="hidden" name="selected_article" id="selected_trending_article">
+                <input type="hidden" name="trending" id="selected_trending_article">
+                <input type="hidden" name="trending_selected" id="selected_trending_article">
                 <div class="modal-body" id="modal-body-publish">
                     {{-- <input type="text" class="form-control" id="searchTrendingTxt" placeholder="Cari artikel..."
                         onkeyup="modalButtonDisable2()"> --}}
@@ -678,12 +792,13 @@ Page
 
                     </div>
                     @if (count($artikelAjax))
-                    <section class="books">
-                        @include('load_books_data')
+                    <section class="trending-article">
+                        @include('trending_article')
                     </section>
                     @else
                     No data found
                     @endif
+
                 </div>
 
                 <div class="modal-footer">'
@@ -946,14 +1061,14 @@ function updateWidgetAds(element)
             $('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 10000;" src="https://i.imgur.com/v3KWF05.gif />');
             var url = $(this).attr('href');
             window.history.pushState("", "", url);
-            loadBooks(url);
+            loadTrending(url);
         });
 
-        function loadBooks(url) {
+        function loadTrending(url) {
             $.ajax({
                 url: url
             }).done(function (data) {
-                $('.books').html(data);
+                $('.trending-article').html(data);
             }).fail(function () {
                 console.log("Failed to load data!");
             });
@@ -979,7 +1094,7 @@ function updateWidgetAds(element)
     {
         var status = $(element).attr('data-status');
         var title = $(element).attr('data-title');
-        $("#selected_article").val(status);
+        $("#featurePostSelectedArticle").val(status);
         $("#selectedArticleModalTitle").html(title);
     }
 
@@ -1041,10 +1156,7 @@ function updateWidgetAds(element)
     function editorsPickValue(element)
     {
         var status = $(element).attr('data-status');
-        $("#selected_article").val(status);
-        console.log(status);
-        var modalTitle = $(element).attr('data-title');
-        $("#selectedArticleModalTitle").html(modalTitle);
+        $("#editorsPickSelectedArticle").val(status);
     }
 
     // TRENDING
@@ -1103,10 +1215,8 @@ function updateWidgetAds(element)
     function eventValue(element)
     {
         var status = $(element).attr('data-status');
-        $("#selected_article").val(status);
+        $("#eventSelectedArticle").val(status);
         console.log(status);
-        var modalTitle = $(element).attr('data-title');
-        $("#selectedArticleModalTitle").html(modalTitle);
     }
 
     // SELECTED CATEGORY POSTS JS
@@ -1133,10 +1243,7 @@ function updateWidgetAds(element)
     function selectedCategoryValue(element)
     {
         var status = $(element).attr('data-status');
-        $("#selected_article").val(status);
-        
-        var modalTitle = $(element).attr('data-title');
-        $("#selectedArticleModalTitle").html(modalTitle);
+        $("#categoryPostSelectedArticle").val(status);
     }
 </script>
 
@@ -1144,17 +1251,39 @@ function updateWidgetAds(element)
     // MODAL SETTING
     function chooseArticle(element)
     {
-        $("#applyButton").css('pointer-events', 'auto');
-        $("#applyButton").prop("disabled", false);
-        $('#selectedContentForm').attr('action',  '');
+        $("#featurePostButton").css('pointer-events', 'auto');
+        $("#featurePostButton").prop("disabled", false);
+
+        $("#editorsPickButton").css('pointer-events', 'auto');
+        $("#editorsPickButton").prop("disabled", false);
+
+        $("#eventButton").css('pointer-events', 'auto');
+        $("#eventButton").prop("disabled", false);
+
+        $("#categoryPostButton").css('pointer-events', 'auto');
+        $("#categoryPostButton").prop("disabled", false);
+
+        $('#featurePostForm').attr('action',  '');
+        $('#editorsPickForm').attr('action',  '');
+        $('#eventForm').attr('action',  '');
+        $('#categoryPostForm').attr('action',  '');
 
         $('.article-lists').css('background-color', 'initial');
         var cardId = $(element).attr('data-id');
         $('#'+cardId).css('background-color', '#f2f7ff');
 
          //  passing id to the modal form 
-        const updateLink = $('#selectedContentForm').attr('data-action');
-        $('#selectedContentForm').attr('action',  `${updateLink}/${element.id}`);
+        const featurePostLink = $('#featurePostForm').attr('data-action');
+        $('#featurePostForm').attr('action',  `${featurePostLink}/${element.id}`);
+
+        const editorsPickLink = $('#editorsPickForm').attr('data-action');
+        $('#editorsPickForm').attr('action',  `${editorsPickLink}/${element.id}`);
+
+        const eventLink = $('#eventForm').attr('data-action');
+        $('#eventForm').attr('action',  `${eventLink}/${element.id}`);
+
+        const categoryPostLink = $('#categoryPostForm').attr('data-action');
+        $('#categoryPostForm').attr('action',  `${categoryPostLink}/${element.id}`);
     }
 
     function chooseTrendingArticle(element)
@@ -1172,40 +1301,116 @@ function updateWidgetAds(element)
         $('#trendingContentForm').attr('action',  `${updateLink}/${element.id}`);
     }
 
-    function modalButtonDisable()
+    function modalButtonPostFeatureDisable()
     {
-        $("#applyButton").css('pointer-events', 'none');
-        $("#applyButton").prop("disabled", true);
-        var selectedArticle =  $("#selected_article").val();
-        var searchtxt =  $("#searchtxt").val();
-        console.log(searchtxt);
-        if (selectedArticle == "" && searchtxt == ""){
-           $("#applyButton").css('pointer-events', 'none');
-           $("#applyButton").prop("disabled", true);
+        $("#featurePostButton").css('pointer-events', 'none');
+        $("#featurePostButton").prop("disabled", true);
+        var selectedArticle =  $("#feature_post").val();
+        var featurePostSearch =  $("#featurePostSearch").val();
+        console.log(featurePostSearch);
+        if (selectedArticle == "" && featurePostSearch == ""){
+           $("#featurePostButton").css('pointer-events', 'none');
+           $("#featurePostButton").prop("disabled", true);
        } 
     }
 
-    function modalButtonDisable2()
+    function modalButtonEditorsPickDisable()
     {
-        $("#applyButton2").css('pointer-events', 'none');
-        $("#applyButton2").prop("disabled", true);
-        var selectedArticle =  $("#selected_article").val();
-        var searchtxt =  $("#searchTrendingTxt").val();
-        console.log(searchtxt);
-        if (selectedArticle == "" && searchtxt == ""){
-           $("#applyButton2").css('pointer-events', 'none');
-           $("#applyButton2").prop("disabled", true);
+        $("#editorsPickButton").css('pointer-events', 'none');
+        $("#editorsPickButton").prop("disabled", true);
+        var selectedArticle =  $("#editors_pick").val();
+        var editorsPickSearch =  $("#editorsPickSearch").val();
+        console.log(editorsPickSearch);
+        if (selectedArticle == "" && editorsPickSearch == ""){
+           $("#editorsPickButton").css('pointer-events', 'none');
+           $("#editorsPickButton").prop("disabled", true);
        } 
     }
+
+    function modalButtonEventDisable()
+    {
+        $("#eventButton").css('pointer-events', 'none');
+        $("#eventButton").prop("disabled", true);
+        var selectedArticle =  $("#feature_post").val();
+        var modalButtonEventDisable =  $("#modalButtonEventDisable").val();
+        console.log(featurePostSearch);
+        if (selectedArticle == "" && modalButtonEventDisable == ""){
+           $("#eventButton").css('pointer-events', 'none');
+           $("#eventButton").prop("disabled", true);
+       } 
+    }
+
+    function modalButtonCategoryPostDisable()
+    {
+        $("#categoryPostButton").css('pointer-events', 'none');
+        $("#categoryPostButton").prop("disabled", true);
+        var selectedArticle =  $("#category_post").val();
+        var modalButtonCategoryPostDisable =  $("#modalButtonCategoryPostDisable").val();
+        console.log(featurePostSearch);
+        if (selectedArticle == "" && modalButtonCategoryPostDisable == ""){
+           $("#categoryPostButton").css('pointer-events', 'none');
+           $("#categoryPostButton").prop("disabled", true);
+       } 
+    }
+
+    // function modalButtonDisable2()
+    // {
+    //     $("#applyButton2").css('pointer-events', 'none');
+    //     $("#applyButton2").prop("disabled", true);
+    //     var selectedArticle =  $("#feature_post").val();
+    //     var searchtxt =  $("#searchTrendingTxt").val();
+    //     console.log(searchtxt);
+    //     if (selectedArticle == "" && searchtxt == ""){
+    //        $("#applyButton2").css('pointer-events', 'none');
+    //        $("#applyButton2").prop("disabled", true);
+    //    } 
+    // }
 
 $(document).ready(function(){
-    $("#searchtxt").keyup(function(){
-        var str=  $("#searchtxt").val();
+    $("#featurePostSearch").keyup(function(){
+        var str=  $("#featurePostSearch").val();
         if(str == "") {
             $( "#Hintdate" ).html("");
         }else {
-            $.get( "{{ url('article/search-live?id=') }}"+str, function( data ) {
+            $.get( "{{ url('article/search-feature-post?id=') }}"+str, function( data ) {
                 $( "#Hintdate" ).html( data );
+            });
+        }
+    });
+});
+
+$(document).ready(function(){
+    $("#editorsPickSearch").keyup(function(){
+        var str=  $("#editorsPickSearch").val();
+        if(str == "") {
+            $( "#editorsPickArticle" ).html("");
+        }else {
+            $.get( "{{ url('article/search-editors-pick?id=') }}"+str, function( data ) {
+                $( "#editorsPickArticle" ).html( data );
+            });
+        }
+    });
+});
+$(document).ready(function(){
+    $("#eventSearch").keyup(function(){
+        var str=  $("#eventSearch").val();
+        if(str == "") {
+            $( "#eventArticle" ).html("");
+        }else {
+            $.get( "{{ url('article/search-event?id=') }}"+str, function( data ) {
+                $( "#eventArticle" ).html( data );
+            });
+        }
+    });
+});
+$(document).ready(function(){
+    $("#categoryPostSearch").keyup(function(){
+        var str=  $("#categoryPostSearch").val();
+        if(str == "") {
+            $( "#categoryPostArticle" ).html("");
+        }else {
+            $.get( "{{ url('article/search-category-post?id=') }}"+str, function( data ) {
+                $( "#categoryPostArticle" ).html( data );
             });
         }
     });

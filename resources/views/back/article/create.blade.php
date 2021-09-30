@@ -44,7 +44,6 @@ Tambah Artikel
         border: 1px solid #e9e9e9;
         border-width: thin;
     }
-  
 </style>
 <div class="row">
     <div class="col-xl">
@@ -87,31 +86,36 @@ Tambah Artikel
                             <div class="col-sm-4" id="gambarMobile">
                                 <input type="file" class="form-control dropify mt-5" name="gambar" id="gambar"
                                     data-allowed-file-extensions="png jpg jpeg">
-                                    @error('gambar')
-                                    <style>
-                                       .dropify-wrapper {
-                                            border: 1px solid #dc3545 !important;
-                                            border-radius: .3rem !important;
-                                            height: 100% !important;
-                                        }
+                                @error('gambar')
+                                <style>
+                                    .select2-container--default .select2-selection--single .select2-selection__arrow b {
+                                        top: 100% !important;
+                                    }
 
-                                        .categoryStyle .select2-selection {
-                                                margin-top: 20px !important;
-                                            }
-                                    </style>
-                                    <div class="mt-1">
-                                        <span class="text-danger">{{ $message }}</span>
-                                    </div>
-                                 
-                                    @enderror
+                                    .dropify-wrapper {
+                                        border: 1px solid #dc3545 !important;
+                                        border-radius: .3rem !important;
+                                        height: 100% !important;
+                                    }
+
+                                    .categoryStyle .select2-selection {
+                                        margin-top: 20px !important;
+                                    }
+                                </style>
+                                <div class="mt-1">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </div>
+                                @enderror
                             </div>
                         </div>
 
                     </div>
                     <div class="form-group categoryStyle @error('category') has-error @enderror">
-                        <select class="category form-control" tabindex="-1" name="category" style="display: none; width: 100%">
+                        <select class="category form-control" tabindex="-1" name="category"
+                            style="display: none; width: 100%">
+                            <option value="">Pilih Kategori</option>
                             @foreach ($categories as $item)
-                                <option value="{{$item->id}}">{{$item->nama}}</option>
+                            <option value="{{$item->id}}">{{$item->nama}}</option>
                             @endforeach
                         </select>
                         @error('category')
@@ -141,14 +145,14 @@ Tambah Artikel
                     </div>
                     <div class="row">
                         <div class="col text-sm-left">
-                            <button type="submit" class="btn btn-lg btn-primary" id="buttonSubmit"><i
+                            <button type="submit" class="btn btn-md btn-primary" id="buttonSubmit"><i
                                     class="fa fa-plus-circle"></i>
-                                Submit</button>
+                                Publish</button>
 
                         </div>
                         <div class="col text-right">
                             <button type="button" data-toggle="modal" data-target="#confirmDeleteModal"
-                                class="btn btn-lg btn-secondary">
+                                class="btn btn-md btn-secondary">
                                 Kembali</button>
                         </div>
                     </div>
@@ -228,7 +232,7 @@ file.addEventListener('change', function() {
 <script>
     $('#articleForm').submit(function(){
     $("#buttonSubmit", this)
-      .html("Please Wait...")
+      .html("Mohon Tunggu...")
       .attr('disabled', 'disabled');
     return true;
 });
@@ -266,7 +270,7 @@ file.addEventListener('change', function() {
 
 <script type="text/javascript">
     $('.category').select2({
-        placeholder: 'Cari Kategori'
+        placeholder: 'Pilih Kategori'
     });
 </script>
 

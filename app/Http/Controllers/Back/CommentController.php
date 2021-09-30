@@ -20,12 +20,6 @@ class CommentController extends Controller
     public function index()
     {
         $data['comment'] = Comment::paginate(3, ['*'], 'all');
-        $data['comment_approved'] = Comment::whereHas('replies', function($query) {
-            $query->where('status', '=', 'approved');
-        })->orWhere('status', '=', 'approved')->paginate(3, ['*'], 'approved');
-        $data['comment_pending'] = Comment::whereHas('replies', function($query) {
-            $query->where('status', '=', 'pending');
-        })->orWhere('status', '=', 'pending')->paginate(3, ['*'], 'pending');
         $data['comment_trash'] = Comment::onlyTrashed()->paginate(3, ['*'], 'trash');
        
         return view('back.comment.index', $data);

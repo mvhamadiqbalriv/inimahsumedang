@@ -1,4 +1,4 @@
-@extends('layouts.front')
+@extends('layouts.preview')
 @section('title')
 {{ $article->judul }}
 @endsection
@@ -48,24 +48,20 @@
                                     <img src="{{$path}}" class="author"
                                         style="border-radius: 50%; width: 32px; height:32px; object-fit: cover;"
                                         alt="author" />{{ ucfirst(trans($article->creators->name)) }}</a></li>
-                            <form action="{{ route('artikel.kategori') }}" method="POST" style="display: none;"
-                                id="kategoriForm">
-                                @csrf
-                                <input type="hidden" name="kategori" value="{{ $article->category }}">
-                            </form>
+                            
                             <li class="list-inline-item"><a href="javascript:void(0)"
-                                    id="kategori">{{ $article->categories->nama }}</a>
+                                    id="kategori">@isset($article->categories->nama){{ $article->categories->nama }}@endisset</a>
                             </li>
                             <li class="list-inline-item">{{ $article->updated_at->format('Y-m-d') }}</li>
                         </ul>
                     </div>
                     <!-- featured image -->
                     <div class="featured-image">
-                        <img src="{{ Storage::url($article->gambar) }}" alt="post-title" />
+                        @isset($article->gambar)<img src="{{ Storage::url($article->gambar) }}" alt="post-title" />@endisset
                     </div>
                     <!-- post content -->
                     <div class="post-content clearfix">
-                        {!! $article->konten !!}
+                        @isset($article->konten){!! $article->konten !!}@endisset
                     </div>
                     <!-- post bottom section -->
                     <div class="post-bottom">

@@ -20,28 +20,28 @@ class PageController extends Controller
     public function index(Request $request)
     {   
         $data['article'] = Article::all();
-        $data['feature_post'] = Article::where('selected_article', '=', 'feature_post')->first();
+        $data['feature_post'] = Article::where('feature_post_selected', '=', 'feature_post')->first();
         $data['horizontal_ads'] = Ad::where('status', '=', 'horizontal_ads')->first();
         $data['widget_ads'] = Ad::where('status', '=', 'widget_ads')->first();
-        $data['selected_category_post_1'] = Article::where('selected_article', '=', 'selected_category_post_1')->first();
-        $data['selected_category_post_2'] = Article::where('selected_article', '=', 'selected_category_post_2')->first();
-        $data['editors_pick_1'] = Article::where('selected_article', '=', 'editors_pick_1')->first();
-        $data['editors_pick_2'] = Article::where('selected_article', '=', 'editors_pick_2')->first();
-        $data['editors_pick_3'] = Article::where('selected_article', '=', 'editors_pick_3')->first();
-        $data['editors_pick_4'] = Article::where('selected_article', '=', 'editors_pick_4')->first();
-        $data['editors_pick_5'] = Article::where('selected_article', '=', 'editors_pick_5')->first();
-        $data['trending_1'] = Article::where('selected_article', '=', 'trending_1')->first();
-        $data['trending_2'] = Article::where('selected_article', '=', 'trending_2')->first();
-        $data['trending_3'] = Article::where('selected_article', '=', 'trending_3')->first();
-        $data['trending_4'] = Article::where('selected_article', '=', 'trending_4')->first();
-        $data['trending_5'] = Article::where('selected_article', '=', 'trending_5')->first();
-        $data['trending_6'] = Article::where('selected_article', '=', 'trending_6')->first();
-        $data['event_1'] = Article::where('selected_article', '=', 'event_1')->first();
-        $data['event_2'] = Article::where('selected_article', '=', 'event_2')->first();
-
+        $data['selected_category_post_1'] = Article::where('category_post_selected', '=', 'selected_category_post_1')->first();
+        $data['selected_category_post_2'] = Article::where('category_post_selected', '=', 'selected_category_post_2')->first();
+        $data['editors_pick_1'] = Article::where('editors_pick_selected', '=', 'editors_pick_1')->first();
+        $data['editors_pick_2'] = Article::where('editors_pick_selected', '=', 'editors_pick_2')->first();
+        $data['editors_pick_3'] = Article::where('editors_pick_selected', '=', 'editors_pick_3')->first();
+        $data['editors_pick_4'] = Article::where('editors_pick_selected', '=', 'editors_pick_4')->first();
+        $data['editors_pick_5'] = Article::where('editors_pick_selected', '=', 'editors_pick_5')->first();
+        $data['trending_1'] = Article::where('trending_selected', '=', 'trending_1')->first();
+        $data['trending_2'] = Article::where('trending_selected', '=', 'trending_2')->first();
+        $data['trending_3'] = Article::where('trending_selected', '=', 'trending_3')->first();
+        $data['trending_4'] = Article::where('trending_selected', '=', 'trending_4')->first();
+        $data['trending_5'] = Article::where('trending_selected', '=', 'trending_5')->first();
+        $data['trending_6'] = Article::where('trending_selected', '=', 'trending_6')->first();
+        $data['event_1'] = Article::where('event_selected', '=', 'event_1')->first();
+        $data['event_2'] = Article::where('event_selected', '=', 'event_2')->first();
+        $data['selectedArticle'] = Article::paginate(3);
         $data['artikelAjax'] = Article::join("visitors", "visitors.article", "=", "articles.id")
             ->where("visitors.created_at", ">=", date("Y-m-d H:i:s", strtotime('-24 hours', time())))
-            ->where("selected_article", "=", null)
+            ->where("trending", "=", null)
             ->groupBy("articles.id")
             ->orderBy(DB::raw('COUNT(articles.id)'), 'desc')
             ->select('articles.*', DB::raw('COUNT(articles.id) as total_views'))
@@ -51,7 +51,7 @@ class PageController extends Controller
 
 
         if ($request->ajax()) {
-            return view('load_books_data', $data);
+            return view('trending_article', $data);
         }
          
         return view('back.page.index', $data);
@@ -63,22 +63,50 @@ class PageController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    function fetchAjax(Request $request)
-    {
-        $data['dataPagination'] = Article::paginate(5);
-        if ($request->ajax()) {
-            return view('presult', $data);
-        }   
-    }
-
-    public function searchlive(Request $request)
+    public function featurePostSearch(Request $request)
     {
         $search_val = $request->id;
         if (is_null($search_val))
         {
             return view('searchlive');
         } else {
-            $data['article'] = Article::where('judul','LIKE',"%{$search_val}%")->where('is_publish', '=', '1')->where('selected_article', '=', null)->limit(3)->get();
+            $data['article'] = Article::where('judul','LIKE',"%{$search_val}%")->where('is_publish', '=', '1')->where('feature_post', '=', null)->limit(3)->get();
+            return view('search_live_article', $data);
+        }
+    }
+
+    public function editorsPickSearch(Request $request)
+    {
+        $search_val = $request->id;
+        if (is_null($search_val))
+        {
+            return view('searchlive');
+        } else {
+            $data['article'] = Article::where('judul','LIKE',"%{$search_val}%")->where('is_publish', '=', '1')->where('editors_pick', '=', null)->limit(3)->get();
+            return view('search_live_article', $data);
+        }
+    }
+
+    public function eventSearch(Request $request)
+    {
+        $search_val = $request->id;
+        if (is_null($search_val))
+        {
+            return view('searchlive');
+        } else {
+            $data['article'] = Article::where('judul','LIKE',"%{$search_val}%")->where('is_publish', '=', '1')->where('event', '=', null)->limit(3)->get();
+            return view('search_live_article', $data);
+        }
+    }
+
+    public function categoryPostSearch(Request $request)
+    {
+        $search_val = $request->id;
+        if (is_null($search_val))
+        {
+            return view('searchlive');
+        } else {
+            $data['article'] = Article::where('judul','LIKE',"%{$search_val}%")->where('is_publish', '=', '1')->where('category_post', '=', null)->limit(3)->get();
             return view('search_live_article', $data);
         }
     }
@@ -92,7 +120,7 @@ class PageController extends Controller
         } else {
             $data['article'] = Article::join("visitors", "visitors.article", "=", "articles.id")
             ->where('judul','LIKE',"%{$search_val}%")
-            ->where('selected_article', '=', null)
+            ->where('trending_selected', '=', null)
             ->where('is_publish', '=', '1')
             ->where("visitors.created_at", ">=", date("Y-m-d H:i:s", strtotime('-24 hours', time())))
             ->groupBy("articles.id")

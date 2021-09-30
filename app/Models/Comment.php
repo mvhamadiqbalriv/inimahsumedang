@@ -12,7 +12,7 @@ class Comment extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'nama', 'comment', 'email', 'web', 'article', 'status'
+        'nama', 'comment', 'email', 'web', 'article'
     ];
 
     protected $dates = ['deleted_at'];
