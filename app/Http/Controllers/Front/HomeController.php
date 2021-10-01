@@ -20,24 +20,24 @@ class HomeController extends Controller
     {
         $data['recent_article'] = Article::orderBy('updated_at', 'desc')->take(4)->get();
         $data['web'] = Web::find(1);
-        $data['feature_post'] = Article::where('selected_article', '=', 'feature_post')->first();
+        $data['feature_post'] = Article::where('feature_post_selected', '=', 'feature_post')->first();
         $data['horizontal_ads'] = Ad::where('status', '=', 'horizontal_ads')->first();
         $data['widget_ads'] = Ad::where('status', '=', 'widget_ads')->first();
-        $data['selected_category_post_1'] = Article::where('selected_article', '=', 'selected_category_post_1')->first();
-        $data['selected_category_post_2'] = Article::where('selected_article', '=', 'selected_category_post_2')->first();
-        $data['editors_pick_1'] = Article::where('selected_article', '=', 'editors_pick_1')->first();
-        $data['editors_pick_2'] = Article::where('selected_article', '=', 'editors_pick_2')->first();
-        $data['editors_pick_3'] = Article::where('selected_article', '=', 'editors_pick_3')->first();
-        $data['editors_pick_4'] = Article::where('selected_article', '=', 'editors_pick_4')->first();
-        $data['editors_pick_5'] = Article::where('selected_article', '=', 'editors_pick_5')->first();
-        $data['trending_1'] = Article::where('selected_article', '=', 'trending_1')->first();
-        $data['trending_2'] = Article::where('selected_article', '=', 'trending_2')->first();
-        $data['trending_3'] = Article::where('selected_article', '=', 'trending_3')->first();
-        $data['trending_4'] = Article::where('selected_article', '=', 'trending_4')->first();
-        $data['trending_5'] = Article::where('selected_article', '=', 'trending_5')->first();
-        $data['trending_6'] = Article::where('selected_article', '=', 'trending_6')->first();
-        $data['event_1'] = Article::where('selected_article', '=', 'event_1')->first();
-        $data['event_2'] = Article::where('selected_article', '=', 'event_2')->first();
+        $data['selected_category_post_1'] = Article::where('category_post_selected', '=', 'selected_category_post_1')->first();
+        $data['selected_category_post_2'] = Article::where('category_post_selected', '=', 'selected_category_post_2')->first();
+        $data['editors_pick_1'] = Article::where('editors_pick_selected', '=', 'editors_pick_1')->first();
+        $data['editors_pick_2'] = Article::where('editors_pick_selected', '=', 'editors_pick_2')->first();
+        $data['editors_pick_3'] = Article::where('editors_pick_selected', '=', 'editors_pick_3')->first();
+        $data['editors_pick_4'] = Article::where('editors_pick_selected', '=', 'editors_pick_4')->first();
+        $data['editors_pick_5'] = Article::where('editors_pick_selected', '=', 'editors_pick_5')->first();
+        $data['trending_1'] = Article::where('trending_selected', '=', 'trending_1')->first();
+        $data['trending_2'] = Article::where('trending_selected', '=', 'trending_2')->first();
+        $data['trending_3'] = Article::where('trending_selected', '=', 'trending_3')->first();
+        $data['trending_4'] = Article::where('trending_selected', '=', 'trending_4')->first();
+        $data['trending_5'] = Article::where('trending_selected', '=', 'trending_5')->first();
+        $data['trending_6'] = Article::where('trending_selected', '=', 'trending_6')->first();
+        $data['event_1'] = Article::where('event_selected', '=', 'event_1')->first();
+        $data['event_2'] = Article::where('event_selected', '=', 'event_2')->first();
 
         // $data['popular'] = Article::join("visitors", "visitors.article", "=", "articles.id")
         //     // ->where("visitors.created_at", ">=", now()->subdays(1))

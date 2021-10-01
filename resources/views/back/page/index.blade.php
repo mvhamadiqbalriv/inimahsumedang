@@ -5,6 +5,9 @@ Page
 
 @section('css')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css"
+    integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
     label.error {
         color: #f1556c;
@@ -26,9 +29,6 @@ Page
         border: 1px solid #f1556c !important;
     }
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css"
-    integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
     .dropify-wrapper {
         border: 1px solid #e2e7f1;
@@ -144,8 +144,8 @@ Page
                             aria-selected="true">Feature Post</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="pills-slideshow-tab" data-toggle="pill" href="#pills-slideshow" role="tab"
-                            aria-controls="pills-slideshow" aria-selected="false">Slideshow</a>
+                        <a class="nav-link" id="pills-slideshow-tab" data-toggle="pill" href="#pills-slideshow"
+                            role="tab" aria-controls="pills-slideshow" aria-selected="false">Slideshow</a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" id="pills-ads-tab" data-toggle="pill" href="#pills-ads" role="tab"
@@ -204,104 +204,33 @@ Page
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h4>Slideshow</h4>
-                            <button class="btn btn-sm btn-secondary" onclick="editorsPick(this)"><i class="fas fa-plus"
-                                    id="iconChangeOnEditorsPick"></i></button>
+                            <button class="btn btn-sm btn-secondary" data-toggle="modal" @if(empty($article))
+                                data-target="#ifArticleEmpty" @else data-target="#slideShowModal" @endif
+                                data-status="slide_show" onclick="slideShowValue(this)"><i
+                                    class="fas fa-plus"></i></button>
                         </div>
-                        <div class="title mt-3">
-                            <p class="text-center">@if(isset($editors_pick_1)) {{ $editors_pick_1->judul }} @else Judul
-                                artikel
-                                @endif</p>
-                        </div>
-                        <div class="row justify-content-center">
-                            <div class="col-sm-6">
-                                <div class="wrap-editors-pick-images mt-2" data-toggle="modal" @if(empty($article))
-                                    data-target="#ifArticleEmpty" @else data-target="#editorsPickModal" @endif
-                                    data-status="editors_pick_1" onclick="editorsPickValue(this)">
-                                    @if (!empty($editors_pick_1))
-                                    <img src="{{ Storage::url($editors_pick_1->gambar) }}" class="img-fluid image"
-                                        style="width: 510px;" alt="post-title" />
-                                    @else
-                                    <img src="{{ asset('assets/back/not-found.png') }}"
-                                        class="img-fluid editors-pick-default-image" alt="post-title" style="" />
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row justify-content-between mt-4">
-                            <div class="col-sm-6 mt-2">
-                                <div class="title mt-3">
-                                    <p class="text-center">@if(isset($editors_pick_2)) {{ $editors_pick_2->judul }}
-                                        @else Judul
-                                        artikel @endif</p>
-                                </div>
-                                <div class="wrap-editors-pick-images mt-4" data-toggle="modal" @if(empty($article))
-                                    data-target="#ifArticleEmpty" @else data-target="#editorsPickModal" @endif
-                                    data-status="editors_pick_2" onclick="editorsPickValue(this)">
-                                    @if (!empty($editors_pick_2))
-                                    <img src="{{ Storage::url($editors_pick_2->gambar) }}" class="img-fluid image"
-                                        style="width: 510px;" alt="post-title" />
-                                    @else
-                                    <img src="{{ asset('assets/back/not-found.png') }}"
-                                        class="img-fluid editors-pick-default-image" alt="post-title" />
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="col-sm-6 mt-2">
-                                <div class="title mt-3">
-                                    <p class="text-center">@if(isset($editors_pick_3)) {{ $editors_pick_3->judul }}
-                                        @else Judul
-                                        artikel @endif</p>
-                                </div>
-                                <div class="wrap-editors-pick-images mt-4" data-toggle="modal" @if(empty($article))
-                                    data-target="#ifArticleEmpty" @else data-target="#editorsPickModal" @endif
-                                    data-status="editors_pick_3" onclick="editorsPickValue(this)">
-                                    @if (!empty($editors_pick_3))
-                                    <img src="{{ Storage::url($editors_pick_3->gambar) }}" class="img-fluid image"
-                                        style="width: 510px;" alt="post-title" />
-                                    @else
-                                    <img src="{{ asset('assets/back/not-found.png') }}"
-                                        class="img-fluid editors-pick-default-image" alt="post-title" />
-                                    @endif
+                        <br><br>
+                        @foreach($slide_show as $articles)
+                        <div class="card article-lists" id="slideShow{{ $articles->id }}" data-id="{{ $articles->id }}"
+                            onclick="chooseSlideShow(this)">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="img d-flex">
+                                            <img src="{{ Storage::url($articles->gambar) }}"
+                                                style="border-radius:5px; width:85px; height:70px; object-fit: cover;">
+                                            <p style="margin-left: 30px;margin-top:20px;">{{ $articles->judul }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 text-sm-right">
+                                        <span class="badge badge-light text-sm-right">{{ $articles->getArticleCountAttribute() }} Pembaca</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row justify-content-between mt-4">
-                            <div class="col-sm-6 mt-2">
-                                <div class="title mt-3">
-                                    <p class="text-center">@if(isset($editors_pick_4)) {{ $editors_pick_4->judul }}
-                                        @else Judul
-                                        artikel @endif</p>
-                                </div>
-                                <div class="wrap-editors-pick-images mt-4" data-toggle="modal" @if(empty($article))
-                                    data-target="#ifArticleEmpty" @else data-target="#editorsPickModal" @endif
-                                    data-status="editors_pick_4" onclick="editorsPickValue(this)">
-                                    @if (!empty($editors_pick_4))
-                                    <img src="{{ Storage::url($editors_pick_4->gambar) }}" class="img-fluid image"
-                                        style="width: 510px;" alt="post-title" />
-                                    @else
-                                    <img src="{{ asset('assets/back/not-found.png') }}"
-                                        class="img-fluid editors-pick-default-image" alt="post-title" />
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="col-sm-6 mt-2">
-                                <div class="title mt-3">
-                                    <p class="text-center">@if(isset($editors_pick_5)) {{ $editors_pick_5->judul }}
-                                        @else Judul
-                                        artikel @endif</p>
-                                </div>
-                                <div class="wrap-editors-pick-images mt-4" data-toggle="modal" @if(empty($article))
-                                    data-target="#ifArticleEmpty" @else data-target="#editorsPickModal" @endif
-                                    data-status="editors_pick_5" onclick="editorsPickValue(this)">
-                                    @if (!empty($editors_pick_5))
-                                    <img src="{{ Storage::url($editors_pick_5->gambar) }}" class="img-fluid image"
-                                        style="width: 510px;" alt="post-title" />
-                                    @else
-                                    <img src="{{ asset('assets/back/not-found.png') }}"
-                                        class="img-fluid editors-pick-default-image" alt="post-title" />
-                                    @endif
-                                </div>
-                            </div>
+                        @endforeach
+                        <div class="d-flex justify-content-center">
+                            {!! $slide_show->render('vendor.pagination.custom') !!}
                         </div>
                     </div>
                 </div>
@@ -356,6 +285,30 @@ Page
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-sm-6">
+                        <div class="card p-2">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h4>Search Horizontal Ads</h4>
+                                    <button class="btn btn-sm btn-secondary" data-toggle="modal" @if(empty($article))
+                                        data-target="#ifArticleEmpty" @else data-target="#searchHorizontalAdsModal" @endif
+                                        @if(!empty($search_horizontal_ads)) data-id="{{ $search_horizontal_ads->id }}"
+                                        onclick="updateSearchHorizontalAds(this)" @endif><i class="fas fa-plus"></i></button>
+                                </div>
+
+                                <div class="wrap-image mt-3">
+                                    @if (!empty($search_horizontal_ads))
+                                    <img src="{{ Storage::url($search_horizontal_ads->gambar) }}" class="img-fluid image "
+                                        alt="post-title" />
+                                    @else
+                                    <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid image "
+                                        alt="post-title" />
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="tab-pane fade" id="pills-editors-pick" role="tabpanel" aria-labelledby="pills-editors-pick-tab">
@@ -363,7 +316,7 @@ Page
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h4>Editor's Pick</h4>
-                            <button class="btn btn-sm btn-secondary" onclick="editorsPick(this)"><i class="fas fa-plus"
+                            <button class="btn btn-sm btn-secondary" onclick="editorsPickButton(this)"><i class="fas fa-plus"
                                     id="iconChangeOnEditorsPick"></i></button>
                         </div>
                         <div class="title mt-3">
@@ -473,7 +426,7 @@ Page
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <h4>Trending</h4>
-                                    <button class="btn btn-sm btn-secondary" onclick="trending(this)"><i
+                                    <button class="btn btn-sm btn-secondary" onclick="trendingButton(this)"><i
                                             class="fas fa-plus" id="iconChangeOnTrending"></i></button>
                                 </div>
                                 <div class="row justify-content-center mt-4">
@@ -539,7 +492,7 @@ Page
                                     <div class="col-sm-6 mt-2">
                                         <div class="title mt-3">
                                             <p class="text-center">@if(isset($trending_4)) {{ $trending_4->judul }}
-                                                @else Judul Artikle
+                                                @else Judul Artikel
                                                 @endif</p>
                                         </div>
                                         <div class="wrap-trending-images mt-4" data-toggle="modal" @if(empty($article))
@@ -662,7 +615,7 @@ Page
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h4>Category Post</h4>
-                            <button class="btn btn-sm btn-secondary" onclick="selectedCategory(this)"><i
+                            <button class="btn btn-sm btn-secondary" onclick="categoryPostButton(this)"><i
                                     class="fas fa-plus" id="iconChange"></i></button>
                         </div>
                         <div class="row mt-4">
@@ -674,7 +627,7 @@ Page
                                 </div>
                                 <div class="wrap-category-images mt-4" data-toggle="modal" @if(empty($article))
                                     data-target="#ifArticleEmpty" @else data-target="#categoryPostModal" @endif
-                                    data-status="selected_category_post_1" onclick="selectedCategoryValue(this)">
+                                    data-status="selected_category_post_1" onclick="categoryPostValue(this)">
                                     @if (!empty($selected_category_post_1))
                                     <img src="{{ Storage::url($selected_category_post_1->gambar) }}"
                                         class="img-fluid image" style="width: 510px;" alt="post-title" />
@@ -692,7 +645,7 @@ Page
                                 </div>
                                 <div class="wrap-category-images mt-4" data-toggle="modal" @if(empty($article))
                                     data-target="#ifArticleEmpty" @else data-target="#categoryPostModal" @endif
-                                    data-status="selected_category_post_2" onclick="selectedCategoryValue(this)">
+                                    data-status="selected_category_post_2" onclick="categoryPostValue(this)">
                                     @if (!empty($selected_category_post_2))
                                     <img src="{{ Storage::url($selected_category_post_2->gambar) }}"
                                         class="img-fluid image" style="width: 510px;" alt="post-title" />
@@ -719,7 +672,6 @@ Page
 
 
 @foreach ($article as $articles)
-
 <!-- Modal Feature Post -->
 <div class="modal fade" id="featurePostModal" tabindex="-1" role="dialog" aria-labelledby="featurePostModal"
     aria-hidden="true">
@@ -741,8 +693,11 @@ Page
                     <input type="text" class="form-control" id="featurePostSearch" placeholder="Cari artikel..."
                         onkeyup="modalButtonPostFeatureDisable()">
                     <br>
-                    <div id="Hintdate">
-
+                    <div id="featurePostResult">
+                    </div>
+                    <div id="featurePostArticle">
+                        @csrf
+                        @include('back.page.pagination.feature_post')
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -755,12 +710,51 @@ Page
         </div>
     </div>
 </div>
+@endforeach
 
+@foreach ($article as $articles)
+<!-- Modal Feature Post -->
+<div class="modal fade" id="slideShowModal" tabindex="-1" role="dialog" aria-labelledby="slideShowModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="slideShowModalTitle">Slideshow</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <form action="{{ route('articles.selectedContent', '') }}"
+                data-action="{{ route('articles.selectedContent', '') }}" method="post" id="slideShowForm"
+                autocomplete="off">
+                @csrf
+                <input type="hidden" name="slide_show_selected" id="slideShowSelectedArticle">
+                <div class="modal-body" id="modal-body-publish">
+                    <input type="text" class="form-control" id="slideShowSearch" placeholder="Cari artikel..."
+                        onkeyup="modalButtonSlideShowDisable()">
+                    <br>
+                    <div id="slideShowResult">
+                    </div>
+                    <div id="slideShowArticle">
+                        @csrf
+                        @include('back.page.pagination.slideshow')
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-primary" disabled style="pointer-events: none;"
+                        id="slideShowButton">Masukkan</button>
+                    <button type="button" class="btn btn-sm btn-secondary" class="close"
+                        data-dismiss="modal">Kembali</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endforeach
 
 @foreach ($article as $articles)
 
-<!-- Modal Feature Post -->
+<!-- Modal Editors Pick -->
 <div class="modal fade" id="editorsPickModal" tabindex="-1" role="dialog" aria-labelledby="editorsPickModal"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -781,8 +775,12 @@ Page
                     <input type="text" class="form-control" id="editorsPickSearch" placeholder="Cari artikel..."
                         onkeyup="modalButtonEditorsPickDisable()">
                     <br>
-                    <div id="editorsPickArticle">
+                    <div id="editorsPickResult">
 
+                    </div>
+                    <div id="editorsPickArticle">
+                        @csrf
+                        @include('back.page.pagination.editors_pick')
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -819,8 +817,12 @@ Page
                     <input type="text" class="form-control" id="eventSearch" placeholder="Cari artikel..."
                         onkeyup="modalButtonEventDisable()">
                     <br>
-                    <div id="eventArticle">
+                    <div id="eventResult">
 
+                    </div>
+                    <div id="eventArticle">
+                        @csrf
+                        @include('back.page.pagination.event')
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -837,7 +839,6 @@ Page
 @endforeach
 
 @foreach ($article as $articles)
-
 <!-- Modal Category Post -->
 <div class="modal fade" id="categoryPostModal" tabindex="-1" role="dialog" aria-labelledby="categoryPostModal"
     aria-hidden="true">
@@ -859,8 +860,12 @@ Page
                     <input type="text" class="form-control" id="categoryPostSearch" placeholder="Cari artikel..."
                         onkeyup="modalButtonCategoryPostDisable()">
                     <br>
-                    <div id="categoryPostArticle">
+                    <div id="categoryPostResult">
 
+                    </div>
+                    <div id="categoryPostArticle">
+                        @csrf
+                        @include('back.page.pagination.category_post')
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -873,12 +878,10 @@ Page
         </div>
     </div>
 </div>
-
 @endforeach
 
 
 @foreach ($article as $articles)
-
 <!-- Modal Trending -->
 <div class="modal fade" id="trendingArticleModal" tabindex="-1" role="dialog" aria-labelledby="trendingArticleModal"
     aria-hidden="true">
@@ -891,30 +894,27 @@ Page
                 </button>
             </div>
             <form action="{{ route('articles.selectedContent', '') }}"
-                data-action="{{ route('articles.selectedContent', '') }}" method="post" id="trendingContentForm"
+                data-action="{{ route('articles.selectedContent', '') }}" method="post" id="trendingForm"
                 autocomplete="off">
                 @csrf
-                <input type="hidden" name="trending_selected" id="selected_trending_article">
+                <input type="hidden" name="trending_selected" id="trendingSelectedArticle">
                 <div class="modal-body" id="modal-body-publish">
-                    {{-- <input type="text" class="form-control" id="searchTrendingTxt" placeholder="Cari artikel..."
-                        onkeyup="modalButtonDisable2()"> --}}
+                    <input type="text" class="form-control" id="trendingSearch" placeholder="Cari artikel..."
+                        onkeyup="modalButtonTrendingDisable()">
                     <br>
-                    <div id="trendingArticle">
+                    <div id="trendingResult">
 
                     </div>
-                    @if (count($artikelAjax))
-                    <section class="trending-article">
-                        @include('trending_article')
-                    </section>
-                    @else
-                    No data found
-                    @endif
+                    <div id="trendingArticle">
+                        @csrf
+                        @include('back.page.pagination.trending')
+                    </div>
 
                 </div>
 
                 <div class="modal-footer">'
                     <button type="submit" class="btn btn-sm btn-primary" disabled style="pointer-events: none;"
-                        id="applyButton2">Terapkan</button>
+                        id="trendingButton">Terapkan</button>
                     <button type="button" class="btn btn-sm btn-secondary closeBtn" class="close"
                         data-dismiss="modal">Kembali</button>
                 </div>
@@ -991,7 +991,50 @@ Page
         </div>
     </div>
 </div>
-{{--  --}}
+
+<!-- Modal Horizontal Ads -->
+<div class="modal fade" id="searchHorizontalAdsModal" tabindex="-1" role="dialog" aria-labelledby="searchHorizontalAdsModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="searchHorizontalAdsModalTitle">Search Horizontal Ads</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <form action="{{ route('page.ads') }}" method="post" enctype="multipart/form-data" id="searchHorizontalAdsForm">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="hidden" name="status" value="search_horizontal_ads">
+                        <input type="file" class="form-control dropify mt-5 gambarIklan" name="gambar"
+                            data-allowed-file-extensions="png jpg jpeg"
+                            data-default-file="@if(!empty($search_horizontal_ads->gambar) &&
+                            Storage::exists($search_horizontal_ads->gambar)){{ Storage::url($search_horizontal_ads->gambar) }}@endif">
+                        <input type="hidden" name="gambarCheck" id="gambarCheck"
+                            value="@if(!empty($search_horizontal_ads)) {{ $search_horizontal_ads->gambar }} @endif">
+                        <span class="errorGambar"></span>
+
+                        <br>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Tautan</label>
+                        <input type="text" class="form-control  @error('tautan') is-invalid @enderror" name="tautan"
+                            id="tautanValue" placeholder="Tautan"
+                            value="@if(!empty($search_horizontal_ads)) {{ $search_horizontal_ads->tautan }} @endif">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-primary" id="horizontalAdsButton">Terapkan</button>
+                    <button type="button" class="btn btn-sm btn-secondary" class="close"
+                        data-dismiss="modal">Kembali</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 <!-- Modal Widget Ads -->
 <div class="modal fade" id="widgetAdsModal" tabindex="-1" role="dialog" aria-labelledby="widgetAdsModal"
@@ -1010,8 +1053,7 @@ Page
                     <div class="form-group">
                         <input type="hidden" name="status" value="widget_ads">
                         <input type="file" class="form-control dropify mt-5 gambarIklan" name="gambar"
-                            data-allowed-file-extensions="png jpg jpeg"
-                            data-default-file="@if(!empty($widget_ads->gambar) &&
+                            data-allowed-file-extensions="png jpg jpeg" data-default-file="@if(!empty($widget_ads->gambar) &&
                             Storage::exists($widget_ads->gambar)){{ Storage::url($widget_ads->gambar) }}@endif">
                         <input type="hidden" name="gambarCheck" id="gambarCheck2"
                             value="@if(!empty($widget_ads)) {{ $widget_ads->gambar }} @endif">
@@ -1039,20 +1081,110 @@ Page
 
 @endsection
 @section('js')
+{{-- Dropify --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"
+    integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    $(document).ready(function(){
+    
+    $(document).on('click', '.page-link', function(event){
+        event.preventDefault(); 
+        var page = $(this).attr('href').split('page=')[1];
+        feature_post_data(page);
+        slide_show_data(page);
+        editors_pick_data(page);
+        event_data(page);
+        category_post_data(page);
+    });
+    
+    function feature_post_data(page)
+    {
+        var _token = $("input[name=_token]").val();
+        $.ajax({
+            url:"{{ route('artikel.feature-post') }}",
+            method:"POST",
+            data:{_token:_token, page:page},
+            success:function(data) {
+                    $('#featurePostArticle').html(data);
+            }
+        });
+    }
+        
+
+    function slide_show_data(page)
+    {
+        var _token = $("input[name=_token]").val();
+        $.ajax({
+            url:"{{ route('artikel.slide-show') }}",
+            method:"POST",
+            data:{_token:_token, page:page},
+            success:function(data) {
+                $('#slideShowArticle').html(data);
+            }
+        });
+    }
+
+    function editors_pick_data(page)
+    {
+        var _token = $("input[name=_token]").val();
+        $.ajax({
+            url:"{{ route('artikel.editors-pick') }}",
+            method:"POST",
+            data:{_token:_token, page:page},
+            success:function(data) {
+                $('#editorsPickArticle').html(data);
+            }
+        });
+    }
+
+    function event_data(page)
+    {
+        var _token = $("input[name=_token]").val();
+        $.ajax({
+            url:"{{ route('artikel.event') }}",
+            method:"POST",
+            data:{_token:_token, page:page},
+            success:function(data) {
+                $('#eventArticle').html(data);
+            }
+        });
+    }
+
+    function category_post_data(page)
+    {
+        var _token = $("input[name=_token]").val();
+        $.ajax({
+            url:"{{ route('artikel.category-post') }}",
+            method:"POST",
+            data:{_token:_token, page:page},
+            success:function(data) {
+                    $('#categoryPostArticle').html(data);
+            }
+        });
+    }
+});
+</script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
 
 <script>
- 
-</script>
-
-<script>
-    function updateHorizontalAds(element)
+function updateHorizontalAds(element)
 {
     var id = $(element).attr('data-id');
     console.log(id);
 
     const updateLink = "{{ route('page.ads_update', '') }}";
     $('#horizontalAdsForm').attr('action',  `${updateLink}/${id}`);
+}   
+
+function updateSearchHorizontalAds(element)
+{
+    var id = $(element).attr('data-id');
+    console.log(id);
+
+    const updateLink = "{{ route('page.ads_update', '') }}";
+    $('#searchHorizontalAdsForm').attr('action',  `${updateLink}/${id}`);
 }   
 
 function updateWidgetAds(element)
@@ -1106,8 +1238,49 @@ function updateWidgetAds(element)
                 
             });
         });
+</script>
 
-       
+<script>
+    $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $("#searchHorizontalAdsForm").validate({
+                rules: {
+                    gambar:{
+                        required: '#gambarCheck:blank'
+                    },
+                    tautan:{
+                        required: true,
+                    }
+                },
+                messages: {
+                    gambar: {
+                        required: "Gambar belum di input",
+                    },
+                    tautan: {
+                        required: "Tautan harus di isi",
+                    },
+                },
+                
+                errorPlacement : function(error, element) {
+                    if(element.attr("name") == "gambar") {
+                        $(".errorGambar").html(error);
+                        $(".dropify-wrapper").css("border", "1px solid #f1556c");
+                    }
+                    else {
+                        error.insertAfter(element); // default error placement.
+                    }
+                },
+
+                success: function (error) {
+                    $(".dropify-wrapper").css("border", "1px solid #e2e7f1");
+                }
+                
+            });
+        });
 </script>
 <script>
     $(document).ready(function() {
@@ -1154,63 +1327,192 @@ function updateWidgetAds(element)
        
 </script>
 
-{{-- Dropify --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"
-    integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 <script>
     $('.dropify').dropify();
 </script>
 <script>
-    $('#trendingArticleModal').on('hidden.bs.modal', function (event) {
-        var clean_uri = location.protocol + "//" + location.host + location.pathname;
-        window.history.replaceState({}, document.title, clean_uri); 
-    })
 
     $('#featurePostModal').on('hidden.bs.modal', function (event) {
-        $('#featurePostSearch').val('');
-        $('#Hintdate').html("");
+       
+        var clean_uri = location.protocol + "//" + location.host + location.pathname;
+        window.history.replaceState({}, document.title, clean_uri); 
+    });
+
+    $('#slideShowModal').on('hidden.bs.modal', function (event) {
+       
+        var clean_uri = location.protocol + "//" + location.host + location.pathname;
+        window.history.replaceState({}, document.title, clean_uri); 
     });
 
     $('#editorsPickModal').on('hidden.bs.modal', function (event) {
-        $('#editorsPickSearch').val('');
-        $('#editorsPickArticle').html("");
+        
+        var clean_uri = location.protocol + "//" + location.host + location.pathname;
+        window.history.replaceState({}, document.title, clean_uri); 
     });
 
     $('#eventModal').on('hidden.bs.modal', function (event) {
-        $('#eventSearch').val('');
-        $('#eventArticle').html("");
+        
+        var clean_uri = location.protocol + "//" + location.host + location.pathname;
+        window.history.replaceState({}, document.title, clean_uri); 
     });
 
     $('#categoryPostModal').on('hidden.bs.modal', function (event) {
-        $('#categoryPostSearch').val('');
-        $('#categoryPostArticle').html("");
+       
+        var clean_uri = location.protocol + "//" + location.host + location.pathname;
+        window.history.replaceState({}, document.title, clean_uri); 
     });
 
-
-</script>
-<script type="text/javascript">
-    $(function () {
-        $('body').on('click', '.pagination a', function (e) {
-            e.preventDefault();
-            $('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 10000;" src="https://i.imgur.com/v3KWF05.gif />');
-            var url = $(this).attr('href');
-            window.history.pushState("", "", url);
-            loadTrending(url);
-        });
-
-        function loadTrending(url) {
-            $.ajax({
-                url: url
-            }).done(function (data) {
-                $('.trending-article').html(data);
-            }).fail(function () {
-                console.log("Failed to load data!");
-            });
-        }
+    $('#trendingArticleModal').on('hidden.bs.modal', function (event) {
+        var clean_uri = location.protocol + "//" + location.host + location.pathname;
+        window.history.replaceState({}, document.title, clean_uri); 
     });
+
+    // Pemilihan Article
+    function chooseFeaturePost(element)
+    {
+        $('.article-lists').css('background-color', 'initial');
+        var featurePostID = $(element).attr('data-id');
+        $('#featurePost'+featurePostID).css('background-color', '#f2f7ff');
+
+        $("#featurePostButton").css('pointer-events', 'auto');
+        $("#featurePostButton").prop("disabled", false);
+
+        $('#featurePostForm').attr('action',  '');
+
+        const featurePostLink = $('#featurePostForm').attr('data-action');
+        $('#featurePostForm').attr('action',  `${featurePostLink}/${featurePostID}`);
+    }
+
+    function chooseSlideShow(element)
+    {
+        $('.article-lists').css('background-color', 'initial');
+        var slideShowID = $(element).attr('data-id');
+        $('#slideShow'+slideShowID).css('background-color', '#f2f7ff');
+
+        $("#slideShowButton").css('pointer-events', 'auto');
+        $("#slideShowButton").prop("disabled", false);
+
+        $('#slideShowForm').attr('action',  '');
+
+        const slideShowLink = $('#slideShowForm').attr('data-action');
+        $('#slideShowForm').attr('action',  `${slideShowLink}/${slideShowID}`);
+    }
+
+    function chooseEditorsPick(element)
+    {
+        $('.article-lists').css('background-color', 'initial');
+        var editorsPickID = $(element).attr('data-id');
+        $('#editorsPick'+editorsPickID).css('background-color', '#f2f7ff');
+
+        $("#editorsPickButton").css('pointer-events', 'auto');
+        $("#editorsPickButton").prop("disabled", false);
+
+        $('#editorsPickForm').attr('action',  '');
+
+        const editorsPickLink = $('#editorsPickForm').attr('data-action');
+        $('#editorsPickForm').attr('action',  `${editorsPickLink}/${editorsPickID}`);
+    }
+    
+    function chooseEvent(element)
+    {
+        $('.article-lists').css('background-color', 'initial');
+        var eventID = $(element).attr('data-id');
+        $('#event'+eventID).css('background-color', '#f2f7ff');
+
+        $("#eventButton").css('pointer-events', 'auto');
+        $("#eventButton").prop("disabled", false);
+
+        $('#eventForm').attr('action',  '');
+
+        const eventLink = $('#eventForm').attr('data-action');
+        $('#eventForm').attr('action',  `${eventLink}/${eventID}`);
+    }
+
+    function chooseCategoryPost(element)
+    {
+        $('.article-lists').css('background-color', 'initial');
+        var categoryID = $(element).attr('data-id');
+        $('#categoryPost'+categoryID).css('background-color', '#f2f7ff');
+
+        $("#categoryPostButton").css('pointer-events', 'auto');
+        $("#categoryPostButton").prop("disabled", false);
+
+        $('#categoryPostForm').attr('action',  '');
+
+        const categoryPostLink = $('#categoryPostForm').attr('data-action');
+        $('#categoryPostForm').attr('action',  `${categoryPostLink}/${categoryID}`);
+    }
+
+    function chooseTrending(element)
+    {
+        $('.article-lists').css('background-color', 'initial');
+        var trendingID = $(element).attr('data-id');
+        $('#trendingArticle'+trendingID).css('background-color', '#f2f7ff');
+
+        $("#trendingButton").css('pointer-events', 'auto');
+        $("#trendingButton").prop("disabled", false);
+
+        $('#trendingForm').attr('action',  '');
+
+        const trendingLink = $('#trendingForm').attr('data-action');
+        $('#trendingForm').attr('action',  `${trendingLink}/${trendingID}`);
+    }
+
+    
+    function liveSearchArticle(element)
+    {
+        $('.article-lists').css('background-color', 'initial');
+
+        var liveSearchID = $(element).attr('data-id');
+        $('#liveSearch'+liveSearchID).css('background-color', '#f2f7ff');
+
+        $("#featurePostButton").css('pointer-events', 'auto');
+        $("#featurePostButton").prop("disabled", false);
+
+        $("#slideShowButton").css('pointer-events', 'auto');
+        $("#slideShowButton").prop("disabled", false);
+        
+        $("#editorsPickButton").css('pointer-events', 'auto');
+        $("#editorsPickButton").prop("disabled", false);
+
+        $("#eventButton").css('pointer-events', 'auto');
+        $("#eventButton").prop("disabled", false);
+
+        $("#categoryPostButton").css('pointer-events', 'auto');
+        $("#categoryPostButton").prop("disabled", false);
+
+        $("#trendingButton").css('pointer-events', 'auto');
+        $("#trendingButton").prop("disabled", false);
+
+        $('#featurePostForm').attr('action',  '');
+        $('#slideShowForm').attr('action',  '');
+        $('#editorsPickForm').attr('action',  '');
+        $('#eventForm').attr('action',  '');
+        $('#categoryPostForm').attr('action',  '');
+        $('#trendingForm').attr('action',  '');
+
+
+         //  passing id to the modal form 
+        const featurePostLink = $('#featurePostForm').attr('data-action');
+        $('#featurePostForm').attr('action',  `${featurePostLink}/${liveSearchID}`);
+
+        const slideShowLink = $('#slideShowForm').attr('data-action');
+        $('#slideShowForm').attr('action',  `${slideShowLink}/${liveSearchID}`);
+
+        const editorsPickLink = $('#editorsPickForm').attr('data-action');
+        $('#editorsPickForm').attr('action',  `${editorsPickLink}/${liveSearchID}`);
+
+        const eventLink = $('#eventForm').attr('data-action');
+        $('#eventForm').attr('action',  `${eventLink}/${liveSearchID}`);
+
+        const categoryPostLink = $('#categoryPostForm').attr('data-action');
+        $('#categoryPostForm').attr('action',  `${categoryPostLink}/${liveSearchID}`);
+
+        const trendingLink = $('#trendingForm').attr('data-action');
+        $('#trendingForm').attr('action',  `${trendingLink}/${liveSearchID}`);
+    }
 </script>
+
 {{-- Keep tab active on reload --}}
 <script>
     $(document).ready(function(){
@@ -1225,15 +1527,7 @@ function updateWidgetAds(element)
 </script>
 <i class="fas fa-minus"></i>
 <script>
-    // FEATURE POST JS
-    function featurePost(element)
-    {
-        var status = $(element).attr('data-status');
-        var title = $(element).attr('data-title');
-        $("#featurePostSelectedArticle").val(status);
-        $("#selectedArticleModalTitle").html(title);
-    }
-
+    
     // ADS JS
 
 
@@ -1259,16 +1553,26 @@ function updateWidgetAds(element)
     //     }
     // }
 
+    // FEATURE POST JS
+    function featurePost(element)
+    {
+        var status = $(element).attr('data-status');
+        var title = $(element).attr('data-title');
+        $("#featurePostSelectedArticle").val(status);
+        $("#selectedArticleModalTitle").html(title);
+    }
+
+
     function checkImageWidgetAds()
     {
         if($('#widgetAdsValue').val() !=='') {
-            console.log("file selected.");
             $("#widgetAdsButton").css('pointer-events', 'auto');
             $("#widgetAdsButton").prop("disabled", false);
         }
     }
+
     // EDITORS PICK
-    function editorsPick(element)
+    function editorsPickButton(element)
     {
         if ( $("#iconChangeOnEditorsPick").attr('class') == 'fas fa-plus' ) {
             var iconClass = $("#iconChangeOnEditorsPick").attr('class');
@@ -1295,8 +1599,15 @@ function updateWidgetAds(element)
         $("#editorsPickSelectedArticle").val(status);
     }
 
+    // SLIDESHOW
+    function slideShowValue(element)
+    {
+        var status = $(element).attr('data-status');
+        $("#slideShowSelectedArticle").val(status);
+    }
+
     // TRENDING
-    function trending(element)
+    function trendingButton(element)
     {
         if ( $("#iconChangeOnTrending").attr('class') == 'fas fa-plus' ) {
             var iconClass = $("#iconChangeOnTrending").attr('class');
@@ -1320,10 +1631,7 @@ function updateWidgetAds(element)
     function trendingValue(element)
     {
         var status = $(element).attr('data-status');
-        $("#selected_trending_article").val(status);
-        console.log(status);
-        var modalTitle = $(element).attr('data-title');
-        $("#trendingArticleModalTitle").html(modalTitle);
+        $("#trendingSelectedArticle").val(status);
     }
      
      // EVENT
@@ -1352,11 +1660,10 @@ function updateWidgetAds(element)
     {
         var status = $(element).attr('data-status');
         $("#eventSelectedArticle").val(status);
-        console.log(status);
     }
 
     // SELECTED CATEGORY POSTS JS
-    function selectedCategory(element)
+    function categoryPostButton(element)
     {
         if ( $("#iconChange").attr('class') == 'fas fa-plus' ) {
             var iconClass = $("#iconChange").attr('class');
@@ -1376,72 +1683,22 @@ function updateWidgetAds(element)
         }  
     }
 
-    function selectedCategoryValue(element)
+    function categoryPostValue(element)
     {
         var status = $(element).attr('data-status');
         $("#categoryPostSelectedArticle").val(status);
     }
+
 </script>
 
 <script>
-    // MODAL SETTING
-    function chooseArticle(element)
-    {
-        $("#featurePostButton").css('pointer-events', 'auto');
-        $("#featurePostButton").prop("disabled", false);
-
-        $("#editorsPickButton").css('pointer-events', 'auto');
-        $("#editorsPickButton").prop("disabled", false);
-
-        $("#eventButton").css('pointer-events', 'auto');
-        $("#eventButton").prop("disabled", false);
-
-        $("#categoryPostButton").css('pointer-events', 'auto');
-        $("#categoryPostButton").prop("disabled", false);
-
-        $('#featurePostForm').attr('action',  '');
-        $('#editorsPickForm').attr('action',  '');
-        $('#eventForm').attr('action',  '');
-        $('#categoryPostForm').attr('action',  '');
-
-        $('.article-lists').css('background-color', 'initial');
-        var cardId = $(element).attr('data-id');
-        $('#'+cardId).css('background-color', '#f2f7ff');
-
-         //  passing id to the modal form 
-        const featurePostLink = $('#featurePostForm').attr('data-action');
-        $('#featurePostForm').attr('action',  `${featurePostLink}/${element.id}`);
-
-        const editorsPickLink = $('#editorsPickForm').attr('data-action');
-        $('#editorsPickForm').attr('action',  `${editorsPickLink}/${element.id}`);
-
-        const eventLink = $('#eventForm').attr('data-action');
-        $('#eventForm').attr('action',  `${eventLink}/${element.id}`);
-
-        const categoryPostLink = $('#categoryPostForm').attr('data-action');
-        $('#categoryPostForm').attr('action',  `${categoryPostLink}/${element.id}`);
-    }
-
-    function chooseTrendingArticle(element)
-    {
-        $("#applyButton2").css('pointer-events', 'auto');
-        $("#applyButton2").prop("disabled", false);
-        $('#trendingContentForm').attr('action',  '');
-
-        $('.article-lists').css('background-color', 'initial');
-        var cardId = $(element).attr('data-id');
-        $('#'+cardId).css('background-color', '#f2f7ff');
-
-         //  passing id to the modal form 
-        const updateLink = $('#trendingContentForm').attr('data-action');
-        $('#trendingContentForm').attr('action',  `${updateLink}/${element.id}`);
-    }
+    
 
     function modalButtonPostFeatureDisable()
     {
         $("#featurePostButton").css('pointer-events', 'none');
         $("#featurePostButton").prop("disabled", true);
-        var selectedArticle =  $("#feature_post").val();
+        var selectedArticle =  $("#featurePostSelectedArticle").val();
         var featurePostSearch =  $("#featurePostSearch").val();
         console.log(featurePostSearch);
         if (selectedArticle == "" && featurePostSearch == ""){
@@ -1450,11 +1707,23 @@ function updateWidgetAds(element)
        } 
     }
 
+    function modalButtonSlideShowDisable()
+    {
+        $("#slideShowButton").css('pointer-events', 'none');
+        $("#slideShowButton").prop("disabled", true);
+        var selectedArticle =  $("#slideShowSelectedArticle").val();
+        var slideShowSearch =  $("#slideShowSearch").val();
+        if (selectedArticle == "" && slideShowSearch == ""){
+           $("#slideShowButton").css('pointer-events', 'none');
+           $("#slideShowButton").prop("disabled", true);
+       } 
+    }
+
     function modalButtonEditorsPickDisable()
     {
         $("#editorsPickButton").css('pointer-events', 'none');
         $("#editorsPickButton").prop("disabled", true);
-        var selectedArticle =  $("#editors_pick").val();
+        var selectedArticle =  $("#editorsPickSelectedArticle").val();
         var editorsPickSearch =  $("#editorsPickSearch").val();
         console.log(editorsPickSearch);
         if (selectedArticle == "" && editorsPickSearch == ""){
@@ -1467,10 +1736,10 @@ function updateWidgetAds(element)
     {
         $("#eventButton").css('pointer-events', 'none');
         $("#eventButton").prop("disabled", true);
-        var selectedArticle =  $("#feature_post").val();
-        var modalButtonEventDisable =  $("#modalButtonEventDisable").val();
+        var selectedArticle =  $("#eventSelectedArticle").val();
+        var eventSearch =  $("#eventSearch").val();
         console.log(featurePostSearch);
-        if (selectedArticle == "" && modalButtonEventDisable == ""){
+        if (selectedArticle == "" && eventSearch == ""){
            $("#eventButton").css('pointer-events', 'none');
            $("#eventButton").prop("disabled", true);
        } 
@@ -1480,12 +1749,24 @@ function updateWidgetAds(element)
     {
         $("#categoryPostButton").css('pointer-events', 'none');
         $("#categoryPostButton").prop("disabled", true);
-        var selectedArticle =  $("#category_post").val();
-        var modalButtonCategoryPostDisable =  $("#modalButtonCategoryPostDisable").val();
+        var selectedArticle =  $("#categoryPostSelectedArticle").val();
+        var categoryPostSearch =  $("#categoryPostSearch").val();
         console.log(featurePostSearch);
-        if (selectedArticle == "" && modalButtonCategoryPostDisable == ""){
+        if (selectedArticle == "" && categoryPostSearch == ""){
            $("#categoryPostButton").css('pointer-events', 'none');
            $("#categoryPostButton").prop("disabled", true);
+       } 
+    }
+
+    function modalButtonTrendingDisable()
+    {
+        $("#trendingButton").css('pointer-events', 'none');
+        $("#trendingButton").prop("disabled", true);
+        var selectedArticle =  $("#trendingSelectedArticle").val();
+        var trendingSearch =  $("#trendingSearch").val();
+        if (selectedArticle == "" && trendingSearch == ""){
+           $("#trendingButton").css('pointer-events', 'none');
+           $("#trendingButton").prop("disabled", true);
        } 
     }
 
@@ -1504,12 +1785,29 @@ function updateWidgetAds(element)
 
 $(document).ready(function(){
     $("#featurePostSearch").keyup(function(){
+        $("#featurePostArticle").css('display', 'none');
         var str=  $("#featurePostSearch").val();
         if(str == "") {
-            $( "#Hintdate" ).html("");
+            $("#featurePostArticle").css('display', 'block');
+            $("#featurePostResult").html("");
         }else {
-            $.get( "{{ url('article/search-feature-post?id=') }}"+str, function( data ) {
-                $( "#Hintdate" ).html( data );
+            $.get("{{ url('article/search-feature-post?id=') }}"+str, function( data ) {
+                $("#featurePostResult").html( data );
+            });
+        }
+    });
+});
+
+$(document).ready(function(){
+    $("#slideShowSearch").keyup(function(){
+        $("#slideShowArticle").css('display', 'none');
+        var str=  $("#slideShowSearch").val();
+        if(str == "") {
+            $("#slideShowArticle").css('display', 'block');
+            $("#slideShowResult").html("");
+        }else {
+            $.get("{{ url('article/search-slideshow?id=') }}"+str, function( data ) {
+                $("#slideShowResult").html( data );
             });
         }
     });
@@ -1517,49 +1815,59 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $("#editorsPickSearch").keyup(function(){
+        $("#editorsPickArticle").css('display', 'none');
         var str=  $("#editorsPickSearch").val();
         if(str == "") {
-            $( "#editorsPickArticle" ).html("");
+            $("#editorsPickArticle").css('display', 'block');
+            $("#editorsPickResult").html("");
         }else {
-            $.get( "{{ url('article/search-editors-pick?id=') }}"+str, function( data ) {
-                $( "#editorsPickArticle" ).html( data );
-            });
-        }
-    });
-});
-$(document).ready(function(){
-    $("#eventSearch").keyup(function(){
-        var str=  $("#eventSearch").val();
-        if(str == "") {
-            $( "#eventArticle" ).html("");
-        }else {
-            $.get( "{{ url('article/search-event?id=') }}"+str, function( data ) {
-                $( "#eventArticle" ).html( data );
-            });
-        }
-    });
-});
-$(document).ready(function(){
-    $("#categoryPostSearch").keyup(function(){
-        var str=  $("#categoryPostSearch").val();
-        if(str == "") {
-            $( "#categoryPostArticle" ).html("");
-        }else {
-            $.get( "{{ url('article/search-category-post?id=') }}"+str, function( data ) {
-                $( "#categoryPostArticle" ).html( data );
+            $.get("{{ url('article/search-editors-pick?id=') }}"+str, function( data ) {
+                $("#editorsPickResult").html( data );
             });
         }
     });
 });
 
 $(document).ready(function(){
-    $("#searchTrendingTxt").keyup(function(){
-        var str=  $("#searchTrendingTxt").val();
+    $("#eventSearch").keyup(function(){
+        $("#eventArticle").css('display', 'none');
+        var str=  $("#eventSearch").val();
         if(str == "") {
-            $( "#trendingArticle" ).html("");
+            $("#eventArticle").css('display', 'block');
+            $("#eventResult").html("");
         }else {
-            $.get( "{{ url('article/search-live-trending?id=') }}"+str, function( data ) {
-                $( "#trendingArticle" ).html( data );
+            $.get("{{ url('article/search-event?id=') }}"+str, function( data ) {
+                $("#eventResult").html( data );
+            });
+        }
+    });
+});
+
+$(document).ready(function(){
+    $("#categoryPostSearch").keyup(function(){
+        $("#categoryPostArticle").css('display', 'none');
+        var str=  $("#categoryPostSearch").val();
+        if(str == "") {
+            $("#categoryPostArticle").css('display', 'block');
+            $("#categoryPostResult").html("");
+        }else {
+            $.get("{{ url('article/search-category-post?id=') }}"+str, function( data ) {
+                $("#categoryPostResult").html( data );
+            });
+        }
+    });
+});
+
+$(document).ready(function(){
+    $("#trendingSearch").keyup(function(){
+        $("#trendingArticle").css('display', 'none');
+        var str=  $("#trendingSearch").val();
+        if(str == "") {
+            $("#trendingArticle").css('display', 'block');
+            $("#trendingResult").html("");
+        }else {
+            $.get("{{ url('article/search-trending?id=') }}"+str, function( data ) {
+                $("#trendingResult").html( data );
             });
         }
     });

@@ -1,6 +1,6 @@
-@foreach($selectedArticle as $articles)
-<div class="card article-lists" id="{{ $articles->id }}" data-id="{{ $articles->id }}"
-    onclick="chooseArticle(this)">
+@foreach($editors_pick_pagination as $articles)
+<div class="card article-lists" id="editorsPick{{ $articles->id }}" data-id="{{ $articles->id }}"
+    onclick="chooseEditorsPick(this)">
     <div class="card-body">
         <div class="row">
             <div class="col-sm-6">
@@ -18,5 +18,5 @@
 </div>
 @endforeach
 <div class="d-flex justify-content-center">
-    {!! $selectedArticle->render('vendor.pagination.custom') !!}
+    {!! $editors_pick_pagination->render('vendor.pagination.custom') !!}
 </div>

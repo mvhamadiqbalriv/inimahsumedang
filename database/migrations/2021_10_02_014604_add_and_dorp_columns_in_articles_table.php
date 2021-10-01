@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddAndDropColumnsInArticlesTable extends Migration
+class AddAndDorpColumnsInArticlesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -22,7 +22,8 @@ class AddAndDropColumnsInArticlesTable extends Migration
             $table->string('category_post_selected')->nullable()->after('event_selected');
            
             $table->string('feature_post')->nullable()->after('category_post_selected');
-            $table->string('editors_pick')->nullable()->after('feature_post');
+            $table->string('slide_show')->nullable()->after('feature_post');
+            $table->string('editors_pick')->nullable()->after('slide_show');
             $table->string('trending')->nullable()->after('editors_pick');
             $table->string('event')->nullable()->after('trending');
             $table->string('category_post')->nullable()->after('event');

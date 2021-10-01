@@ -283,11 +283,22 @@
                 <button class="btn btn-default btn-lg" type="submit"><i class="icon-magnifier"></i></button>
             </form>
             <div class="mt-5">
+                @php
+                    $search_horizontal_ads = App\Models\Ad::where('status', '=', 'search_horizontal_ads')->first();
+                @endphp
+                @if(!empty($search_horizontal_ads))
+                <a href="{{ $search_horizontal_ads->tautan }}">
+                    <img src="{{ Storage::url($search_horizontal_ads->gambar) }}"
+                        style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
+                        alt="Advertisement" />
+                </a>
+                @else
                 <a href="#">
                     <img src="{{ asset('assets/front/images/ads736x126.png') }}"
                         style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
                         alt="Advertisement" />
                 </a>
+                @endif
             </div>
         </div>
     </div>

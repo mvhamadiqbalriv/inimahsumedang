@@ -58,7 +58,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('articles/draf', [ArticleController::class, 'draf'])->name('articles.draf');
     Route::post('articles/delete-all', [ArticleController::class, 'deleteAll'])->name('articles.deleteAll');
     Route::post('article/update/{article}', [ArticleController::class, 'isPublish'])->name('articles.isPublish');
-    Route::post('article/selected-content/{article}', [ArticleController::class, 'selectedContent'])->name('articles.selectedContent');
     Route::get('article/search-category', [ArticleController::class, 'selectSearch']);
     Route::post('article/filter-article', [ArticleController::class, 'filterArticle'])->name('articles.filterArticle');
 
@@ -72,11 +71,23 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('pages', PageController::class);
     Route::post('page/ads', [PageController::class, 'ads'])->name('page.ads');
     Route::post('page/ads/update/{reply}', [PageController::class, 'ads_update'])->name('page.ads_update');
+    Route::post('page/selected-content/{article}', [PageController::class, 'selectedContent'])->name('articles.selectedContent');
+
+    // Live Search
     Route::get('article/search-feature-post', [PageController::class, 'featurePostSearch'])->name('artikel.featurePostSearch');
+    Route::get('article/search-slideshow', [PageController::class, 'slideShowSearch'])->name('artikel.slideShowSearch');
     Route::get('article/search-editors-pick', [PageController::class, 'editorsPickSearch'])->name('artikel.editorsPickSearch');
     Route::get('article/search-event', [PageController::class, 'eventSearch'])->name('artikel.eventSearch');
     Route::get('article/search-category-post', [PageController::class, 'categoryPostSearch'])->name('artikel.categoryPostSearch');
-    Route::get('article/search-live-trending', [PageController::class, 'searchliveTrending'])->name('artikel.searchliveTrending');
+    Route::get('article/search-trending', [PageController::class, 'trendingSearch'])->name('artikel.trendingSearch');
+
+    // Pagination
+    Route::post('pages/feature-post', [PageController::class, 'featurePost'])->name('artikel.feature-post');
+    Route::post('pages/slide-show', [PageController::class, 'slideShow'])->name('artikel.slide-show');
+    Route::post('pages/editors-pick', [PageController::class, 'editorsPick'])->name('artikel.editors-pick');
+    Route::post('pages/event', [PageController::class, 'event'])->name('artikel.event');
+    Route::post('pages/category-post', [PageController::class, 'categoryPost'])->name('artikel.category-post');
+    Route::post('pages/trending', [PageController::class, 'trending'])->name('artikel.trending');
 
     Route::get('/role-has-permissions/{id}', [RoleController::class, 'roleHasPermission']);
 
@@ -88,6 +99,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('instagram-feeds/checkUsername', [InstaFeedController::class, 'checkUsername'])->name('instagram-feeds.checkUsername');
     Route::post('instagram-feeds/get-feed', [InstaFeedController::class, 'getFeed'])->name('instagram-feeds.getFeed');
     Route::get('instagram-auth-response', [InstaFeedController::class, 'complete']);
+
+
 });
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {

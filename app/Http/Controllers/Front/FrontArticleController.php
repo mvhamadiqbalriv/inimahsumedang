@@ -31,6 +31,8 @@ class FrontArticleController extends Controller
         $data['category_select_button'] = '1';
         $data['event_1'] = Article::where('event_selected', '=', 'event_1')->first();
         $data['event_2'] = Article::where('event_selected', '=', 'event_2')->first();
+        $data['horizontal_ads'] = Ad::where('status', '=', 'horizontal_ads')->first();
+        $data['search_horizontal_ads'] = Ad::where('status', '=', 'search_horizontal_ads')->first();
         $data['widget_ads'] = Ad::where('status', '=', 'widget_ads')->first();
 
         return view('front.articles.index', $data);
@@ -45,6 +47,9 @@ class FrontArticleController extends Controller
         $data['web'] = Web::findOrFail(1);
         $data['title_upper'] = "Hasil Pencarian";
         $data['breadcrumb'] = "Hasil Pencarian";
+        $data['horizontal_ads'] = Ad::where('status', '=', 'horizontal_ads')->first();
+        $data['search_horizontal_ads'] = Ad::where('status', '=', 'search_horizontal_ads')->first();
+        $data['widget_ads'] = Ad::where('status', '=', 'widget_ads')->first();
         return view('front.articles.index', $data);
     }
 
@@ -85,9 +90,8 @@ class FrontArticleController extends Controller
     {
         $cari = $request->cari;
 
-        
-
     }
+
     public function pencarian_autocomplete(Request $request)
     {
         $search = $request->search;
@@ -182,6 +186,7 @@ class FrontArticleController extends Controller
     public function show($slug, Request $request)
     {
         $data['widget_ads'] = Ad::where('status', '=', 'widget_ads')->first();
+        $data['horizontal_ads'] = Ad::where('status', '=', 'horizontal_ads')->first();
         $data['event_1'] = Article::where('event_selected', '=', 'event_1')->first();
         $data['event_2'] = Article::where('event_selected', '=', 'event_2')->first();
         $article = Article::where('slug', $slug)->first();

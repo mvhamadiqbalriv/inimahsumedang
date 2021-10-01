@@ -1,6 +1,6 @@
-@foreach($artikelAjax as $articles)
-<div class="card article-lists" id="{{ $articles->id }}" data-id="{{ $articles->id }}"
-    onclick="chooseTrendingArticle(this)">
+@foreach($event_pagination as $articles)
+<div class="card article-lists" id="event{{ $articles->id }}" data-id="{{ $articles->id }}"
+    onclick="chooseEvent(this)">
     <div class="card-body">
         <div class="row">
             <div class="col-sm-6">
@@ -18,5 +18,5 @@
 </div>
 @endforeach
 <div class="d-flex justify-content-center">
-    {!! $artikelAjax->render('vendor.pagination.custom') !!}
+    {!! $event_pagination->render('vendor.pagination.custom') !!}
 </div>
