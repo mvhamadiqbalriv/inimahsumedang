@@ -991,7 +991,7 @@ Page
         </div>
     </div>
 </div>
-
+{{--  --}}
 
 <!-- Modal Widget Ads -->
 <div class="modal fade" id="widgetAdsModal" tabindex="-1" role="dialog" aria-labelledby="widgetAdsModal"
