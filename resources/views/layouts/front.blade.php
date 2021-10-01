@@ -240,9 +240,6 @@
         <button type="button" class="btn-close keluar-dari-pencarian" aria-label="Close"></button>
         <!-- content -->
         <div class="search-content">
-            <div class="text-center">
-                <h3 class="mb-4 mt-0">Press ESC to close</h3>
-            </div>
             <style>
                 .ui-autocomplete-input {
                     border-bottom-left-radius: 0px;
@@ -260,6 +257,13 @@
                     placeholder="Cari artikel ...">
                 <button class="btn btn-default btn-lg" type="submit"><i class="icon-magnifier"></i></button>
             </form>
+            <div class="mt-5">
+                <a href="#">
+                    <img src="{{ asset('assets/front/images/ads736x126.png') }}"
+                        style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
+                        alt="Advertisement" />
+                </a>
+            </div>
         </div>
     </div>
 

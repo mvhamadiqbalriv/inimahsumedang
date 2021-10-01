@@ -146,6 +146,22 @@
                     </div>
 
                 </div>
+                <div class="spacer" data-height="50"></div>
+            <div class="text-md-center">
+					<span class="ads-title">- Sponsored Ad -</span>
+					
+					@if (!empty($horizontal_ads))
+						<a href="{{$horizontal_ads->tautan}}">
+							<img src="{{ Storage::url($horizontal_ads->gambar) }}" style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;" alt="post-title" />
+						</a>
+					@else 
+						<a href="#">
+							<img src="{{ asset('assets/front/images/ads736x126.png') }}"
+								style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
+								alt="Advertisement" />
+						</a>
+					@endif
+				</div>
 
                 <div class="spacer" data-height="50"></div>
 
@@ -395,7 +411,21 @@
                         </div>
                     </div>
 
-                    <!-- widget categories -->
+                    <div class="widget no-container rounded text-md-center">
+						<span class="ads-title">- Sponsored Ad -</span>
+						@if (!empty($widget_ads))
+							<a href="{{$widget_ads->tautan}}" class="widget-content">
+								<img src="{{ Storage::url($widget_ads->gambar) }}" style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;" alt="post-title" />
+							</a>
+						@else
+							<a href="#">
+								<img src="{{ asset('assets/front/images/ads356x361.png') }}"
+									style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
+									alt="Advertisement" />
+							</a>
+						@endif
+					</div>
+
                     <div class="widget rounded">
                         <div class="widget-header text-center">
                             <h3 class="widget-title">Explore Topics</h3>
