@@ -13,6 +13,7 @@ class Category_article extends Model
         'nama', 'slug', 'category_icon'
     ];
 
+
     public function article()
     {
         return $this->hasMany(Article::class, 'category');

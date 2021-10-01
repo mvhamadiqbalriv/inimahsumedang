@@ -137,26 +137,8 @@ class CategoryArticleController extends Controller
      */
     public function destroy($id)
     {
-        $category_article = Category_article::findOrFail($id);
-
-        foreach($category_article->article as $articles) {
-            $articles->delete();
-            
-            foreach($articles->comments as $comments) {
-                $comments->delete();
-            }
-            
-            foreach($articles->visitors as $visitors) {
-                $visitors->delete();
-            }
-            
-        }
-
-
-        
-
-
-        $category_article->delete()
+        $category_article = Category_article::find($id);
+    	$category_article->delete()
             ? Alert::success('Sukses', "Category berhasil dihapus.")
             : Alert::error('Error', "Category gagal dihapus!");
 
