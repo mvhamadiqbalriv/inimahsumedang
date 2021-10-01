@@ -10,4 +10,6 @@ class Web extends Model
     use HasFactory;
 
     protected $table ="web";
+
+    protected $guarded = ['id'];
 }

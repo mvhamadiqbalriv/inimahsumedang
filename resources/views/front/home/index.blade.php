@@ -1,4 +1,4 @@
-@extends('layouts.front')
+@extends('layouts.front', $web)
 @section('title')
 Beranda
 @endsection

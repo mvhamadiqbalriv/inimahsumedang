@@ -47,6 +47,8 @@ class WebController extends Controller
             'facebook' => 'required',
             'twitter' => 'required',
             'email' => 'required',
+            'youtube' => 'required',
+            'address' => 'required',
             'description' => 'required',
         ]);
 
@@ -68,6 +70,8 @@ class WebController extends Controller
         $detail->facebook = $request->post('facebook');
         $detail->email = $request->post('email');
         $detail->whatsapp = $request->post('whatsapp');
+        $detail->youtube = $request->post('youtube');
+        $detail->address = $request->post('address');
         $detail->description = $request->post('description');
 
         if ($detail->save()) {

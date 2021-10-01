@@ -51,33 +51,7 @@
 
     <!-- preloader -->
     <div id="preloader">
-        <div class="book">
-            <div class="inner">
-                <div class="left"></div>
-                <div class="middle"></div>
-                <div class="right"></div>
-            </div>
-            <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-        </div>
+        <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     </div>
 
     <!-- site wrapper -->
@@ -90,8 +64,15 @@
             <nav class="navbar navbar-expand-lg">
                 <div class="container-xl">
                     <!-- site logo -->
+                    @php
+                        if($web->logo){
+                            $logo = Storage::url($web->logo);
+                        }else{
+                            $logo = asset('assets/front/logo_inimahsumedang_500x.png');
+                        }
+                    @endphp
                     <a class="navbar-brand" href="{{ url('/') }}"><img
-                            src="{{ asset('assets/front/logo_inimahsumedang_500x.png') }}" style="width: 130px;"
+                            src="{{ $logo }}" style="width: 130px;"
                             alt="logo" /></a>
 
                     <div class="collapse navbar-collapse">
@@ -131,13 +112,13 @@
                     <div class="header-right">
                         <!-- social icons -->
                         <ul class="social-icons list-unstyled list-inline mb-0">
-                            <li class="list-inline-item"><a href="https://www.facebook.com/inimahsumedangcom/"><i
+                            <li class="list-inline-item"><a href="https://www.facebook.com/{{$web->facebook ?? '-'}}" target="_blank"><i
                                         class="fab fa-facebook-f"></i></a></li>
-                            <li class="list-inline-item"><a href="https://twitter.com/inimahsumedang"><i
+                            <li class="list-inline-item"><a href="https://twitter.com/{{$web->twitter ?? '-'}}" target="_blank"><i
                                         class="fab fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a href="https://www.instagram.com/inimahsumedang/"><i
+                            <li class="list-inline-item"><a href="https://www.instagram.com/{{$web->instagram ?? '-'}}" target="_blank"><i
                                         class="fab fa-instagram"></i></a></li>
-                            <li class="list-inline-item"><a href="https://www.youtube.com/c/inimahsumedangTV"><i
+                            <li class="list-inline-item"><a href="https://www.youtube.com/c/{{$web->youtube ?? '-'}}" target="_blank"><i
                                         class="fab fa-youtube"></i></a></li>
                         </ul>
                         <!-- header buttons -->
@@ -211,13 +192,13 @@
                         <!-- social icons -->
                         <div class="col-md-4 text-center">
                             <ul class="social-icons list-unstyled list-inline mb-0">
-                                <li class="list-inline-item"><a href="https://www.facebook.com/inimahsumedangcom/"><i
-                                            class="fab fa-facebook-f"></i></a></li>
-                                <li class="list-inline-item"><a href="https://twitter.com/inimahsumedang"><i
+                                <li class="list-inline-item"><a href="https://www.facebook.com/{{$web->facebook ?? '-'}}" target="_blank"><i
+                                    class="fab fa-facebook-f"></i></a></li>
+                                <li class="list-inline-item"><a href="https://twitter.com/{{$web->twitter ?? '-'}}" target="_blank"><i
                                             class="fab fa-twitter"></i></a></li>
-                                <li class="list-inline-item"><a href="https://www.instagram.com/inimahsumedang/"><i
+                                <li class="list-inline-item"><a href="https://www.instagram.com/{{$web->instagram ?? '-'}}" target="_blank"><i
                                             class="fab fa-instagram"></i></a></li>
-                                <li class="list-inline-item"><a href="https://www.youtube.com/c/inimahsumedangTV"><i
+                                <li class="list-inline-item"><a href="https://www.youtube.com/c/{{$web->youtube ?? '-'}}" target="_blank"><i
                                             class="fab fa-youtube"></i></a></li>
                             </ul>
                         </div>
@@ -291,17 +272,21 @@
                         <li><a href="#">Jadwal Bus</a></li>
                     </ul>
                 </li> --}}
-                <li><a href="#">Tentang</a></li>
-                <li><a href="#">Kontak</a></li>
+                <li><a href="{{ route('home.about') }}">Tentang</a></li>
+                <li><a href="{{ route('home.contact') }}">Kontak</a></li>
             </ul>
         </nav>
 
         <!-- social icons -->
         <ul class="social-icons list-unstyled list-inline mb-0 mt-auto w-100">
-            <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fab fa-youtube"></i></a></li>
+            <li class="list-inline-item"><a href="https://www.facebook.com/{{$web->facebook ?? '-'}}" target="_blank"><i
+                class="fab fa-facebook-f"></i></a></li>
+            <li class="list-inline-item"><a href="https://twitter.com/{{$web->twitter ?? '-'}}" target="_blank"><i
+                        class="fab fa-twitter"></i></a></li>
+            <li class="list-inline-item"><a href="https://www.instagram.com/{{$web->instagram ?? '-'}}" target="_blank"><i
+                        class="fab fa-instagram"></i></a></li>
+            <li class="list-inline-item"><a href="https://www.youtube.com/c/{{$web->youtube ?? '-'}}" target="_blank"><i
+                        class="fab fa-youtube"></i></a></li>
         </ul>
     </div>
 
