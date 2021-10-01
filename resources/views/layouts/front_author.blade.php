@@ -251,6 +251,11 @@
 					aria-label="Search">
 				<button class="btn btn-default btn-lg" type="submit"><i class="icon-magnifier"></i></button>
 			</form>
+			<a href="#">
+				<img src="{{ asset('assets/front/images/ads736x126.png') }}"
+					style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
+					alt="Advertisement" />
+			</a>
 		</div>
 	</div>
 

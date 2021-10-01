@@ -1,35 +1,4 @@
 @charset "UTF-8";
-/*
-Template Name: Katen
-Version: 1.0
-Author: ThemeGer
-Author URI: http://themeforest.net/user/themeger
-Description: Minimal Blog and Magazine HTML Template
-
-[TABLE OF CONTENTS]
-
-01. Base
-02. Preloader
-03. Typography
-04. Header
-05. Sections
-06. Post
-07. About author
-08. Post comments
-09. Page
-10. Contact
-11. Widgets
-12. Instagram feed
-13. Footer
-14. Search Popup
-15. Helpers
-16. Buttons
-17. Bootstrap Elements
-18. Theme Elements
-19. Slick Settings
-20. Responsive Settings
-
-*/
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500&display=swap");
 /*=================================================================*/
@@ -687,7 +656,7 @@ body.down .header-default.clone, body.down .header-personal nav.clone, body.down
   border-radius: 25px;
   background: #023B68;
   background: -webkit-linear-gradient(left, #023B68 0%, #616BAF 100%);
-  background: linear-gradient(to right, #023B68 0%, #616BAF 100%);
+  background: #023B68;
 }
 
 .navbar-brand {
@@ -1102,7 +1071,7 @@ section {
   z-index: 1;
   background: #023B68;
   background: -webkit-linear-gradient(left, #023B68 0%, #616BAF 51%, #023B68 100%);
-  background: linear-gradient(to right, #023B68 0%, #616BAF 51%, #023B68 100%);
+  background: #023B68;
   background-size: 200% auto;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
@@ -1132,7 +1101,7 @@ section {
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
   background: #023B68;
   background: -webkit-linear-gradient(bottom, #023B68 0%, #616BAF 100%);
-  background: linear-gradient(to top, #023B68 0%, #616BAF 100%);
+  background: #023B68;
   z-index: 1;
 }
 .post .post-format-sm {
@@ -1152,7 +1121,7 @@ section {
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
   background: #023B68;
   background: -webkit-linear-gradient(bottom, #023B68 0%, #616BAF 100%);
-  background: linear-gradient(to top, #023B68 0%, #616BAF 100%);
+  background: #023B68;
   z-index: 1;
 }
 .post .thumb {
@@ -1328,7 +1297,7 @@ section {
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
   background: #023B68;
   background: -webkit-linear-gradient(bottom, #023B68 0%, #616BAF 100%);
-  background: linear-gradient(to top, #023B68 0%, #616BAF 100%);
+  background: #023B68;
   z-index: 1;
 }
 .post.post-list-sm .post-title {
@@ -2030,7 +1999,7 @@ section {
   width: 50px;
   background: #023B68;
   background: -webkit-linear-gradient(left, #023B68 0%, #616BAF 100%);
-  background: linear-gradient(to right, #023B68 0%, #616BAF 100%);
+  background: #023B68;
 }
 .contact-item .details {
   margin-left: 20px;
@@ -2363,7 +2332,7 @@ button:focus {
   padding: 9.5px 36px;
   background: #023B68;
   background: -webkit-linear-gradient(left, #023B68 0%, #616BAF 51%, #023B68 100%);
-  background: linear-gradient(to right, #023B68 0%, #616BAF 51%, #023B68 100%);
+  background: #023B68;
   background-size: 200% auto;
 }
 .btn-default:hover {
@@ -2419,7 +2388,7 @@ button:focus {
   border-radius: 50%;
   background: #616BAF;
   background: -webkit-linear-gradient(bottom, #616BAF 0%, #023B68 51%, #616BAF 100%);
-  background: linear-gradient(to top, #616BAF 0%, #023B68 51%, #616BAF 100%);
+  background: #023B68;
   background-size: auto 200%;
   display: inline-flex;
   justify-content: center;
@@ -2623,7 +2592,7 @@ button:focus {
   color: #fff !important;
   background: #023B68;
   background: -webkit-linear-gradient(left, #023B68 0%, #616BAF 51%, #023B68 100%);
-  background: linear-gradient(to right, #023B68 0%, #616BAF 51%, #023B68 100%);
+  background: #023B68;
   border-color: transparent;
   background-size: 200% auto;
 }
@@ -2652,7 +2621,7 @@ button:focus {
   border-color: transparent;
   background: #616BAF;
   background: -webkit-linear-gradient(bottom, #616BAF 0%, #023B68 51%, #616BAF 100%);
-  background: linear-gradient(to top, #616BAF 0%, #023B68 51%, #616BAF 100%);
+  background: #023B68;
   background-size: auto 200%;
   -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
@@ -2683,7 +2652,7 @@ button:focus {
   color: #FFF;
   background: #616BAF;
   background: -webkit-linear-gradient(bottom, #616BAF 0%, #023B68 51%, #616BAF 100%);
-  background: linear-gradient(to top, #616BAF 0%, #023B68 51%, #616BAF 100%);
+  background: #023B68;
   background-size: auto 200%;
   border-color: transparent;
 }
@@ -2857,7 +2826,7 @@ button:focus {
 .slick-dots li.slick-active button:before {
   background: #023B68;
   background: -webkit-linear-gradient(left, #023B68 0%, #616BAF 100%);
-  background: linear-gradient(to right, #023B68 0%, #616BAF 100%);
+  background: #023B68;
   border-radius: 5px;
   opacity: 1;
   width: 25px;
