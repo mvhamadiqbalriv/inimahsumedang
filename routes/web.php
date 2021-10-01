@@ -77,7 +77,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Live Search
     Route::get('article/search-feature-post', [PageController::class, 'featurePostSearch'])->name('artikel.featurePostSearch');
-    Route::get('article/search-slideshow', [PageController::class, 'slideShowSearch'])->name('artikel.slideShowSearch');
     Route::get('article/search-editors-pick', [PageController::class, 'editorsPickSearch'])->name('artikel.editorsPickSearch');
     Route::get('article/search-event', [PageController::class, 'eventSearch'])->name('artikel.eventSearch');
     Route::get('article/search-category-post', [PageController::class, 'categoryPostSearch'])->name('artikel.categoryPostSearch');
@@ -85,7 +84,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Pagination
     Route::post('pages/feature-post', [PageController::class, 'featurePost'])->name('artikel.feature-post');
-    Route::post('pages/slide-show', [PageController::class, 'slideShow'])->name('artikel.slide-show');
+    Route::post('pages/feature-post-list', [PageController::class, 'featurePostList'])->name('artikel.feature-post-list');
     Route::post('pages/editors-pick', [PageController::class, 'editorsPick'])->name('artikel.editors-pick');
     Route::post('pages/event', [PageController::class, 'event'])->name('artikel.event');
     Route::post('pages/category-post', [PageController::class, 'categoryPost'])->name('artikel.category-post');

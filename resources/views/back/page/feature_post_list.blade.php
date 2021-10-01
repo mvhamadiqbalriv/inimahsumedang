@@ -1,6 +1,6 @@
-@foreach($slideshow_pagination as $articles)
-<div class="card article-lists" id="slideShow{{ $articles->id }}" data-id="{{ $articles->id }}"
-    onclick="chooseSlideShow(this)">
+@foreach($feature_post as $articles)
+<div class="card article-lists" id="featurePost{{ $articles->id }}" data-id="{{ $articles->id }}"
+    onclick="chooseFeaturePost(this)">
     <div class="card-body">
         <div class="row">
             <div class="col-sm-6">
@@ -18,5 +18,5 @@
 </div>
 @endforeach
 <div class="d-flex justify-content-center">
-    {!! $slideshow_pagination->render('vendor.pagination.custom') !!}
+    {!! $feature_post->render('vendor.pagination.custom') !!}
 </div>

@@ -144,10 +144,6 @@ Page
                             aria-selected="true">Feature Post</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="pills-slideshow-tab" data-toggle="pill" href="#pills-slideshow"
-                            role="tab" aria-controls="pills-slideshow" aria-selected="false">Slideshow</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
                         <a class="nav-link" id="pills-ads-tab" data-toggle="pill" href="#pills-ads" role="tab"
                             aria-controls="pills-ads" aria-selected="false">Ads</a>
                     </li>
@@ -182,59 +178,13 @@ Page
                                 data-status="feature_post" onclick="featurePost(this)"><i
                                     class="fas fa-plus"></i></button>
                         </div>
-                        <div class="title mt-3">
-                            <p class="text-center">@if(isset($feature_post)) {{ $feature_post->judul }} @else Judul
-                                artikel @endif</p>
-                        </div>
-                        <div class="d-flex justify-content-center mt-3">
-                            @if (!empty($feature_post))
-                            <img src="{{ Storage::url($feature_post->gambar) }}" style=""
-                                class="wrap-image img-fluid image " alt="post-title" />
-                            @else
-                            <img src="{{ asset('assets/back/not-found.png') }}" style=""
-                                class="wrap-image img-fluid image " alt="post-title" />
-                            @endif
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="pills-slideshow" role="tabpanel" aria-labelledby="pills-slideshow-pick-tab">
-                <div class="card p-2">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <h4>Slideshow</h4>
-                            <button class="btn btn-sm btn-secondary" data-toggle="modal" @if(empty($article))
-                                data-target="#ifArticleEmpty" @else data-target="#slideShowModal" @endif
-                                data-status="slide_show" onclick="slideShowValue(this)"><i
-                                    class="fas fa-plus"></i></button>
-                        </div>
                         <br><br>
-                        @foreach($slide_show as $articles)
-                        <div class="card article-lists" id="slideShow{{ $articles->id }}" data-id="{{ $articles->id }}"
-                            onclick="chooseSlideShow(this)">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="img d-flex">
-                                            <img src="{{ Storage::url($articles->gambar) }}"
-                                                style="border-radius:5px; width:85px; height:70px; object-fit: cover;">
-                                            <p style="margin-left: 30px;margin-top:20px;">{{ $articles->judul }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 text-sm-right">
-                                        <span class="badge badge-light text-sm-right">{{ $articles->getArticleCountAttribute() }} Pembaca</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                        <div class="d-flex justify-content-center">
-                            {!! $slide_show->render('vendor.pagination.custom') !!}
+                        <div id="featurePostList">
+                            @csrf
+                            @include('back.page.feature_post_list')
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="tab-pane fade" id="pills-ads" role="tabpanel" aria-labelledby="pills-ads-tab">
                 <div class="row">
@@ -292,15 +242,17 @@ Page
                                 <div class="d-flex justify-content-between">
                                     <h4>Search Horizontal Ads</h4>
                                     <button class="btn btn-sm btn-secondary" data-toggle="modal" @if(empty($article))
-                                        data-target="#ifArticleEmpty" @else data-target="#searchHorizontalAdsModal" @endif
-                                        @if(!empty($search_horizontal_ads)) data-id="{{ $search_horizontal_ads->id }}"
-                                        onclick="updateSearchHorizontalAds(this)" @endif><i class="fas fa-plus"></i></button>
+                                        data-target="#ifArticleEmpty" @else data-target="#searchHorizontalAdsModal"
+                                        @endif @if(!empty($search_horizontal_ads))
+                                        data-id="{{ $search_horizontal_ads->id }}"
+                                        onclick="updateSearchHorizontalAds(this)" @endif><i
+                                            class="fas fa-plus"></i></button>
                                 </div>
 
                                 <div class="wrap-image mt-3">
                                     @if (!empty($search_horizontal_ads))
-                                    <img src="{{ Storage::url($search_horizontal_ads->gambar) }}" class="img-fluid image "
-                                        alt="post-title" />
+                                    <img src="{{ Storage::url($search_horizontal_ads->gambar) }}"
+                                        class="img-fluid image " alt="post-title" />
                                     @else
                                     <img src="{{ asset('assets/back/not-found.png') }}" class="img-fluid image "
                                         alt="post-title" />
@@ -316,8 +268,8 @@ Page
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h4>Editor's Pick</h4>
-                            <button class="btn btn-sm btn-secondary" onclick="editorsPickButton(this)"><i class="fas fa-plus"
-                                    id="iconChangeOnEditorsPick"></i></button>
+                            <button class="btn btn-sm btn-secondary" onclick="editorsPickButton(this)"><i
+                                    class="fas fa-plus" id="iconChangeOnEditorsPick"></i></button>
                         </div>
                         <div class="title mt-3">
                             <p class="text-center">@if(isset($editors_pick_1)) {{ $editors_pick_1->judul }} @else Judul
@@ -712,45 +664,6 @@ Page
 </div>
 @endforeach
 
-@foreach ($article as $articles)
-<!-- Modal Feature Post -->
-<div class="modal fade" id="slideShowModal" tabindex="-1" role="dialog" aria-labelledby="slideShowModal"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="slideShowModalTitle">Slideshow</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="material-icons">close</i>
-                </button>
-            </div>
-            <form action="{{ route('articles.selectedContent', '') }}"
-                data-action="{{ route('articles.selectedContent', '') }}" method="post" id="slideShowForm"
-                autocomplete="off">
-                @csrf
-                <input type="hidden" name="slide_show_selected" id="slideShowSelectedArticle">
-                <div class="modal-body" id="modal-body-publish">
-                    <input type="text" class="form-control" id="slideShowSearch" placeholder="Cari artikel..."
-                        onkeyup="modalButtonSlideShowDisable()">
-                    <br>
-                    <div id="slideShowResult">
-                    </div>
-                    <div id="slideShowArticle">
-                        @csrf
-                        @include('back.page.pagination.slideshow')
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-sm btn-primary" disabled style="pointer-events: none;"
-                        id="slideShowButton">Masukkan</button>
-                    <button type="button" class="btn btn-sm btn-secondary" class="close"
-                        data-dismiss="modal">Kembali</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-@endforeach
 
 @foreach ($article as $articles)
 
@@ -993,8 +906,8 @@ Page
 </div>
 
 <!-- Modal Horizontal Ads -->
-<div class="modal fade" id="searchHorizontalAdsModal" tabindex="-1" role="dialog" aria-labelledby="searchHorizontalAdsModal"
-    aria-hidden="true">
+<div class="modal fade" id="searchHorizontalAdsModal" tabindex="-1" role="dialog"
+    aria-labelledby="searchHorizontalAdsModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -1003,7 +916,8 @@ Page
                     <i class="material-icons">close</i>
                 </button>
             </div>
-            <form action="{{ route('page.ads') }}" method="post" enctype="multipart/form-data" id="searchHorizontalAdsForm">
+            <form action="{{ route('page.ads') }}" method="post" enctype="multipart/form-data"
+                id="searchHorizontalAdsForm">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
@@ -1093,7 +1007,7 @@ Page
         event.preventDefault(); 
         var page = $(this).attr('href').split('page=')[1];
         feature_post_data(page);
-        slide_show_data(page);
+        feature_post_list_data(page);
         editors_pick_data(page);
         event_data(page);
         category_post_data(page);
@@ -1111,17 +1025,16 @@ Page
             }
         });
     }
-        
 
-    function slide_show_data(page)
+    function feature_post_list_data(page)
     {
         var _token = $("input[name=_token]").val();
         $.ajax({
-            url:"{{ route('artikel.slide-show') }}",
+            url:"{{ route('artikel.feature-post-list') }}",
             method:"POST",
             data:{_token:_token, page:page},
             success:function(data) {
-                $('#slideShowArticle').html(data);
+                    $('#featurePostList').html(data);
             }
         });
     }
@@ -1169,7 +1082,7 @@ Page
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
 
 <script>
-function updateHorizontalAds(element)
+    function updateHorizontalAds(element)
 {
     var id = $(element).attr('data-id');
     console.log(id);
@@ -1331,41 +1244,35 @@ function updateWidgetAds(element)
     $('.dropify').dropify();
 </script>
 <script>
-
-    $('#featurePostModal').on('hidden.bs.modal', function (event) {
+    // $('#featurePostModal').on('hidden.bs.modal', function (event) {
        
-        var clean_uri = location.protocol + "//" + location.host + location.pathname;
-        window.history.replaceState({}, document.title, clean_uri); 
-    });
+    //     var clean_uri = location.protocol + "//" + location.host + location.pathname;
+    //     window.history.replaceState({}, document.title, clean_uri); 
+    // });
 
-    $('#slideShowModal').on('hidden.bs.modal', function (event) {
-       
-        var clean_uri = location.protocol + "//" + location.host + location.pathname;
-        window.history.replaceState({}, document.title, clean_uri); 
-    });
 
-    $('#editorsPickModal').on('hidden.bs.modal', function (event) {
+    // $('#editorsPickModal').on('hidden.bs.modal', function (event) {
         
-        var clean_uri = location.protocol + "//" + location.host + location.pathname;
-        window.history.replaceState({}, document.title, clean_uri); 
-    });
+    //     var clean_uri = location.protocol + "//" + location.host + location.pathname;
+    //     window.history.replaceState({}, document.title, clean_uri); 
+    // });
 
-    $('#eventModal').on('hidden.bs.modal', function (event) {
+    // $('#eventModal').on('hidden.bs.modal', function (event) {
         
-        var clean_uri = location.protocol + "//" + location.host + location.pathname;
-        window.history.replaceState({}, document.title, clean_uri); 
-    });
+    //     var clean_uri = location.protocol + "//" + location.host + location.pathname;
+    //     window.history.replaceState({}, document.title, clean_uri); 
+    // });
 
-    $('#categoryPostModal').on('hidden.bs.modal', function (event) {
+    // $('#categoryPostModal').on('hidden.bs.modal', function (event) {
        
-        var clean_uri = location.protocol + "//" + location.host + location.pathname;
-        window.history.replaceState({}, document.title, clean_uri); 
-    });
+    //     var clean_uri = location.protocol + "//" + location.host + location.pathname;
+    //     window.history.replaceState({}, document.title, clean_uri); 
+    // });
 
-    $('#trendingArticleModal').on('hidden.bs.modal', function (event) {
-        var clean_uri = location.protocol + "//" + location.host + location.pathname;
-        window.history.replaceState({}, document.title, clean_uri); 
-    });
+    // $('#trendingArticleModal').on('hidden.bs.modal', function (event) {
+    //     var clean_uri = location.protocol + "//" + location.host + location.pathname;
+    //     window.history.replaceState({}, document.title, clean_uri); 
+    // });
 
     // Pemilihan Article
     function chooseFeaturePost(element)
@@ -1383,20 +1290,6 @@ function updateWidgetAds(element)
         $('#featurePostForm').attr('action',  `${featurePostLink}/${featurePostID}`);
     }
 
-    function chooseSlideShow(element)
-    {
-        $('.article-lists').css('background-color', 'initial');
-        var slideShowID = $(element).attr('data-id');
-        $('#slideShow'+slideShowID).css('background-color', '#f2f7ff');
-
-        $("#slideShowButton").css('pointer-events', 'auto');
-        $("#slideShowButton").prop("disabled", false);
-
-        $('#slideShowForm').attr('action',  '');
-
-        const slideShowLink = $('#slideShowForm').attr('data-action');
-        $('#slideShowForm').attr('action',  `${slideShowLink}/${slideShowID}`);
-    }
 
     function chooseEditorsPick(element)
     {
@@ -1468,9 +1361,6 @@ function updateWidgetAds(element)
 
         $("#featurePostButton").css('pointer-events', 'auto');
         $("#featurePostButton").prop("disabled", false);
-
-        $("#slideShowButton").css('pointer-events', 'auto');
-        $("#slideShowButton").prop("disabled", false);
         
         $("#editorsPickButton").css('pointer-events', 'auto');
         $("#editorsPickButton").prop("disabled", false);
@@ -1485,7 +1375,6 @@ function updateWidgetAds(element)
         $("#trendingButton").prop("disabled", false);
 
         $('#featurePostForm').attr('action',  '');
-        $('#slideShowForm').attr('action',  '');
         $('#editorsPickForm').attr('action',  '');
         $('#eventForm').attr('action',  '');
         $('#categoryPostForm').attr('action',  '');
@@ -1495,9 +1384,6 @@ function updateWidgetAds(element)
          //  passing id to the modal form 
         const featurePostLink = $('#featurePostForm').attr('data-action');
         $('#featurePostForm').attr('action',  `${featurePostLink}/${liveSearchID}`);
-
-        const slideShowLink = $('#slideShowForm').attr('data-action');
-        $('#slideShowForm').attr('action',  `${slideShowLink}/${liveSearchID}`);
 
         const editorsPickLink = $('#editorsPickForm').attr('data-action');
         $('#editorsPickForm').attr('action',  `${editorsPickLink}/${liveSearchID}`);
@@ -1527,7 +1413,6 @@ function updateWidgetAds(element)
 </script>
 <i class="fas fa-minus"></i>
 <script>
-    
     // ADS JS
 
 
@@ -1599,12 +1484,6 @@ function updateWidgetAds(element)
         $("#editorsPickSelectedArticle").val(status);
     }
 
-    // SLIDESHOW
-    function slideShowValue(element)
-    {
-        var status = $(element).attr('data-status');
-        $("#slideShowSelectedArticle").val(status);
-    }
 
     // TRENDING
     function trendingButton(element)
@@ -1692,8 +1571,6 @@ function updateWidgetAds(element)
 </script>
 
 <script>
-    
-
     function modalButtonPostFeatureDisable()
     {
         $("#featurePostButton").css('pointer-events', 'none');
@@ -1707,17 +1584,6 @@ function updateWidgetAds(element)
        } 
     }
 
-    function modalButtonSlideShowDisable()
-    {
-        $("#slideShowButton").css('pointer-events', 'none');
-        $("#slideShowButton").prop("disabled", true);
-        var selectedArticle =  $("#slideShowSelectedArticle").val();
-        var slideShowSearch =  $("#slideShowSearch").val();
-        if (selectedArticle == "" && slideShowSearch == ""){
-           $("#slideShowButton").css('pointer-events', 'none');
-           $("#slideShowButton").prop("disabled", true);
-       } 
-    }
 
     function modalButtonEditorsPickDisable()
     {
@@ -1798,20 +1664,6 @@ $(document).ready(function(){
     });
 });
 
-$(document).ready(function(){
-    $("#slideShowSearch").keyup(function(){
-        $("#slideShowArticle").css('display', 'none');
-        var str=  $("#slideShowSearch").val();
-        if(str == "") {
-            $("#slideShowArticle").css('display', 'block');
-            $("#slideShowResult").html("");
-        }else {
-            $.get("{{ url('article/search-slideshow?id=') }}"+str, function( data ) {
-                $("#slideShowResult").html( data );
-            });
-        }
-    });
-});
 
 $(document).ready(function(){
     $("#editorsPickSearch").keyup(function(){

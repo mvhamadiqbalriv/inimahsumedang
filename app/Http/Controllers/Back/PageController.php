@@ -22,8 +22,7 @@ class PageController extends Controller
     public function index(Request $request)
     {   
         $data['article'] = Article::all();
-        $data['feature_post'] = Article::where('feature_post_selected', '=', 'feature_post')->first();
-        $data['slide_show'] = Article::where('slide_show', '=', 'slide_show')->paginate(3);
+        $data['feature_post'] = Article::where('feature_post', '=', 'feature_post')->paginate(3);
         $data['horizontal_ads'] = Ad::where('status', '=', 'horizontal_ads')->first();
         $data['search_horizontal_ads'] = Ad::where('status', '=', 'search_horizontal_ads')->first();
         $data['widget_ads'] = Ad::where('status', '=', 'widget_ads')->first();
@@ -52,7 +51,6 @@ class PageController extends Controller
             ->select('articles.*', DB::raw('COUNT(articles.id) as total_views'))
             ->limit(6)
             ->paginate(3);
-        $data['slideshow_pagination'] = Article::where('is_publish', '=', '1')->where('slide_show', '=', null)->paginate(3);
         $data['editors_pick_pagination'] = Article::where('is_publish', '=', '1')->where('editors_pick', '=', null)->paginate(3);
         $data['event_pagination'] = Article::where('is_publish', '=', '1')->where('event', '=', null)->paginate(3);
         $data['category_post_pagination'] = Article::where('is_publish', '=', '1')->where('category_post', '=', null)->paginate(3);
@@ -66,7 +64,14 @@ class PageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
+    function featurePostList(Request $request)
+    {
+        if($request->ajax()){
+            $feature_post = Article::where('feature_post', '=', 'feature_post')->paginate(3);
+            return view('back.page.feature_post_list', compact('feature_post'))->render();
+        }
+    }
+    
     function featurePost(Request $request)
     {
         if($request->ajax()){
@@ -74,6 +79,7 @@ class PageController extends Controller
             return view('back.page.pagination.feature_post', compact('feature_post_pagination'))->render();
         }
     }
+
 
     function slideShow(Request $request)
     {
@@ -183,33 +189,17 @@ class PageController extends Controller
             'creator' => Auth::user()->id,
             'category' => $article->category,
             'is_publish' => "1",
-            'feature_post_selected' => $request->feature_post_selected ? $request->feature_post_selected : $article->feature_post_selected,
             'editors_pick_selected' => $request->editors_pick_selected ? $request->editors_pick_selected : $article->editors_pick_selected,
             'trending_selected' => $request->trending_selected ? $request->trending_selected : $article->trending_selected,
             'event_selected' => $request->event_selected ? $request->event_selected : $article->event_selected,
             'category_post_selected' => $request->category_post_selected ? $request->category_post_selected : $article->category_post_selected,
             'feature_post' => $request->feature_post_selected ? $request->feature_post_selected : $article->feature_post,
-            'slide_show' => $request->slide_show_selected ? $request->slide_show_selected : $article->slide_show,
             'editors_pick' => $request->editors_pick_selected ? $request->editors_pick_selected : $article->editors_pick,
             'trending' => $request->trending_selected ? $request->trending_selected : $article->trending,
             'event' => $request->event_selected ? $request->event_selected : $article->event_selected,
             'category_post' => $request->category_post_selected ? $request->category_post_selected : $article->category_post,
         ];
 
-        if($request->feature_post_selected == 'feature_post')
-        {
-            if(Article::where('feature_post_selected', '=', 'feature_post')->first())
-            {
-                $selected = Article::where('feature_post_selected', '=', 'feature_post')->first();
-                $selected->update(['feature_post_selected' => null]);
-            }
-
-            if(Article::where('feature_post', '=', 'feature_post')->first())
-            {
-                $selected = Article::where('feature_post', '=', 'feature_post')->first();
-                $selected->update(['feature_post' => null]);
-            }
-        }
 
         if($request->category_post_selected == 'selected_category_post_1')
         {
