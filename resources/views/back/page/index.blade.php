@@ -144,6 +144,10 @@ Page
                             aria-selected="true">Feature Post</a>
                     </li>
                     <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-slideshow-tab" data-toggle="pill" href="#pills-slideshow" role="tab"
+                            aria-controls="pills-slideshow" aria-selected="false">Slideshow</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
                         <a class="nav-link" id="pills-ads-tab" data-toggle="pill" href="#pills-ads" role="tab"
                             aria-controls="pills-ads" aria-selected="false">Ads</a>
                     </li>
@@ -194,6 +198,114 @@ Page
 
                     </div>
                 </div>
+            </div>
+            <div class="tab-pane fade" id="pills-slideshow" role="tabpanel" aria-labelledby="pills-slideshow-pick-tab">
+                <div class="card p-2">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h4>Slideshow</h4>
+                            <button class="btn btn-sm btn-secondary" onclick="editorsPick(this)"><i class="fas fa-plus"
+                                    id="iconChangeOnEditorsPick"></i></button>
+                        </div>
+                        <div class="title mt-3">
+                            <p class="text-center">@if(isset($editors_pick_1)) {{ $editors_pick_1->judul }} @else Judul
+                                artikel
+                                @endif</p>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-sm-6">
+                                <div class="wrap-editors-pick-images mt-2" data-toggle="modal" @if(empty($article))
+                                    data-target="#ifArticleEmpty" @else data-target="#editorsPickModal" @endif
+                                    data-status="editors_pick_1" onclick="editorsPickValue(this)">
+                                    @if (!empty($editors_pick_1))
+                                    <img src="{{ Storage::url($editors_pick_1->gambar) }}" class="img-fluid image"
+                                        style="width: 510px;" alt="post-title" />
+                                    @else
+                                    <img src="{{ asset('assets/back/not-found.png') }}"
+                                        class="img-fluid editors-pick-default-image" alt="post-title" style="" />
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-between mt-4">
+                            <div class="col-sm-6 mt-2">
+                                <div class="title mt-3">
+                                    <p class="text-center">@if(isset($editors_pick_2)) {{ $editors_pick_2->judul }}
+                                        @else Judul
+                                        artikel @endif</p>
+                                </div>
+                                <div class="wrap-editors-pick-images mt-4" data-toggle="modal" @if(empty($article))
+                                    data-target="#ifArticleEmpty" @else data-target="#editorsPickModal" @endif
+                                    data-status="editors_pick_2" onclick="editorsPickValue(this)">
+                                    @if (!empty($editors_pick_2))
+                                    <img src="{{ Storage::url($editors_pick_2->gambar) }}" class="img-fluid image"
+                                        style="width: 510px;" alt="post-title" />
+                                    @else
+                                    <img src="{{ asset('assets/back/not-found.png') }}"
+                                        class="img-fluid editors-pick-default-image" alt="post-title" />
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mt-2">
+                                <div class="title mt-3">
+                                    <p class="text-center">@if(isset($editors_pick_3)) {{ $editors_pick_3->judul }}
+                                        @else Judul
+                                        artikel @endif</p>
+                                </div>
+                                <div class="wrap-editors-pick-images mt-4" data-toggle="modal" @if(empty($article))
+                                    data-target="#ifArticleEmpty" @else data-target="#editorsPickModal" @endif
+                                    data-status="editors_pick_3" onclick="editorsPickValue(this)">
+                                    @if (!empty($editors_pick_3))
+                                    <img src="{{ Storage::url($editors_pick_3->gambar) }}" class="img-fluid image"
+                                        style="width: 510px;" alt="post-title" />
+                                    @else
+                                    <img src="{{ asset('assets/back/not-found.png') }}"
+                                        class="img-fluid editors-pick-default-image" alt="post-title" />
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-between mt-4">
+                            <div class="col-sm-6 mt-2">
+                                <div class="title mt-3">
+                                    <p class="text-center">@if(isset($editors_pick_4)) {{ $editors_pick_4->judul }}
+                                        @else Judul
+                                        artikel @endif</p>
+                                </div>
+                                <div class="wrap-editors-pick-images mt-4" data-toggle="modal" @if(empty($article))
+                                    data-target="#ifArticleEmpty" @else data-target="#editorsPickModal" @endif
+                                    data-status="editors_pick_4" onclick="editorsPickValue(this)">
+                                    @if (!empty($editors_pick_4))
+                                    <img src="{{ Storage::url($editors_pick_4->gambar) }}" class="img-fluid image"
+                                        style="width: 510px;" alt="post-title" />
+                                    @else
+                                    <img src="{{ asset('assets/back/not-found.png') }}"
+                                        class="img-fluid editors-pick-default-image" alt="post-title" />
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mt-2">
+                                <div class="title mt-3">
+                                    <p class="text-center">@if(isset($editors_pick_5)) {{ $editors_pick_5->judul }}
+                                        @else Judul
+                                        artikel @endif</p>
+                                </div>
+                                <div class="wrap-editors-pick-images mt-4" data-toggle="modal" @if(empty($article))
+                                    data-target="#ifArticleEmpty" @else data-target="#editorsPickModal" @endif
+                                    data-status="editors_pick_5" onclick="editorsPickValue(this)">
+                                    @if (!empty($editors_pick_5))
+                                    <img src="{{ Storage::url($editors_pick_5->gambar) }}" class="img-fluid image"
+                                        style="width: 510px;" alt="post-title" />
+                                    @else
+                                    <img src="{{ asset('assets/back/not-found.png') }}"
+                                        class="img-fluid editors-pick-default-image" alt="post-title" />
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="tab-pane fade" id="pills-ads" role="tabpanel" aria-labelledby="pills-ads-tab">
                 <div class="row">
@@ -864,6 +976,7 @@ Page
                         <br>
                     </div>
                     <div class="form-group">
+                        <label for="">Tautan</label>
                         <input type="text" class="form-control  @error('tautan') is-invalid @enderror" name="tautan"
                             id="tautanValue" placeholder="Tautan"
                             value="@if(!empty($horizontal_ads)) {{ $horizontal_ads->tautan }} @endif">
@@ -898,18 +1011,19 @@ Page
                         <input type="hidden" name="status" value="widget_ads">
                         <input type="file" class="form-control dropify mt-5 gambarIklan" name="gambar"
                             data-allowed-file-extensions="png jpg jpeg"
-                            data-default-file="@if(!empty($horizontal_ads->gambar) &&
-                            Storage::exists($horizontal_ads->gambar)){{ Storage::url($horizontal_ads->gambar) }}@endif">
+                            data-default-file="@if(!empty($widget_ads->gambar) &&
+                            Storage::exists($widget_ads->gambar)){{ Storage::url($widget_ads->gambar) }}@endif">
                         <input type="hidden" name="gambarCheck" id="gambarCheck2"
-                            value="@if(!empty($horizontal_ads)) {{ $horizontal_ads->gambar }} @endif">
+                            value="@if(!empty($widget_ads)) {{ $widget_ads->gambar }} @endif">
                         <span class="errorGambar2"></span>
 
                         <br>
                     </div>
                     <div class="form-group">
+                        <label for="">Tautan</label>
                         <input type="text" class="form-control  @error('tautan') is-invalid @enderror" name="tautan"
                             id="tautanValue" placeholder="Tautan"
-                            value="@if(!empty($horizontal_ads)) {{ $horizontal_ads->tautan }} @endif">
+                            value="@if(!empty($widget_ads)) {{ $widget_ads->tautan }} @endif">
                     </div>
                 </div>
                 <div class="modal-footer">'
