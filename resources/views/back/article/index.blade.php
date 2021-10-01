@@ -56,7 +56,7 @@ Article
                     <li class="breadcrumb-item active" aria-current="page">Artikel</li>
                 </ol>
             </nav>
-            <h3>{{ $most_used_word }}</h3>
+            <h3>Artikel</h3>
         </div>
     </div>
 </div>
@@ -351,6 +351,7 @@ Article
 
 @endsection
 @section('js')
+
 <script>
     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 if (isMobile) {

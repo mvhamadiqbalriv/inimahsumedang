@@ -782,7 +782,6 @@ Page
                 data-action="{{ route('articles.selectedContent', '') }}" method="post" id="trendingContentForm"
                 autocomplete="off">
                 @csrf
-                <input type="hidden" name="trending" id="selected_trending_article">
                 <input type="hidden" name="trending_selected" id="selected_trending_article">
                 <div class="modal-body" id="modal-body-publish">
                     {{-- <input type="text" class="form-control" id="searchTrendingTxt" placeholder="Cari artikel..."
@@ -929,6 +928,10 @@ Page
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
 
 <script>
+ 
+</script>
+
+<script>
     function updateHorizontalAds(element)
 {
     var id = $(element).attr('data-id');
@@ -1048,9 +1051,28 @@ function updateWidgetAds(element)
 <script>
     $('#trendingArticleModal').on('hidden.bs.modal', function (event) {
         var clean_uri = location.protocol + "//" + location.host + location.pathname;
-        window.history.replaceState({}, document.title, clean_uri);
-})
+        window.history.replaceState({}, document.title, clean_uri); 
+    })
 
+    $('#featurePostModal').on('hidden.bs.modal', function (event) {
+        $('#featurePostSearch').val('');
+        $('#Hintdate').html("");
+    });
+
+    $('#editorsPickModal').on('hidden.bs.modal', function (event) {
+        $('#editorsPickSearch').val('');
+        $('#editorsPickArticle').html("");
+    });
+
+    $('#eventModal').on('hidden.bs.modal', function (event) {
+        $('#eventSearch').val('');
+        $('#eventArticle').html("");
+    });
+
+    $('#categoryPostModal').on('hidden.bs.modal', function (event) {
+        $('#categoryPostSearch').val('');
+        $('#categoryPostArticle').html("");
+    });
 
 
 </script>

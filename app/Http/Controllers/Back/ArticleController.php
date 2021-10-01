@@ -149,46 +149,44 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        foreach($request->tag as $a) {
-             dd($a);                
-        }
-        // $request->validate([
-        //     'judul' => 'required|unique:articles|min:20|max:150',
-        //     'konten' => 'required|min:80',
-        //     'category' => 'required',
-        //     'gambar' => 'required',
-        // ],
-        // [
-        //     'judul.required' => 'Kolom Judul harus di isi.',
-        //     'judul.unique' => 'Judul sudah tersedia.',
-        //     'judul.min' => 'minimal karakter yang dimasukan tidak boleh kurang dari 20 karakter.',
-        //     'judul.max' => 'maksimal karakter tidak boleh lebih dari 70 karakter.',
-        //     'konten.required' => 'Kolom Konten harus di isi.',
-        //     'konten.min' => 'minimal karakter yang dimasukan tidak boleh kurang dari 80 karakter.',
-        //     'category.required' => 'Kolom Kategori harus di isi.',
-        //     'gambar.required' => 'Thumbnail untuk artikel harus ada.',
-        // ]);
+        
+        $request->validate([
+            'judul' => 'required|unique:articles|min:20|max:150',
+            'konten' => 'required|min:80',
+            'category' => 'required',
+            'gambar' => 'required',
+        ],
+        [
+            'judul.required' => 'Kolom Judul harus di isi.',
+            'judul.unique' => 'Judul sudah tersedia.',
+            'judul.min' => 'minimal karakter yang dimasukan tidak boleh kurang dari 20 karakter.',
+            'judul.max' => 'maksimal karakter tidak boleh lebih dari 70 karakter.',
+            'konten.required' => 'Kolom Konten harus di isi.',
+            'konten.min' => 'minimal karakter yang dimasukan tidak boleh kurang dari 80 karakter.',
+            'category.required' => 'Kolom Kategori harus di isi.',
+            'gambar.required' => 'Thumbnail untuk artikel harus ada.',
+        ]);
 
-        // $gambar = ($request->gambar)
-        // ? $request->file('gambar')->store("/public/input/articles")
-        // : null;
+        $gambar = ($request->gambar)
+        ? $request->file('gambar')->store("/public/input/articles")
+        : null;
 
-        // $data = [
-        //     'judul' => $request->judul,
-        //     'slug' => Str::slug($request->judul),
-        //     'gambar' => $gambar,
-        //     'konten' => $request->konten,
-        //     'tag' => $request->tag ? implode(',', $request->tag) : null,
-        //     'creator' => Auth::user()->id,
-        //     'category' => $request->category,
-        //     'is_publish' => "1",
-        // ];
+        $data = [
+            'judul' => $request->judul,
+            'slug' => Str::slug($request->judul),
+            'gambar' => $gambar,
+            'konten' => $request->konten,
+            'tag' => $request->tag ? implode(',', $request->tag) : null,
+            'creator' => Auth::user()->id,
+            'category' => $request->category,
+            'is_publish' => "1",
+        ];
 
-        // Article::create($data)
-        // ? Alert::success('Suskes', 'Artikel telah berhasil dipublish!')
-        // : Alert::error('Error', 'Artikel gagal dipublish!');
+        Article::create($data)
+        ? Alert::success('Suskes', 'Artikel telah berhasil dipublish!')
+        : Alert::error('Error', 'Artikel gagal dipublish!');
 
-        // return redirect()->route('articles.index');
+        return redirect()->route('articles.index');
     }
 
     public function draf(Request $request)

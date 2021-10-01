@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category_article;
+use App\Models\Article;
 use DataTables;
 use Str;
 use Alert;
@@ -134,9 +135,28 @@ class CategoryArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category_article $Category_article)
+    public function destroy($id)
     {
-        $Category_article->delete()
+        $category_article = Category_article::findOrFail($id);
+
+        foreach($category_article->article as $articles) {
+            $articles->delete();
+            
+            foreach($articles->comments as $comments) {
+                $comments->delete();
+            }
+            
+            foreach($articles->visitors as $visitors) {
+                $visitors->delete();
+            }
+            
+        }
+
+
+        
+
+
+        $category_article->delete()
             ? Alert::success('Sukses', "Category berhasil dihapus.")
             : Alert::error('Error', "Category gagal dihapus!");
 
