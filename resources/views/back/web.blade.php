@@ -3,6 +3,7 @@
 Profile Web
 @endsection
 @section('css')
+<script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 <link href="{{asset('assets/back/plugins/toastr/toastr.min.css')}}" rel="stylesheet">
 @endsection
 @section('content')
@@ -147,14 +148,25 @@ Profile Web
                     </div>
                     <div class="row">
                         <div class="col">
-                            <label for="email">Deskripsi</label>
+                            <label for="email">Alamat</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text text-white" style="background-color: rgb(95, 95, 95)" id="inputGroupPrepend3"><i
                                             class="fa fa-info"></i> </span>
                                 </div>
-                                <textarea name="description" id="description" class="form-control"></textarea>
+                                <textarea name="address" id="address" class="form-control">{{$detail->address}}</textarea>
                             </div>
+                            <div id="addressErrDis" style="display: none">
+                                <small class="text-danger"><i id="addressErrMsg"></i></small>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <label for="email">Deskripsi</label>
+                            <textarea name="description" id="description" class="form-control">{!!$detail->description!!}</textarea>
                             <div id="descriptionErrDis" style="display: none">
                                 <small class="text-danger"><i id="descriptionErrMsg"></i></small>
                             </div>
@@ -207,7 +219,8 @@ Profile Web
         const twitter = form.twitter.value;
         const whatsapp = form.whatsapp.value;
         const email = form.email.value;
-        const description = form.description.value;
+        const address = form.address.value;
+        const description = CKEDITOR.instances.description.getData();
         const _token = "{{ csrf_token() }}";
 
         let formData = new FormData();
@@ -215,6 +228,7 @@ Profile Web
         formData.append('facebook', facebook);
         formData.append('twitter', twitter);
         formData.append('whatsapp', whatsapp);
+        formData.append('address', address);
         formData.append('description', description);
         formData.append('email', email);
         formData.append('_token', _token);
@@ -261,5 +275,16 @@ Profile Web
             console.log(err);
         }
     });
+</script>
+<script>
+    var options = {
+      filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+      filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+      filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+      filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+    };
+</script>
+<script>
+    CKEDITOR.replace('description', options);
 </script>
 @endsection

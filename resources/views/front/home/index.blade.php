@@ -783,41 +783,7 @@ Beranda
 
 				<!-- sidebar -->
 				<div class="sidebar">
-					<!-- widget about -->
-					<div class="widget rounded">
-						<div class="widget-about data-bg-image text-center" data-bg-image="images/map-bg.png">
-							<img src="{{ asset('assets/front/logo_inimahsumedang_500x.png') }}" style="width: 100px;"
-								alt="logo" class="mb-4" />
-							<p class="mb-4">@if(isset($web)) {{ $web->description }} @else Deskripsi web belum tersedia
-								@endif</p>
-							<ul class="social-icons list-unstyled list-inline mb-0">
-								<li class="list-inline-item"><a href="https://www.facebook.com/inimahsumedangcom/"><i
-											class="fab fa-facebook-f"></i></a></li>
-								<li class="list-inline-item"><a href="https://twitter.com/inimahsumedang"><i
-											class="fab fa-twitter"></i></a></li>
-								<li class="list-inline-item"><a href="https://www.instagram.com/inimahsumedang/"><i
-											class="fab fa-instagram"></i></a></li>
-								<li class="list-inline-item"><a href="https://www.youtube.com/c/inimahsumedangTV"><i
-											class="fab fa-youtube"></i></a></li>
-							</ul>
-						</div>
-					</div>
 
-					<div class="widget no-container rounded text-md-center">
-						<span class="ads-title">- Sponsored Ad -</span>
-						@if (!empty($widget_ads))
-							<a href="{{$widget_ads->tautan}}" class="widget-content">
-								<img src="{{ Storage::url($widget_ads->gambar) }}" style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;" alt="post-title" />
-							</a>
-						@else
-							<a href="#">
-								<img src="{{ asset('assets/front/images/ads356x361.png') }}"
-									style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
-									alt="Advertisement" />
-							</a>
-						@endif
-					</div>
-					
 					<div class="widget rounded">
 						<div class="widget-header text-center">
 							<h3 class="widget-title">Kategori</h3>
@@ -849,6 +815,23 @@ Beranda
 						</div>
 
 					</div>
+
+					<div class="widget no-container rounded text-md-center">
+						<span class="ads-title">- Sponsored Ad -</span>
+						@if (!empty($widget_ads))
+							<a href="{{$widget_ads->tautan}}" class="widget-content">
+								<img src="{{ Storage::url($widget_ads->gambar) }}" style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;" alt="post-title" />
+							</a>
+						@else
+							<a href="#">
+								<img src="{{ asset('assets/front/images/ads356x361.png') }}"
+									style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
+									alt="Advertisement" />
+							</a>
+						@endif
+					</div>
+					
+					
 
 
 					<div class="widget rounded">

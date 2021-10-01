@@ -118,11 +118,11 @@
                                     <li><a class="dropdown-item" href="#">Jadwal Bus</a></li>
                                 </ul>
                             </li> --}}
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Tentang</a>
+                            <li class="nav-item {{($url[3] == 'tentang') ? 'active' : null}}">
+                                <a class="nav-link" href="{{ route('home.about') }}">Tentang</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Kontak</a>
+                            <li class="nav-item {{($url[3] == 'kontak') ? 'active' : null}}">
+                                <a class="nav-link" href="{{ route('home.contact') }}">Kontak</a>
                             </li>
                         </ul>
                     </div>
