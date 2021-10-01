@@ -28,7 +28,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('/', HomeController::class);
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/tentang', [HomeController::class, 'about'])->name('home.about');
+Route::get('/kontak', [HomeController::class, 'contact'])->name('home.contact');
 Route::resource('artikel', FrontArticleController::class);
 Route::post('artikel/tag', [FrontArticleController::class, 'tag'])->name('artikel.tag');
 Route::post('artikel/komentar', [FrontArticleController::class, 'komentar'])->name('artikel.komentar');
