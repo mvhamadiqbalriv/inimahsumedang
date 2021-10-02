@@ -14,6 +14,8 @@ use App\Models\Ad;
 use Alert;
 use DB;
 use Str;
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Illuminate\Support\Facades\Storage;
 
 class FrontArticleController extends Controller
 {
@@ -24,6 +26,9 @@ class FrontArticleController extends Controller
      */
     public function index()
     {
+
+        SEOMeta::setDescription('Halaman Artikel web Inimahsumedang');
+        
         $data['article'] = Article::where('is_publish', '=', '1')->paginate(8);
         $data['web'] = Web::find(1);
         $data['title_upper'] = "Artikel";
@@ -183,10 +188,21 @@ class FrontArticleController extends Controller
      */
     public function show($slug, Request $request)
     {
+
+        $article = Article::where('slug', $slug)->first();
+
+        SEOMeta::setTitle($article->judul);
+        SEOMeta::setDescription($article->judul);
+        SEOMeta::addMeta('article:published_time', $article->created_at->toW3CString(), 'property');
+        SEOMeta::addMeta('article:section', $article->categories->nama, 'property');
+        SEOMeta::addMeta('og:title', $article->judul, 'property');
+        SEOMeta::addMeta('og:image', url(Storage::url($article->gambar)), 'property');
+        SEOMeta::addKeyword(explode(",",$article->tag));
+        
         $data['widget_ads'] = Ad::where('status', '=', 'widget_ads')->first();
         $data['event_1'] = Article::where('selected_article', '=', 'event_1')->first();
         $data['event_2'] = Article::where('selected_article', '=', 'event_2')->first();
-        $article = Article::where('slug', $slug)->first();
+        $data['web'] = Web::findOrFail(1);
         Visitor::createViewLog($article);
         return view('front.article_contents.index', $data, ['article' => $article]); 
     }

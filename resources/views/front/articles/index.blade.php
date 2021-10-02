@@ -1,6 +1,6 @@
 @extends('layouts.front')
 @section('title')
-Beranda
+Artikel
 @endsection
 @section('css')
 
