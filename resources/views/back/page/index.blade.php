@@ -1384,6 +1384,8 @@ function updateWidgetAds(element)
         }
     });
 
+    $('.article-feature-post-lists').css('cursor', 'pointer');
+
     function chooseFeaturePostList(element)
     {
         // $('.article-feature-post-lists').css('background-color', 'initial');
