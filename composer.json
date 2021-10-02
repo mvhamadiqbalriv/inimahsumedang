@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2|^7.3|^8.0",
         "anhskohbo/no-captcha": "^3.3",
+        "artesaos/seotools": "^0.20.2",
         "doctrine/dbal": "^3.1",
         "dymantic/laravel-instagram-feed": "^2.6",
         "fideloper/proxy": "^4.4",

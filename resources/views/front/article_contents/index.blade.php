@@ -144,14 +144,13 @@
                                 <!-- social icons -->
                                 <ul class="social-icons list-unstyled list-inline mb-0 float-md-end">
                                     <li class="list-inline-item"><a
-                                            href="https://www.facebook.com/inimahsumedangcom/"><i
+                                            href="https://www.facebook.com/sharer/sharer.php?u={{url()->current()}}" target="_blank"><i
                                                 class="fab fa-facebook-f"></i></a></li>
-                                    <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li class="list-inline-item"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                    <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
-                                    <li class="list-inline-item"><a href="#"><i class="fab fa-telegram-plane"></i></a>
+                                    <li class="list-inline-item"><a href="https://twitter.com/intent/tweet?text={{$article->judul}}&amp;url={{url()->current()}}" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                    <li class="list-inline-item"><a href="http://www.linkedin.com/shareArticle?mini=true&amp;title={{$article->judul}}&amp;url={{url()->current()}}" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+                                    <li class="list-inline-item"><a href="https://t.me/share/url?url={{url()->current()}}&text={{$article->judul}}" target="_blank"><i class="fab fa-telegram-plane"></i></a>
                                     </li>
-                                    <li class="list-inline-item"><a href="#"><i class="far fa-envelope"></i></a></li>
+                                    <li class="list-inline-item"><a href="https://wa.me/?text={{url()->current()}}"><i class="fab fa-whatsapp" target="_blank"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -405,223 +404,167 @@
 
                 <!-- sidebar -->
                 <div class="sidebar">
-                    <!-- widget about -->
-                    <div class="widget rounded">
-                        <div class="widget-about data-bg-image text-center" data-bg-image="images/map-bg.png">
-                            <img src="{{ asset('assets/front/images/assets/logo_inimahsumedang_500x.png') }}"
-                                style="width: 100px;" alt="logo" class="mb-4" />
-                            @php
-                            $web = \App\Models\Web::find(1);
-                            @endphp
-                            <p class="mb-4">{{ $web->description }}</p>
-                            <ul class="social-icons list-unstyled list-inline mb-0">
-                                <li class="list-inline-item"><a href="https://www.facebook.com/inimahsumedangcom/"><i
-                                            class="fab fa-facebook-f"></i></a></li>
-                                <li class="list-inline-item"><a href="https://twitter.com/inimahsumedang"><i
-                                            class="fab fa-twitter"></i></a></li>
-                                <li class="list-inline-item"><a href="https://www.instagram.com/inimahsumedang/"><i
-                                            class="fab fa-instagram"></i></a></li>
-                                <li class="list-inline-item"><a href="https://www.youtube.com/c/inimahsumedangTV"><i
-                                            class="fab fa-youtube"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
 
-                    <div class="widget no-container rounded text-md-center">
-                        <span class="ads-title">- Sponsored Ad -</span>
-                        @if (!empty($widget_ads))
-                        <a href="{{$widget_ads->tautan}}" class="widget-content">
-                            <img src="{{ Storage::url($widget_ads->gambar) }}"
-                                style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
-                                alt="post-title" />
-                        </a>
-                        @else
-                        <a href="#">
-                            <img src="{{ asset('assets/front/images/ads356x361.png') }}"
-                                style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
-                                alt="Advertisement" />
-                        </a>
-                        @endif
-                    </div>
+					<div class="widget rounded">
+						<div class="widget-header text-center">
+							<h3 class="widget-title">Kategori</h3>
+							<img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
+						</div>
+						<div class="widget-content">
+							<ul class="list">
+								@php
+								$category = \App\Models\Category_article::all();
+								@endphp
+								@foreach ($category as $categories)
 
-                    <div class="widget rounded">
-                        <div class="widget-header text-center">
-                            <h3 class="widget-title">Explore Topics</h3>
-                            <img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
-                        </div>
-                        <div class="widget-content">
-                            <ul class="list">
-                                @php
-                                $category = \App\Models\Category_article::all();
-                                @endphp
-                                @foreach ($category as $categories)
-                                <li>
-                                    <form action="{{ route('artikel.kategori') }}" method="post"
-                                        style="display: inline;" id="categoryWidgetForm">
-                                        @csrf
-                                        <input type="hidden" name="kategori" id="categoryWidget">
-                                        <a href="javascript:void(0)" data-category="{{ $categories->id }}"
-                                            onclick="categoryWidgetSubmit(this)">{{ $categories->nama }}</a>
-                                        @php
-                                        $countCategory = \App\Models\Article::where('category',
-                                        $categories->id)->count();
-                                        @endphp
-                                        <span>{{ $countCategory }}</span>
-                                    </form>
-                                </li>
-                                @endforeach
-                            </ul>
-                        </div>
+								<li>
+									<form action="{{ route('artikel.kategori') }}" method="post"
+										style="display: inline;" id="categoryWidgetForm">
+										@csrf
+										<input type="hidden" name="kategori" id="categoryWidget">
+										<a href="javascript:void(0)" data-category="{{ $categories->id }}"
+											onclick="categoryWidgetSubmit(this)">{{ $categories->nama }}</a>
+										@php
+										$countCategory = \App\Models\Article::where('category',
+										$categories->id)->count();
+										@endphp
+										<span>{{ $countCategory }}</span>
+									</form>
+								</li>
+								@endforeach
+							</ul>
+						</div>
 
-                    </div>
+					</div>
 
-                    <!-- widget newsletter -->
-                    <!-- <div class="widget rounded">
-                        <div class="widget-header text-center">
-                            <h3 class="widget-title">Newsletter</h3>
-                            <img src="images/wave.svg" class="wave" alt="wave" />
-                        </div>
-                        <div class="widget-content">
-                            <span class="newsletter-headline text-center mb-3">Join 70,000 subscribers!</span>
-                            <form>
-                                <div class="mb-2">
-                                    <input class="form-control w-100 text-center" placeholder="Email address…" type="email">
-                                </div>
-                                <button class="btn btn-default btn-full" type="submit">Sign Up</button>
-                            </form>
-                            <span class="newsletter-privacy text-center mt-3">By signing up, you agree to our <a href="#">Privacy Policy</a></span>
-                        </div>		
-                    </div> -->
+					<div class="widget no-container rounded text-md-center">
+						<span class="ads-title">- Sponsored Ad -</span>
+						@if (!empty($widget_ads))
+							<a href="{{$widget_ads->tautan}}" class="widget-content">
+								<img src="{{ Storage::url($widget_ads->gambar) }}" style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;" alt="post-title" />
+							</a>
+						@else
+							<a href="#">
+								<img src="{{ asset('assets/front/images/ads356x361.png') }}"
+									style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
+									alt="Advertisement" />
+							</a>
+						@endif
+					</div>
 
-                    <!-- widget post carousel -->
-                    <div class="widget rounded">
-                        <div class="widget-header text-center">
-                            <h3 class="widget-title">Event</h3>
-                            <img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
-                        </div>
-                        <div class="widget-content">
-                            <div class="post-carousel-widget">
-                                <!-- post -->
 
-                                <div class="post post-carousel">
-                                    <div class="thumb rounded">
-                                        @if(isset($event_1))
-                                        <form action="{{ route('artikel.kategori') }}" method="post"
-                                            style="display: inline;">
-                                            @csrf
-                                            <input type="hidden" name="kategori" value="{{ $event_1->category }}">
-                                            <button type="submit" class="category-badge position-absolute"
-                                                style="border: none;">{{ ucfirst(trans($event_1->categories->nama))  }}</button>
-                                        </form>
-                                        @else
-                                        <button type="submit" class="category-badge position-absolute"
-                                            style="border: none;">Belum ada kategori</button>
-                                        @endif
-                                        <a
-                                            href="@if(isset($event_1)) {{ route('artikel.show', $event_1->slug)}} @endif">
-                                            <div class="inner">
-                                                @if (!empty($event_1))
-                                                <img src="{{ Storage::url($event_1->gambar) }}" alt="post-title" />
-                                                @else
-                                                <img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
-                                                @endif
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <h5 class="post-title mb-0 mt-4"><a
-                                            href="@if(isset($event_1)) {{ route('artikel.show', $event_1->slug)}} @endif">@if(isset($event_1))
-                                            {{ $event_1->judul }} @else Judul artikel @endif</a></h5>
-                                    <ul class="meta list-inline mt-2 mb-0">
-                                        <li class="list-inline-item"><a href="#">@if(isset($event_1))
-                                                {{ ucfirst(trans($event_1->creators->name)) }} @else Nama penulis
-                                                @endif</a></li>
-                                        <li class="list-inline-item">@if(isset($event_1))
-                                            {{ $event_1->updated_at->format('d M Y') }} @else Tanggal terbit @endif
-                                        </li>
-                                    </ul>
-                                </div>
+					<div class="widget rounded">
+						<div class="widget-header text-center">
+							<h3 class="widget-title">Event</h3>
+							<img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
+						</div>
+						<div class="widget-content">
+							<div class="post-carousel-widget">
 
-                                <!-- post -->
-                                <div class="post post-carousel">
-                                    <div class="thumb rounded">
-                                        @if(isset($event_1))
-                                        <form action="{{ route('artikel.kategori') }}" method="post"
-                                            style="display: inline;">
-                                            @csrf
-                                            <input type="hidden" name="kategori" value="{{ $event_2->category }}">
-                                            <button type="submit" class="category-badge position-absolute"
-                                                style="border: none;">{{ ucfirst(trans($event_2->categories->nama))  }}</button>
-                                        </form>
-                                        @else
-                                        <button type="submit" class="category-badge position-absolute"
-                                            style="border: none;">Belum ada kategori</button>
-                                        @endif
-                                        <a
-                                            href="@if(isset($event_2)) {{ route('artikel.show', $event_2->slug)}} @endif">
-                                            <div class="inner">
-                                                @if (!empty($event_2))
-                                                <img src="{{ Storage::url($event_2->gambar) }}" alt="post-title" />
-                                                @else
-                                                <img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
-                                                @endif
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <h5 class="post-title mb-0 mt-4"><a
-                                            href="@if(isset($event_2)) {{ route('artikel.show', $event_2->slug)}} @endif">@if(isset($event_2))
-                                            {{ $event_2->judul }} @else Judul artikel @endif</a></h5>
-                                    <ul class="meta list-inline mt-2 mb-0">
-                                        <li class="list-inline-item"><a
-                                                href="#">@if(isset($event_2)){{ ucfirst(trans($event_2->creators->name)) }}
-                                                @else Nama penulis @endif</a></li>
-                                        <li class="list-inline-item">@if(isset($event_2))
-                                            {{ $event_2->updated_at->format('d M Y') }} @else Tanggal terbit @endif
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- carousel arrows -->
-                            <div class="slick-arrows-bot">
-                                <button type="button" data-role="none" class="carousel-botNav-prev slick-custom-buttons"
-                                    aria-label="Previous"><i class="icon-arrow-left"></i></button>
-                                <button type="button" data-role="none" class="carousel-botNav-next slick-custom-buttons"
-                                    aria-label="Next"><i class="icon-arrow-right"></i></button>
-                            </div>
-                        </div>
-                    </div>
+								<div class="post post-carousel">
+									<div class="thumb rounded">
+										@if(isset($event_1))
+										<form action="{{ route('artikel.kategori') }}" method="post"
+											style="display: inline;">
+											@csrf
+											<input type="hidden" name="kategori" value="{{ $event_1->category }}">
+											<button type="submit" class="category-badge position-absolute"
+												style="border: none;">{{ $event_1->categories->nama }}</button>
+										</form>
+										@else
+										<button type="button" class="category-badge position-absolute"
+											style="border: none;">Belum ada
+											kategori</button>
+										@endif
+										<a
+											href="@if(isset($event_1)) {{ route('artikel.show', $event_1->slug)}} @endif">
+											<div class="inner">
+												@if (!empty($event_1))
+												<img src="{{ Storage::url($event_1->gambar) }}" alt="post-title" />
+												@else
+												<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+												@endif
+											</div>
+										</a>
+									</div>
+									<h5 class="post-title mb-0 mt-4"><a
+											href="@if(isset($event_1)) {{ route('artikel.show', $event_1->slug)}} @endif">@if(isset($event_1))
+											{{ $event_1->judul }} @else Judul artikel @endif</a>
+									</h5>
+									<ul class="meta list-inline mt-2 mb-0">
+										<li class="list-inline-item"><a href="@if(isset($event_1)){{ route('artikel.author', $event_1->creators->username) }}@endif">@if(isset($event_1))
+												{{ ucfirst(trans($event_1->creators->name)) }} @else Nama penulis
+												@endif</a></li>
+										<li class="list-inline-item">@if(isset($event_1))
+											{{ $event_1->updated_at->format('d M Y') }} @else Tanggal Terbit @endif</li>
+									</ul>
+								</div>
 
-                    <!-- widget advertisement -->
-                    <div class="widget no-container rounded text-md-center">
-                        <span class="ads-title">- Sponsored Ad -</span>
-                        <a href="#" class="widget-ads">
-                            @if (!empty($widget_ads))
-                            <img src="{{ Storage::url($widget_ads->gambar) }}"
-                                style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
-                                alt="post-title" />
-                            @else
-                            <img src="{{ asset('assets/back/not-found.png') }}"
-                                style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
-                                alt="Advertisement" />
-                            @endif
-                        </a>
-                    </div>
+								<div class="post post-carousel">
+									<div class="thumb rounded">
+										@if(isset($event_2))
+										<form action="{{ route('artikel.kategori') }}" method="post"
+											style="display: inline;">
+											@csrf
+											<input type="hidden" name="kategori" value="{{ $event_2->category }}">
+											<button type="submit" class="category-badge position-absolute"
+												style="border: none;">{{ $event_2->categories->nama }}</button>
+										</form>
+										@else
+										<button type="button" class="category-badge position-absolute"
+											style="border: none;">Belum ada
+											kategori</button>
+										@endif
+										<a
+											href="@if(isset($event_2)) {{ route('artikel.show', $event_2->slug)}} @endif">
+											<div class="inner">
+												@if (!empty($event_2))
+												<img src="{{ Storage::url($event_2->gambar) }}" alt="post-title" />
+												@else
+												<img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+												@endif
+											</div>
+										</a>
+									</div>
+									<h5 class="post-title mb-0 mt-4"><a
+											href="@if(isset($event_2)) {{ route('artikel.show', $event_2->slug)}} @endif">@if(isset($event_2))
+											{{ $event_2->judul }} @else Judul artikel @endif</a>
+									</h5>
+									<ul class="meta list-inline mt-2 mb-0">
+										<li class="list-inline-item"><a href="@if(isset($event_2)){{ route('artikel.author', $event_2->creators->username) }}@endif">@if(isset($event_2))
+												{{ ucfirst(trans($event_2->creators->name)) }} @else Nama penulis
+												@endif</a></li>
+										<li class="list-inline-item">@if(isset($event_2))
+											{{ $event_2->updated_at->format('d M Y') }} @else Tanggal terbit @endif</li>
+									</ul>
+								</div>
 
-                    <!-- widget tags -->
-                    <div class="widget rounded">
-                        <div class="widget-header text-center">
-                            <h3 class="widget-title">Tag Clouds</h3>
-                            <img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
-                        </div>
-                        <div class="widget-content">
-                            <a href="#" class="tag">#Trending</a>
-                            <a href="#" class="tag">#Video</a>
-                            <a href="#" class="tag">#Featured</a>
-                            <a href="#" class="tag">#Gallery</a>
-                            <a href="#" class="tag">#Celebrities</a>
-                        </div>
-                    </div>
 
-                </div>
+							</div>
+							<div class="slick-arrows-bot">
+								<button type="button" data-role="none" class="carousel-botNav-prev slick-custom-buttons"
+									aria-label="Previous"><i class="icon-arrow-left"></i></button>
+								<button type="button" data-role="none" class="carousel-botNav-next slick-custom-buttons"
+									aria-label="Next"><i class="icon-arrow-right"></i></button>
+							</div>
+						</div>
+					</div>
+
+					<div class="widget rounded">
+						<div class="widget-header text-center">
+							<h3 class="widget-title">Tag</h3>
+							<img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
+						</div>
+						<div class="widget-content">
+							<a href="#" class="tag">#Trending</a>
+							<a href="#" class="tag">#Video</a>
+							<a href="#" class="tag">#Featured</a>
+							<a href="#" class="tag">#Gallery</a>
+							<a href="#" class="tag">#Celebrities</a>
+						</div>
+					</div>
+
+				</div>
 
             </div>
 
