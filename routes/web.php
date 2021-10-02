@@ -74,7 +74,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('page/ads', [PageController::class, 'ads'])->name('page.ads');
     Route::post('page/ads/update/{reply}', [PageController::class, 'ads_update'])->name('page.ads_update');
     Route::post('page/selected-content/{article}', [PageController::class, 'selectedContent'])->name('articles.selectedContent');
-
+    Route::post('page/delete-feature-post', [PageController::class, 'deleteFeaturePost'])->name('page.deleteFeaturePost');
+    
     // Live Search
     Route::get('article/search-feature-post', [PageController::class, 'featurePostSearch'])->name('artikel.featurePostSearch');
     Route::get('article/search-editors-pick', [PageController::class, 'editorsPickSearch'])->name('artikel.editorsPickSearch');

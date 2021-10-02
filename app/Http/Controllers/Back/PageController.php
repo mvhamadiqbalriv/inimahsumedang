@@ -46,6 +46,7 @@ class PageController extends Controller
         $data['trending_pagination'] = Article::join("visitors", "visitors.article", "=", "articles.id")
             ->where("visitors.created_at", ">=", date("Y-m-d H:i:s", strtotime('-24 hours', time())))
             ->where("trending", "=", null)
+            ->where('is_publish', '=', '1')
             ->groupBy("articles.id")
             ->orderBy(DB::raw('COUNT(articles.id)'), 'desc')
             ->select('articles.*', DB::raw('COUNT(articles.id) as total_views'))
@@ -64,6 +65,17 @@ class PageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function deleteFeaturePost(Request $request)
+    {
+        $selected = Article::where('id', '=', $request->id)->first();
+        $selected->update(['feature_post' => null])
+        ? Alert::success('Suskes', 'Artikel telah dihapus dari feature post!')
+        : Alert::error('Error', 'Artikel gagal dihapus dari feature post!');
+            
+		return redirect()->back();
+    }
+    
     function featurePostList(Request $request)
     {
         if($request->ajax()){

@@ -10,178 +10,113 @@ Beranda
 
 		<div class="row gy-4">
 
-			<div class="col-lg-8">
-				<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-					<div class="carousel-inner" style="border-radius: 10px;">
-						@if(isset($feature_post))
-						@foreach ($feature_post as $index => $article)
-						<div class="carousel-item @if($index == '1'){{'active'}}@endif">
-							<div class="post featured-post-lg">
-								<div class="details clearfix">
-									<form action="{{ route('artikel.kategori') }}" method="post"
-										style="display: inline;">
-										@csrf
-										<input type="hidden" name="kategori" value="{{ $article->category }}">
-										<button type="submit" class="category-badge"
-											style="border: none;">{{ $article->categories->nama }}</button>
-									</form>
-									<h2 class="post-title"><a
-											href="{{ route('artikel.show', $article->slug)}}">{{ $article->judul }}</a>
-									</h2>
-									<ul class="meta list-inline mb-0">
-										<li class="list-inline-item"><a
-												href="{{ route('artikel.author', $article->creators->username) }}">{{ ucfirst(trans($article->creators->name)) }}</a>
-										</li>
-										<li class="list-inline-item">
-											{{ $article->updated_at->format('d M Y')}}
-										</li>
-									</ul>
-								</div>
-								<a href="{{ route('artikel.show', $article->slug)}}">
-									<div class="thumb rounded">
-										<div class="inner data-bg-image"
-											data-bg-image="{{ Storage::url($article->gambar) }}">
+			<div class="col-lg-8">	
+				@if(count($feature_post))
+					@if(count($feature_post) > 1)
+						<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+							<div class="carousel-inner" style="border-radius: 10px;">
+								@foreach ($feature_post as $index => $article)
+								<div class="carousel-item @if($index == '1'){{'active'}}@endif">
+									<div class="post featured-post-lg">
+										<div class="details clearfix">
+											<form action="{{ route('artikel.kategori') }}" method="post"
+												style="display: inline;">
+												@csrf
+												<input type="hidden" name="kategori" value="{{ $article->category }}">
+												<button type="submit" class="category-badge"
+													style="border: none;">{{ $article->categories->nama }}</button>
+											</form>
+											<h2 class="post-title"><a
+													href="{{ route('artikel.show', $article->slug)}}">{{ $article->judul }}</a>
+											</h2>
+											<ul class="meta list-inline mb-0">
+												<li class="list-inline-item"><a
+														href="{{ route('artikel.author', $article->creators->username) }}">{{ ucfirst(trans($article->creators->name)) }}</a>
+												</li>
+												<li class="list-inline-item">
+													{{ $article->updated_at->format('d M Y')}}
+												</li>
+											</ul>
 										</div>
+										<a href="{{ route('artikel.show', $article->slug)}}">
+											<div class="thumb rounded">
+												<div class="inner data-bg-image"
+													data-bg-image="{{ Storage::url($article->gambar) }}">
+												</div>
+											</div>
+										</a>
 									</div>
-								</a>
+								</div>
+								@endforeach
 							</div>
+							<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
+								data-bs-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Previous</span>
+							</button>
+							<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+								data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+							</button>
+						</div>
+					@else
+						@foreach ($feature_post as $article)
+						<div class="post featured-post-lg">
+							<div class="details clearfix">
+								<form action="{{ route('artikel.kategori') }}" method="post"
+									style="display: inline;">
+									@csrf
+									<input type="hidden" name="kategori" value="{{ $article->category }}">
+									<button type="submit" class="category-badge"
+										style="border: none;">{{ $article->categories->nama }}</button>
+								</form>
+								<h2 class="post-title"><a
+										href="{{ route('artikel.show', $article->slug)}}">{{ $article->judul }}</a>
+								</h2>
+								<ul class="meta list-inline mb-0">
+									<li class="list-inline-item"><a
+											href="{{ route('artikel.author', $article->creators->username) }}">{{ ucfirst(trans($article->creators->name)) }}</a>
+									</li>
+									<li class="list-inline-item">
+										{{ $article->updated_at->format('d M Y')}}
+									</li>
+								</ul>
+							</div>
+							<a href="{{ route('artikel.show', $article->slug)}}">
+								<div class="thumb rounded">
+									<div class="inner data-bg-image"
+										data-bg-image="{{ Storage::url($article->gambar) }}">
+									</div>
+								</div>
+							</a>
 						</div>
 						@endforeach
-						@else
-						<div class="carousel-item active">
-							<div class="post featured-post-lg">
-								<div class="details clearfix">
-									@if(isset($feature_post))
-									<form action="{{ route('artikel.kategori') }}" method="post"
-										style="display: inline;">
-										@csrf
-										<input type="hidden" name="kategori" value="{{ $feature_post->category }}">
-										<button type="submit" class="category-badge"
-											style="border: none;">{{ $feature_post->categories->nama }}</button>
-									</form>
-									@else
-									<button type="button" class="category-badge" style="border: none;">Belum ada
-										kategori</button>
-									@endif
-									<h2 class="post-title"><a
-											href="@if(isset($feature_post)) {{ route('artikel.show', $feature_post->slug)}} @endif">@if(isset($feature_post))
-											{{ $feature_post->judul }} @else Judul artikel @endif</a>
-									</h2>
-									<ul class="meta list-inline mb-0">
-										<li class="list-inline-item"><a
-												href="@if(isset($feature_post)) {{ route('artikel.author', $feature_post->creators->username) }} @endif">@if(isset($feature_post))
-												{{ ucfirst(trans($feature_post->creators->name)) }} @else Nama penulis
-												@endif</a>
-										</li>
-										<li class="list-inline-item">@if(isset($feature_post))
-											{{ $feature_post->updated_at->format('d M Y')}} @else Tanggal terbit @endif
-										</li>
-									</ul>
-								</div>
-								<a
-									href="@if(isset($feature_post)) {{ route('artikel.show', $feature_post->slug)}} @endif">
-									<div class="thumb rounded">
-										<div class="inner data-bg-image"
-											data-bg-image=" @if(!empty($feature_post))  {{ Storage::url($feature_post->gambar) }} @else https://images.unsplash.com/photo-1512314889357-e157c22f938d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80 @endif">
-										</div>
-									</div>
-								</a>
-							</div>
+					@endif
+				@else
+					<div class="post featured-post-lg">
+						<div class="details clearfix">
+							<button type="button" class="category-badge" style="border: none;">Belum ada
+								kategori</button>
+							<h2 class="post-title"><a
+									href="javascript::void(0)">Judul artikel</a>
+							</h2>
+							<ul class="meta list-inline mb-0">
+								<li class="list-inline-item"><a
+										href="#">Nama penulis</a>
+								</li>
+								<li class="list-inline-item">Tanggal terbit</li>
+							</ul>
 						</div>
-						<div class="carousel-item">
-							<div class="post featured-post-lg">
-								<div class="details clearfix">
-									@if(isset($feature_post))
-									<form action="{{ route('artikel.kategori') }}" method="post"
-										style="display: inline;">
-										@csrf
-										<input type="hidden" name="kategori" value="{{ $feature_post->category }}">
-										<button type="submit" class="category-badge"
-											style="border: none;">{{ $feature_post->categories->nama }}</button>
-									</form>
-									@else
-									<button type="button" class="category-badge" style="border: none;">Belum ada
-										kategori</button>
-									@endif
-									<h2 class="post-title"><a
-											href="@if(isset($feature_post)) {{ route('artikel.show', $feature_post->slug)}} @endif">@if(isset($feature_post))
-											{{ $feature_post->judul }} @else Judul artikel @endif</a>
-									</h2>
-									<ul class="meta list-inline mb-0">
-										<li class="list-inline-item"><a
-												href="@if(isset($feature_post)) {{ route('artikel.author', $feature_post->creators->username) }} @endif">@if(isset($feature_post))
-												{{ ucfirst(trans($feature_post->creators->name)) }} @else Nama penulis
-												@endif</a>
-										</li>
-										<li class="list-inline-item">@if(isset($feature_post))
-											{{ $feature_post->updated_at->format('d M Y')}} @else Tanggal terbit @endif
-										</li>
-									</ul>
+						<a href="javascript::void(0)">
+							<div class="thumb rounded">
+								<div class="inner data-bg-image"
+									data-bg-image="{{ asset('assets/back/not-found.png') }}">
 								</div>
-								<a
-									href="@if(isset($feature_post)) {{ route('artikel.show', $feature_post->slug)}} @endif">
-									<div class="thumb rounded">
-										<div class="inner data-bg-image"
-											data-bg-image=" @if(!empty($feature_post))  {{ Storage::url($feature_post->gambar) }} @else {{ asset('assets/back/not-found.png') }} @endif">
-										</div>
-									</div>
-								</a>
 							</div>
-						</div>
-						<div class="carousel-item">
-							<div class="post featured-post-lg">
-								<div class="details clearfix">
-									@if(isset($feature_post))
-									<form action="{{ route('artikel.kategori') }}" method="post"
-										style="display: inline;">
-										@csrf
-										<input type="hidden" name="kategori" value="{{ $feature_post->category }}">
-										<button type="submit" class="category-badge"
-											style="border: none;">{{ $feature_post->categories->nama }}</button>
-									</form>
-									@else
-									<button type="button" class="category-badge" style="border: none;">Belum ada
-										kategori</button>
-									@endif
-									<h2 class="post-title"><a
-											href="@if(isset($feature_post)) {{ route('artikel.show', $feature_post->slug)}} @endif">@if(isset($feature_post))
-											{{ $feature_post->judul }} @else Judul artikel @endif</a>
-									</h2>
-									<ul class="meta list-inline mb-0">
-										<li class="list-inline-item"><a
-												href="@if(isset($feature_post)) {{ route('artikel.author', $feature_post->creators->username) }} @endif">@if(isset($feature_post))
-												{{ ucfirst(trans($feature_post->creators->name)) }} @else Nama penulis
-												@endif</a>
-										</li>
-										<li class="list-inline-item">@if(isset($feature_post))
-											{{ $feature_post->updated_at->format('d M Y')}} @else Tanggal terbit @endif
-										</li>
-									</ul>
-								</div>
-								<a
-									href="@if(isset($feature_post)) {{ route('artikel.show', $feature_post->slug)}} @endif">
-									<div class="thumb rounded">
-										<div class="inner data-bg-image"
-											data-bg-image=" @if(!empty($feature_post))  {{ Storage::url($feature_post->gambar) }} @else {{ asset('assets/back/not-found.png') }} @endif">
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-						@endif
+						</a>
 					</div>
-					<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
-						data-bs-slide="prev">
-						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-						<span class="visually-hidden">Previous</span>
-					</button>
-					<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
-						data-bs-slide="next">
-						<span class="carousel-control-next-icon" aria-hidden="true"></span>
-						<span class="visually-hidden">Next</span>
-					</button>
-				</div>
-
+				@endif
 			</div>
 
 			<div class="col-lg-4">

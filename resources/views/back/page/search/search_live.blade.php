@@ -10,7 +10,7 @@ if(!empty($article))
                     <div class="col-sm-6">
                         <div class="img d-flex">
                             <img src="' . Storage::url($articles->gambar) . '" style="border-radius:5px; width:85px; height:70px; object-fit: cover;">
-                            <p style="margin-left: 30px;margin-top:20px;">' . $articles->judul . '</p>
+                            <p style="margin-left: 30px;">' . $articles->judul . '</p>
                         </div>
                     </div>
                     <div class="col-sm-6 text-sm-right">

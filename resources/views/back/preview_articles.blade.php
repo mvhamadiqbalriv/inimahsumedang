@@ -38,7 +38,8 @@
                     <div class="post-header">
                         <h1 class="title mt-0 mb-3">{{ $article->judul }}</h1>
                         <ul class="meta list-inline mb-0">
-                            <li class="list-inline-item"><a href="{{ route('users.show', $article->creator) }}">
+                            <li class="list-inline-item"><a
+                                    href="{{ route('artikel.author', $article->creators->username) }}">
                                     @php
                                     $path = asset('assets/back/images/avatars/default_user.png');
                                     if ($article->creators->photo) {
@@ -48,20 +49,30 @@
                                     <img src="{{$path}}" class="author"
                                         style="border-radius: 50%; width: 32px; height:32px; object-fit: cover;"
                                         alt="author" />{{ ucfirst(trans($article->creators->name)) }}</a></li>
-                            
+                            <form action="{{ route('artikel.kategori') }}" method="POST" style="display: none;"
+                                id="kategoriForm">
+                                @csrf
+                                <input type="hidden" name="kategori" value="{{ $article->category }}">
+                            </form>
                             <li class="list-inline-item"><a href="javascript:void(0)"
-                                    id="kategori">@isset($article->categories->nama){{ $article->categories->nama }}@endisset</a>
+                                    id="kategori">@if(isset($article->categories->nama)){{ $article->categories->nama }}@else @endif</a>
                             </li>
                             <li class="list-inline-item">{{ $article->updated_at->format('Y-m-d') }}</li>
                         </ul>
                     </div>
                     <!-- featured image -->
+                    @if(isset($article->gambar))
                     <div class="featured-image">
-                        @isset($article->gambar)<img src="{{ Storage::url($article->gambar) }}" alt="post-title" />@endisset
+                        <img src="{{ Storage::url($article->gambar) }}" alt="post-title" />
                     </div>
+                    @else
+                    <div class="featured-image">
+                        <img src="{{ asset('assets/back/not-found.png') }}" alt="post-title" />
+                    </div>
+                    @endif
                     <!-- post content -->
                     <div class="post-content clearfix">
-                        @isset($article->konten){!! $article->konten !!}@endisset
+                        {!! $article->konten !!}
                     </div>
                     <!-- post bottom section -->
                     <div class="post-bottom">
@@ -70,7 +81,13 @@
                                 <!-- tags -->
                                 @if(!empty($article->tag))
                                 @foreach (explode(",",$article->tag) as $a)
-                                <a href="#" class="tag">#{{ $a }}</a>
+                                <form action="{{ route('artikel.tag') }}" method="post" id="tagForm"
+                                    style="display: inline;">
+                                    @csrf
+                                    <input type="hidden" name="tagValue" id="tagValue">
+                                    <a href="javascript:void(0)" class="tag" data-tag="{{ $a }}"
+                                        onclick="tagSubmit(this)">#{{ $a }}</a>
+                                </form>
                                 @endforeach
                                 @endif
 
@@ -78,7 +95,9 @@
                             <div class="col-md-6 col-12">
                                 <!-- social icons -->
                                 <ul class="social-icons list-unstyled list-inline mb-0 float-md-end">
-                                    <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li class="list-inline-item"><a
+                                            href="https://www.facebook.com/inimahsumedangcom/"><i
+                                                class="fab fa-facebook-f"></i></a></li>
                                     <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
                                     <li class="list-inline-item"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
                                     <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
@@ -91,6 +110,24 @@
                     </div>
 
                 </div>
+                <div class="spacer" data-height="50"></div>
+                <div class="text-md-center">
+                    <span class="ads-title">- Sponsored Ad -</span>
+
+                    @if (!empty($horizontal_ads))
+                    <a href="{{$horizontal_ads->tautan}}">
+                        <img src="{{ Storage::url($horizontal_ads->gambar) }}"
+                            style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
+                            alt="post-title" />
+                    </a>
+                    @else
+                    <a href="#">
+                        <img src="{{ asset('assets/front/images/ads736x126.png') }}"
+                            style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
+                            alt="Advertisement" />
+                    </a>
+                    @endif
+                </div>
 
                 <div class="spacer" data-height="50"></div>
 
@@ -99,9 +136,10 @@
                         <img src="{{ $path }}" alt="Katen Doe" />
                     </div>
                     <div class="details">
-                        <h4 class="name"><a href="#">{{ ucfirst(trans($article->creators->name)) }}</a></h4>
-                        <p>Hello, I’m a content writer who is fascinated by content fashion, celebrity and lifestyle.
-                            She helps clients bring the right content to the right people.</p>
+                        <h4 class="name"><a
+                                href="{{ route('users.show', $article->creator) }}">{{ ucfirst(trans($article->creators->name)) }}</a>
+                        </h4>
+                        <p>{{$article->creators->tentang}}</p>
                         <!-- social icons -->
                         <ul class="social-icons list-unstyled list-inline mb-0">
                             <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>

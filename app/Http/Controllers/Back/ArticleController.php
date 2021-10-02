@@ -95,18 +95,7 @@ class ArticleController extends Controller
         return response()->json($category);
     }
     
-    public function deleteAll(Request $request)
-	{
-		$id = $request->id;
-		foreach ($id as $article) 
-		{
-			Article::where('id', $article)->delete()
-            ? Alert::success('Suskes', 'Semua artikel yang dipilih berhasil dihapus!')
-            : Alert::error('Error', 'Semua artikel yang dipilih gagal dihapus!');
-		}
-		return redirect()->back();
-	}
-
+   
     public function isPublish(Request $request, Article $article)
     {
         $data = [
@@ -230,11 +219,12 @@ class ArticleController extends Controller
      */
     public function preview($slug, Request $request) 
     {
+        $data['horizontal_ads'] = Ad::where('status', '=', 'horizontal_ads')->first();
         $data['widget_ads'] = Ad::where('status', '=', 'widget_ads')->first();
         $data['article'] = Article::where('slug', $slug)->first();
         $data['web'] = Web::find(1);
-        $data['event_1'] = Article::where('selected_article', '=', 'event_1')->first();
-        $data['event_2'] = Article::where('selected_article', '=', 'event_2')->first();
+        $data['event_1'] = Article::where('event', '=', 'event_1')->first();
+        $data['event_2'] = Article::where('event', '=', 'event_2')->first();
         return view('back.preview_articles', $data);
     }
 
@@ -320,19 +310,32 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         $article = Article::findOrFail($id);
-
-        foreach($article->comments as $comments) {
-            $comments->delete();
-        }
-
-        foreach($article->visitors as $visitors) {
-            $visitors->delete();
-        }
-
         $article->delete()
             ? Alert::success('Sukses', "Article berhasil dihapus.")
             : Alert::error('Error', "Article gagal dihapus!");
 
         return redirect()->route('articles.index');
     }
+
+    public function deleteAll(Request $request)
+	{
+        $article = Article::findOrFail($id);
+
+        foreach($article->comments as $commentsoo) {
+            $commentsoo->delete();
+        }
+
+        foreach($article->visitors as $visitorseee) {
+            $visitorseee->delete();
+        }
+		$id = $request->id;
+		foreach ($id as $article) 
+		{
+			Article::where('id', $article)->delete()
+            ? Alert::success('Suskes', 'Semua artikel yang dipilih berhasil dihapus!')
+            : Alert::error('Error', 'Semua artikel yang dipilih gagal dihapus!');
+		}
+		return redirect()->back();
+	}
+
 }

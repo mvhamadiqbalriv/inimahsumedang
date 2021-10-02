@@ -173,10 +173,21 @@ Page
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h4>Feature Post</h4>
-                            <button class="btn btn-sm btn-secondary" data-toggle="modal" @if(empty($article))
-                                data-target="#ifArticleEmpty" @else data-target="#featurePostModal" @endif
-                                data-status="feature_post" onclick="featurePost(this)"><i
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-secondary" id="featurePostListDeleteButton" data-toggle="modal" data-target="#deleteConfirmationFeaturePost"><i class="fas fa-trash-alt"></i></button>
+                                @php
+                                    $checkArticle = \App\Models\Article::all();
+                                @endphp
+                                @if($checkArticle->isEmpty())
+                                <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#ifArticleEmpty"><i
                                     class="fas fa-plus"></i></button>
+                                @else
+                                <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#featurePostModal"
+                                    data-status="feature_post" onclick="featurePost(this)"><i
+                                        class="fas fa-plus"></i></button>
+                                
+                                @endif
+                            </div>
                         </div>
                         <br><br>
                         <div id="featurePostList">
@@ -193,11 +204,15 @@ Page
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <h4>Horizontal Ads</h4>
+                                    @if($checkArticle->isEmpty())
+                                    <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#ifArticleEmpty"><i
+                                        class="fas fa-plus"></i></button>
+                                    @else
                                     <button class="btn btn-sm btn-secondary" id="buttonHorizontalAds"
-                                        data-toggle="modal" @if(empty($article)) data-target="#ifArticleEmpty" @else
-                                        data-target="#horizontalAdsModal" @endif @if(!empty($horizontal_ads))
+                                        data-toggle="modal" data-target="#horizontalAdsModal" @if(!empty($horizontal_ads))
                                         data-id="{{ $horizontal_ads->id }}" onclick="updateHorizontalAds(this)"
                                         @endif><i class="fas fa-plus"></i></button>
+                                    @endif
                                 </div>
 
                                 <div class="wrap-image mt-3">
@@ -217,10 +232,14 @@ Page
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <h4>Widget Ads</h4>
-                                    <button class="btn btn-sm btn-secondary" data-toggle="modal" @if(empty($article))
-                                        data-target="#ifArticleEmpty" @else data-target="#widgetAdsModal" @endif
+                                    @if($checkArticle->isEmpty())
+                                    <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#ifArticleEmpty"><i
+                                        class="fas fa-plus"></i></button>
+                                    @else
+                                    <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#widgetAdsModal"
                                         @if(!empty($widget_ads)) data-id="{{ $widget_ads->id }}"
                                         onclick="updateWidgetAds(this)" @endif><i class="fas fa-plus"></i></button>
+                                    @endif
                                 </div>
 
                                 <div class="wrap-image mt-3">
@@ -241,12 +260,15 @@ Page
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <h4>Search Horizontal Ads</h4>
-                                    <button class="btn btn-sm btn-secondary" data-toggle="modal" @if(empty($article))
-                                        data-target="#ifArticleEmpty" @else data-target="#searchHorizontalAdsModal"
-                                        @endif @if(!empty($search_horizontal_ads))
+                                    @if($checkArticle->isEmpty())
+                                    <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#ifArticleEmpty"><i
+                                        class="fas fa-plus"></i></button>
+                                    @else
+                                    <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#searchHorizontalAdsModal" @if(!empty($search_horizontal_ads))
                                         data-id="{{ $search_horizontal_ads->id }}"
                                         onclick="updateSearchHorizontalAds(this)" @endif><i
                                             class="fas fa-plus"></i></button>
+                                    @endif
                                 </div>
 
                                 <div class="wrap-image mt-3">
@@ -268,8 +290,13 @@ Page
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h4>Editor's Pick</h4>
+                            @if($checkArticle->isEmpty())
+                                <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#ifArticleEmpty"><i
+                                class="fas fa-plus"></i></button>
+                            @else
                             <button class="btn btn-sm btn-secondary" onclick="editorsPickButton(this)"><i
                                     class="fas fa-plus" id="iconChangeOnEditorsPick"></i></button>
+                            @endif
                         </div>
                         <div class="title mt-3">
                             <p class="text-center">@if(isset($editors_pick_1)) {{ $editors_pick_1->judul }} @else Judul
@@ -378,8 +405,13 @@ Page
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <h4>Trending</h4>
+                                    @if($checkArticle->isEmpty())
+                                        <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#ifArticleEmpty"><i
+                                        class="fas fa-plus"></i></button>
+                                    @else
                                     <button class="btn btn-sm btn-secondary" onclick="trendingButton(this)"><i
                                             class="fas fa-plus" id="iconChangeOnTrending"></i></button>
+                                    @endif
                                 </div>
                                 <div class="row justify-content-center mt-4">
                                     <div class="col-sm-6">
@@ -513,8 +545,13 @@ Page
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <h4>Event</h4>
+                                    @if($checkArticle->isEmpty())
+                                        <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#ifArticleEmpty"><i
+                                        class="fas fa-plus"></i></button>
+                                    @else
                                     <button class="btn btn-sm btn-secondary" onclick="eventButton(this)"><i
                                             class="fas fa-plus" id="iconChangeOnEvent"></i></button>
+                                    @endif
                                 </div>
                                 <div class="row justify-content-center mt-4">
                                     <div class="col-sm-6">
@@ -567,8 +604,13 @@ Page
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h4>Category Post</h4>
+                            @if($checkArticle->isEmpty())
+                                <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#ifArticleEmpty"><i
+                                class="fas fa-plus"></i></button>
+                            @else
                             <button class="btn btn-sm btn-secondary" onclick="categoryPostButton(this)"><i
                                     class="fas fa-plus" id="iconChange"></i></button>
+                            @endif
                         </div>
                         <div class="row mt-4">
                             <div class="col-sm-6">
@@ -801,7 +843,7 @@ Page
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="trendingArticleModalTitle"></h5>
+                <h5 class="modal-title" id="trendingArticleModalTitle">Trending</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="material-icons">close</i>
                 </button>
@@ -992,6 +1034,31 @@ Page
     </div>
 </div>
 
+<!-- Modal delete -->
+<div class="modal fade" id="deleteConfirmationFeaturePost" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationFeaturePostTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationFeaturePostTitle">Hapus article</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <form action="{{ route('page.deleteFeaturePost') }}" method="post" id="confirmDeleteForm">
+                @csrf
+                <input type="hidden" name="id" id="deleteFeaturePost">
+                <div class="modal-body">
+                    apakah anda yakin untuk menghapus <b>article</b> ini dari <b>feature post</b> ?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Ya, Hapus !</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 @endsection
 @section('js')
@@ -1099,6 +1166,17 @@ function updateSearchHorizontalAds(element)
     const updateLink = "{{ route('page.ads_update', '') }}";
     $('#searchHorizontalAdsForm').attr('action',  `${updateLink}/${id}`);
 }   
+
+// var elm;
+// function isValidURL(u){
+//   if(!elm){
+//     elm = document.createElement('input');
+//     elm.setAttribute('type', 'url');
+//   }
+//   elm.value = u;
+//   return elm.validity.valid;
+// }
+// isValidURL($("#tautanValue").val());
 
 function updateWidgetAds(element)
 {
@@ -1273,6 +1351,11 @@ function updateWidgetAds(element)
     //     var clean_uri = location.protocol + "//" + location.host + location.pathname;
     //     window.history.replaceState({}, document.title, clean_uri); 
     // });
+    
+    
+
+    $("#featurePostListDeleteButton").css('pointer-events', 'none');
+    $("#featurePostListDeleteButton").prop("disabled", true);
 
     // Pemilihan Article
     function chooseFeaturePost(element)
@@ -1288,6 +1371,41 @@ function updateWidgetAds(element)
 
         const featurePostLink = $('#featurePostForm').attr('data-action');
         $('#featurePostForm').attr('action',  `${featurePostLink}/${featurePostID}`);
+    }
+
+    $(document).mouseup(function(e) {
+        var container = $("#featurePostList");
+        var featurePostListDeleteButton = $("#featurePostListDeleteButton");
+        // if the target of the click isn't the container nor a descendant of the container
+        if (!container.is(e.target) && container.has(e.target).length === 0 && !featurePostListDeleteButton.is(e.target) && featurePostListDeleteButton.has(e.target).length === 0) {
+            $('.article-feature-post-lists').css('background-color', 'initial');
+            $("#featurePostListDeleteButton").css('pointer-events', 'none');
+            $("#featurePostListDeleteButton").prop("disabled", true);
+        }
+    });
+
+    function chooseFeaturePostList(element)
+    {
+        // $('.article-feature-post-lists').css('background-color', 'initial');
+        var featurePostListID = $(element).attr('data-id');
+        $('.article-feature-post-lists').attr('data-color', 'initial');
+        if($('#featurePostList'+featurePostListID).attr('data-color') == 'initial') {
+            $('.article-feature-post-lists').css('background-color', 'initial');
+            $('#featurePostList'+featurePostListID).css('background-color', '#f2f7ff');
+            $("#deleteFeaturePost").val(featurePostListID);
+            $(element).attr('data-color', 'lightblue');
+        } else {
+            $("#deleteFeaturePost").val('');
+            $('#featurePostList'+featurePostListID).css('background-color', 'initial');
+            $(element).attr('data-color', 'initial');
+        }
+        
+        
+        $("#featurePostListDeleteButton").css('pointer-events', 'auto');
+        $("#featurePostListDeleteButton").prop("disabled", false);
+
+        const featurePostLinkLink = $('#featurePostListForm').attr('data-action');
+        $('#featurePostListForm').attr('action',  `${featurePostLinkLink}/${featurePostListID}`);
     }
 
 
