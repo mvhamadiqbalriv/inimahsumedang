@@ -92,6 +92,10 @@ $web = \App\Models\Web::findOrFail(1);
                     <a href="{{url('users')}}" class="{{($url[3] == 'users') ? 'active' : null}}"><i
                             class="material-icons">person_outline</i>Users</a>
                 </li>
+                <li>
+                    <a href="{{url('instagram-feeds')}}" class="{{($url[3] == 'instagram-feeds') ? 'active' : null}}"><i
+                            class="material-icons">feed</i>Instagram Feed</a>
+                </li>
                 @role('admin')
                 <li>
                     <a href="#"><i class="material-icons">aspect_ratio</i>Hak Akses<i

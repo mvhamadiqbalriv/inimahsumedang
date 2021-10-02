@@ -95,19 +95,37 @@ Edit Artikel
                                     name="gambar" id="gambar" data-allowed-file-extensions="png jpg jpeg"
                                     data-default-file="@if(!empty($article->gambar) &&
                                     Storage::exists($article->gambar)){{ Storage::url($article->gambar) }}@endif">
-                                @error('gambar')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                               @error('gambar')
+                               <style>
+                                   .select2-container--default .select2-selection--single .select2-selection__arrow b {
+                                    top: 100% !important;
+                                   }
+                                  .dropify-wrapper {
+                                       border: 1px solid #dc3545 !important;
+                                       border-radius: .3rem !important;
+                                       height: 100% !important;
+                                   }
+
+                                   .categoryStyle .select2-selection {
+                                           margin-top: 20px !important;
+                                       }
+                               </style>
+                               <div class="mt-1">
+                                   <span class="text-danger">{{ $message }}</span>
+                               </div>
+                               @enderror
                             </div>
                         </div>
                     </div>
-                    <div class="form-group @error('category') has-error @enderror">
-                        <select class="category form-control @error('category') is-invalid @enderror" name="category"
-                            id="category">
-                            @if(!empty($article->category))
-                            <option value="{{ $article->category }}">
-                                {{ $article->categories->nama }}
-                            </option>
+                    <div class="form-group categoryStyle @error('category') has-error @enderror">
+                        <select class="category form-control" tabindex="-1" name="category" style="display: none; width: 100%">
+                            <option value="">Pilih Kategori</option>
+                            @if(count($category))
+                                @foreach ($category as $categories)
+                                <option value="{{ $categories->id }}" {{ $categories->id == $article->category ? 'selected' : ''}}>
+                                    {{ $categories->nama }}
+                                </option>   
+                                @endforeach
                             @endif
                         </select>
                         @error('category')
@@ -141,13 +159,13 @@ Edit Artikel
                     </div>
                     <div class="row">
                         <div class="col text-sm-left">
-                            <button type="submit" class="btn btn-lg btn-primary" id="buttonSubmit"><i
+                            <button type="submit" class="btn btn-md btn-primary" id="buttonSubmit"><i
                                     class="fa fa-plus-circle"></i>
-                                Submit</button>
+                                Publish</button>
 
                         </div>
                         <div class="col text-right">
-                            <a href="{{ route('articles.index') }}" class="btn btn-lg btn-secondary">
+                            <a href="{{ route('articles.index') }}" class="btn btn-md btn-secondary">
                                 Kembali</a>
                         </div>
                     </div>
@@ -169,7 +187,7 @@ Edit Artikel
 <script>
     $('#articleForm').submit(function(){
     $("#buttonSubmit", this)
-      .html("Please Wait...")
+      .html("Mohon Tunggu...")
       .attr('disabled', 'disabled');
     return true;
 });
@@ -218,24 +236,8 @@ Edit Artikel
 </script>
 
 <script type="text/javascript">
-    $('.category').select2({
-        placeholder: 'Cari Kategori',
-        ajax: {
-            url: '/article/search-category',
-            dataType: 'json',
-            delay: 250,
-            processResults: function (data) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            text: item.nama,
-                            id: item.id
-                        }
-                    })
-                };
-            },
-            cache: true
-        }
+     $('.category').select2({
+        placeholder: 'Pilih Kategori'
     });
 </script>
 
@@ -244,7 +246,8 @@ Edit Artikel
       filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
       filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
       filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-      filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+      filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token=',
+      height:['450px']
     };
 </script>
 <script>

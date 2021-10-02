@@ -2,9 +2,14 @@
 @section('title')
 Category
 @endsection
-@section('content')
+@section('css')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.9/css/fixedHeader.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <link href="{{ asset('assets/back/fontawesome-iconpicker.min.css') }}" rel="stylesheet">
+@endsection
+@section('content')
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
@@ -79,8 +84,8 @@ Category
                 <h5 class="card-title">Daftar Kategori</h5>
                 <button type="button" class="btn btn-info mb-1" data-toggle="modal" data-animation="slide"
                     data-overlaySpeed="200" data-overlayColor="#36404a" data-target="#addModal"><i
-                        class="fa fa-plus-circle"></i> Tambah</button>
-                <table class="table">
+                        class="fa fa-plus-circle"></i> Tambah</button><br><br>
+                <table id="categoryTable" class="table table-striped table-bordered" style="width: 100%">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -227,7 +232,7 @@ Category
                 @csrf
                 @method('delete')
                 <div class="modal-body">
-                    apakah anda yakin untuk menghapus <b> kategori</b> ini ?
+                    apakah anda yakin untuk menghapus <b> kategori</b> ini beserta seluruh data terkait <b>(artikel)</b> ?
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-danger">Ya, Hapus !</button>
@@ -238,7 +243,19 @@ Category
 </div>
 @endsection
 @section('js')
+<script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.0/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap.min.js"></script>
 <script src="{{ asset('assets/back/fontawesome-iconpicker.js') }}"></script>
+<script>
+    $(document).ready(function() {
+    $('#categoryTable').DataTable( {
+        responsive: true
+    });
+} );
+</script>
 <script>
     $('#addFormIcon').iconpicker();
     $('#editFormIcon').iconpicker();

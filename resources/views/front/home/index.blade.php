@@ -10,122 +10,113 @@ Beranda
 
 		<div class="row gy-4">
 
-			<div class="col-lg-8">
-			<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-				<div class="carousel-inner" style="border-radius: 10px;">
-					<div class="carousel-item active">
-						<div class="post featured-post-lg">
-								<div class="details clearfix">
-									@if(isset($feature_post))
-									<form action="{{ route('artikel.kategori') }}" method="post" style="display: inline;">
-										@csrf
-										<input type="hidden" name="kategori" value="{{ $feature_post->category }}">
-										<button type="submit" class="category-badge"
-											style="border: none;">{{ $feature_post->categories->nama }}</button>
-									</form>
-									@else
-									<button type="button" class="category-badge" style="border: none;">Belum ada kategori</button>
-									@endif
-									<h2 class="post-title"><a
-											href="@if(isset($feature_post)) {{ route('artikel.show', $feature_post->slug)}} @endif">@if(isset($feature_post))
-											{{ $feature_post->judul }} @else Judul artikel @endif</a>
-									</h2>
-									<ul class="meta list-inline mb-0">
-										<li class="list-inline-item"><a href="@if(isset($feature_post)) {{ route('artikel.author', $feature_post->creators->username) }} @endif">@if(isset($feature_post))
-												{{ ucfirst(trans($feature_post->creators->name)) }} @else Nama penulis @endif</a>
-										</li>
-										<li class="list-inline-item">@if(isset($feature_post))
-											{{ $feature_post->updated_at->format('d M Y')}} @else Tanggal terbit @endif</li>
-									</ul>
-								</div>
-								<a href="@if(isset($feature_post)) {{ route('artikel.show', $feature_post->slug)}} @endif">
-									<div class="thumb rounded">
-										<div class="inner data-bg-image"
-											data-bg-image=" @if(!empty($feature_post))  {{ Storage::url($feature_post->gambar) }} @else https://images.unsplash.com/photo-1512314889357-e157c22f938d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80 @endif">
+			<div class="col-lg-8">	
+				@if(count($feature_post))
+					@if(count($feature_post) > 1)
+						<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+							<div class="carousel-inner" style="border-radius: 10px;">
+								@foreach ($feature_post as $index => $article)
+								<div class="carousel-item @if($index == '1'){{'active'}}@endif">
+									<div class="post featured-post-lg">
+										<div class="details clearfix">
+											<form action="{{ route('artikel.kategori') }}" method="post"
+												style="display: inline;">
+												@csrf
+												<input type="hidden" name="kategori" value="{{ $article->category }}">
+												<button type="submit" class="category-badge"
+													style="border: none;">{{ $article->categories->nama }}</button>
+											</form>
+											<h2 class="post-title"><a
+													href="{{ route('artikel.show', $article->slug)}}">{{ $article->judul }}</a>
+											</h2>
+											<ul class="meta list-inline mb-0">
+												<li class="list-inline-item"><a
+														href="{{ route('artikel.author', $article->creators->username) }}">{{ ucfirst(trans($article->creators->name)) }}</a>
+												</li>
+												<li class="list-inline-item">
+													{{ $article->updated_at->format('d M Y')}}
+												</li>
+											</ul>
 										</div>
+										<a href="{{ route('artikel.show', $article->slug)}}">
+											<div class="thumb rounded">
+												<div class="inner data-bg-image"
+													data-bg-image="{{ Storage::url($article->gambar) }}">
+												</div>
+											</div>
+										</a>
 									</div>
-								</a>
-							</div>
-					</div>
-					<div class="carousel-item">
-						<div class="post featured-post-lg">
-								<div class="details clearfix">
-									@if(isset($feature_post))
-									<form action="{{ route('artikel.kategori') }}" method="post" style="display: inline;">
-										@csrf
-										<input type="hidden" name="kategori" value="{{ $feature_post->category }}">
-										<button type="submit" class="category-badge"
-											style="border: none;">{{ $feature_post->categories->nama }}</button>
-									</form>
-									@else
-									<button type="button" class="category-badge" style="border: none;">Belum ada kategori</button>
-									@endif
-									<h2 class="post-title"><a
-											href="@if(isset($feature_post)) {{ route('artikel.show', $feature_post->slug)}} @endif">@if(isset($feature_post))
-											{{ $feature_post->judul }} @else Judul artikel @endif</a>
-									</h2>
-									<ul class="meta list-inline mb-0">
-										<li class="list-inline-item"><a href="@if(isset($feature_post)) {{ route('artikel.author', $feature_post->creators->username) }} @endif">@if(isset($feature_post))
-												{{ ucfirst(trans($feature_post->creators->name)) }} @else Nama penulis @endif</a>
-										</li>
-										<li class="list-inline-item">@if(isset($feature_post))
-											{{ $feature_post->updated_at->format('d M Y')}} @else Tanggal terbit @endif</li>
-									</ul>
 								</div>
-								<a href="@if(isset($feature_post)) {{ route('artikel.show', $feature_post->slug)}} @endif">
-									<div class="thumb rounded">
-										<div class="inner data-bg-image"
-											data-bg-image=" @if(!empty($feature_post))  {{ Storage::url($feature_post->gambar) }} @else {{ asset('assets/back/not-found.png') }} @endif">
-										</div>
-									</div>
-								</a>
+								@endforeach
 							</div>
-					</div>
-					<div class="carousel-item">
+							<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
+								data-bs-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Previous</span>
+							</button>
+							<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+								data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+							</button>
+						</div>
+					@else
+						@foreach ($feature_post as $article)
 						<div class="post featured-post-lg">
-								<div class="details clearfix">
-									@if(isset($feature_post))
-									<form action="{{ route('artikel.kategori') }}" method="post" style="display: inline;">
-										@csrf
-										<input type="hidden" name="kategori" value="{{ $feature_post->category }}">
-										<button type="submit" class="category-badge"
-											style="border: none;">{{ $feature_post->categories->nama }}</button>
-									</form>
-									@else
-									<button type="button" class="category-badge" style="border: none;">Belum ada kategori</button>
-									@endif
-									<h2 class="post-title"><a
-											href="@if(isset($feature_post)) {{ route('artikel.show', $feature_post->slug)}} @endif">@if(isset($feature_post))
-											{{ $feature_post->judul }} @else Judul artikel @endif</a>
-									</h2>
-									<ul class="meta list-inline mb-0">
-										<li class="list-inline-item"><a href="@if(isset($feature_post)) {{ route('artikel.author', $feature_post->creators->username) }} @endif">@if(isset($feature_post))
-												{{ ucfirst(trans($feature_post->creators->name)) }} @else Nama penulis @endif</a>
-										</li>
-										<li class="list-inline-item">@if(isset($feature_post))
-											{{ $feature_post->updated_at->format('d M Y')}} @else Tanggal terbit @endif</li>
-									</ul>
-								</div>
-								<a href="@if(isset($feature_post)) {{ route('artikel.show', $feature_post->slug)}} @endif">
-									<div class="thumb rounded">
-										<div class="inner data-bg-image"
-											data-bg-image=" @if(!empty($feature_post))  {{ Storage::url($feature_post->gambar) }} @else {{ asset('assets/back/not-found.png') }} @endif">
-										</div>
-									</div>
-								</a>
+							<div class="details clearfix">
+								<form action="{{ route('artikel.kategori') }}" method="post"
+									style="display: inline;">
+									@csrf
+									<input type="hidden" name="kategori" value="{{ $article->category }}">
+									<button type="submit" class="category-badge"
+										style="border: none;">{{ $article->categories->nama }}</button>
+								</form>
+								<h2 class="post-title"><a
+										href="{{ route('artikel.show', $article->slug)}}">{{ $article->judul }}</a>
+								</h2>
+								<ul class="meta list-inline mb-0">
+									<li class="list-inline-item"><a
+											href="{{ route('artikel.author', $article->creators->username) }}">{{ ucfirst(trans($article->creators->name)) }}</a>
+									</li>
+									<li class="list-inline-item">
+										{{ $article->updated_at->format('d M Y')}}
+									</li>
+								</ul>
 							</div>
+							<a href="{{ route('artikel.show', $article->slug)}}">
+								<div class="thumb rounded">
+									<div class="inner data-bg-image"
+										data-bg-image="{{ Storage::url($article->gambar) }}">
+									</div>
+								</div>
+							</a>
+						</div>
+						@endforeach
+					@endif
+				@else
+					<div class="post featured-post-lg">
+						<div class="details clearfix">
+							<button type="button" class="category-badge" style="border: none;">Belum ada
+								kategori</button>
+							<h2 class="post-title"><a
+									href="javascript::void(0)">Judul artikel</a>
+							</h2>
+							<ul class="meta list-inline mb-0">
+								<li class="list-inline-item"><a
+										href="#">Nama penulis</a>
+								</li>
+								<li class="list-inline-item">Tanggal terbit</li>
+							</ul>
+						</div>
+						<a href="javascript::void(0)">
+							<div class="thumb rounded">
+								<div class="inner data-bg-image"
+									data-bg-image="{{ asset('assets/back/not-found.png') }}">
+								</div>
+							</div>
+						</a>
 					</div>
-				</div>
-				<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-					<span class="visually-hidden">Previous</span>
-				</button>
-				<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-					<span class="carousel-control-next-icon" aria-hidden="true"></span>
-					<span class="visually-hidden">Next</span>
-				</button>
-			</div>
-				
+				@endif
 			</div>
 
 			<div class="col-lg-4">
@@ -151,38 +142,38 @@ Beranda
 
 
 						<div aria-labelledby="recent-tab" class="tab-pane fade show" id="recent" role="tabpanel">
-							
+
 							@if ($recent_article->isNotEmpty())
-								@foreach ($recent_article as $recent_articles)
-								<div class="post post-list-sm circle">
-									<div class="thumb circle">
-										<a href="{{ route('artikel.show', $recent_articles->id) }}">
-											<div class="inner">
-												<img src="{{ Storage::url($recent_articles->gambar) }}" alt="post-title"
-													style="width:60px; height:58px; object-fit:cover;" />
-											</div>
-										</a>
-									</div>
-									<div class="details clearfix">
-										<h6 class="post-title my-0"><a
-												href="{{ route('artikel.show', $recent_articles->slug) }}">{{ $recent_articles->judul }}</a>
-										</h6>
-										<ul class="meta list-inline mt-1 mb-0">
-											<li class="list-inline-item">{{ $recent_articles->updated_at->format('d M y')}}
-											</li>
-										</ul>
-									</div>
+							@foreach ($recent_article as $recent_articles)
+							<div class="post post-list-sm circle">
+								<div class="thumb circle">
+									<a href="{{ route('artikel.show', $recent_articles->id) }}">
+										<div class="inner">
+											<img src="{{ Storage::url($recent_articles->gambar) }}" alt="post-title"
+												style="width:60px; height:58px; object-fit:cover;" />
+										</div>
+									</a>
 								</div>
-								@endforeach
-							@else 
-								<i>Belum ada data</i>
+								<div class="details clearfix">
+									<h6 class="post-title my-0"><a
+											href="{{ route('artikel.show', $recent_articles->slug) }}">{{ $recent_articles->judul }}</a>
+									</h6>
+									<ul class="meta list-inline mt-1 mb-0">
+										<li class="list-inline-item">{{ $recent_articles->updated_at->format('d M y')}}
+										</li>
+									</ul>
+								</div>
+							</div>
+							@endforeach
+							@else
+							<i>Belum ada data</i>
 							@endif
 						</div>
 
 						<!-- popular posts -->
 						<div aria-labelledby="popular-tab" class="tab-pane fade show active" id="popular"
 							role="tabpanel">
-							
+
 							@if ($popular->isNotEmpty())
 							@foreach ($popular as $popular_article)
 
@@ -207,9 +198,9 @@ Beranda
 							</div>
 							@endforeach
 							@else
-								<i>Belum ada data</i>
+							<i>Belum ada data</i>
 							@endif
-							
+
 						</div>
 					</div>
 				</div>
@@ -238,7 +229,7 @@ Beranda
 				<div class="padding-30 rounded bordered">
 					<div class="row gy-5">
 						<div class="col-sm-6">
-							
+
 							<div class="post">
 								<div class="thumb rounded">
 									@if(isset($editors_pick_1))
@@ -296,7 +287,7 @@ Beranda
 							</div>
 						</div>
 						<div class="col-sm-6">
-							
+
 							<div class="post post-list-sm square">
 								<div class="thumb rounded">
 									<a
@@ -323,7 +314,7 @@ Beranda
 									</ul>
 								</div>
 							</div>
-							
+
 							<div class="post post-list-sm square">
 								<div class="thumb rounded">
 									<a
@@ -349,7 +340,7 @@ Beranda
 									</ul>
 								</div>
 							</div>
-							
+
 							<div class="post post-list-sm square">
 								<div class="thumb rounded">
 									<a
@@ -375,7 +366,7 @@ Beranda
 									</ul>
 								</div>
 							</div>
-							
+
 							<div class="post post-list-sm square">
 								<div class="thumb rounded">
 									<a
@@ -406,25 +397,27 @@ Beranda
 				</div>
 
 				<div class="spacer" data-height="50"></div>
-				
+
 				<div class="text-md-center">
 					<span class="ads-title">- Sponsored Ad -</span>
-					
+
 					@if (!empty($horizontal_ads))
-						<a href="{{$horizontal_ads->tautan}}">
-							<img src="{{ Storage::url($horizontal_ads->gambar) }}" style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;" alt="post-title" />
-						</a>
-					@else 
-						<a href="#">
-							<img src="{{ asset('assets/front/images/ads736x126.png') }}"
-								style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
-								alt="Advertisement" />
-						</a>
+					<a href="{{$horizontal_ads->tautan}}">
+						<img src="{{ Storage::url($horizontal_ads->gambar) }}"
+							style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
+							alt="post-title" />
+					</a>
+					@else
+					<a href="#">
+						<img src="{{ asset('assets/front/images/ads736x126.png') }}"
+							style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
+							alt="Advertisement" />
+					</a>
 					@endif
 				</div>
 
 				<div class="spacer" data-height="50"></div>
-				
+
 				<div class="section-header">
 					<h3 class="section-title">Trending</h3>
 					<img src="{{ asset('assets/front/images/wave.svg') }}" class="wave" alt="wave" />
@@ -467,7 +460,8 @@ Beranda
 									</a>
 								</div>
 								<ul class="meta list-inline mt-4 mb-0">
-									<li class="list-inline-item"><a href="@if(isset($trending_1)){{ route('artikel.author', $trending_1->creators->username) }}@endif">
+									<li class="list-inline-item"><a
+											href="@if(isset($trending_1)){{ route('artikel.author', $trending_1->creators->username) }}@endif">
 											@if(isset($trending_1))
 											<img src="{{ Storage::url($trending_1->creators->photo) }}"
 												style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;"
@@ -486,7 +480,7 @@ Beranda
 								<p class="excerpt mb-0">@if(isset($trending_1)) {!! Str::limit($trending_1->konten, 50)
 									!!} @else Konten artikel @endif</p>
 							</div>
-							
+
 							<div class="post post-list-sm square before-seperator">
 								<div class="thumb rounded">
 									<a
@@ -514,7 +508,7 @@ Beranda
 									</ul>
 								</div>
 							</div>
-							
+
 							<div class="post post-list-sm square before-seperator">
 								<div class="thumb rounded">
 									<a
@@ -577,7 +571,8 @@ Beranda
 									</a>
 								</div>
 								<ul class="meta list-inline mt-4 mb-0">
-									<li class="list-inline-item"><a href="@if(isset($trending_2)){{ route('artikel.author', $trending_2->creators->username) }}@endif">@if(isset($trending_2))<img
+									<li class="list-inline-item"><a
+											href="@if(isset($trending_2)){{ route('artikel.author', $trending_2->creators->username) }}@endif">@if(isset($trending_2))<img
 												src="{{ Storage::url($trending_2->creators->photo) }}"
 												style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;"
 												class="author" alt="author" /> @endif @if(isset($trending_2))
@@ -622,7 +617,7 @@ Beranda
 									</ul>
 								</div>
 							</div>
-							
+
 							<div class="post post-list-sm square before-seperator">
 								<div class="thumb rounded">
 									<a
@@ -669,7 +664,7 @@ Beranda
 				</div>
 
 				<div class="row post-carousel-twoCol post-carousel">
-					
+
 					<div class="post post-over-content col-md-6">
 						<div class="details clearfix">
 							@if(isset($selected_category_post_1))
@@ -688,7 +683,8 @@ Beranda
 									{{ $selected_category_post_1->judul }} @else Judul artikel @endif</a>
 							</h4>
 							<ul class="meta list-inline mb-0">
-								<li class="list-inline-item"><a href="@if(isset($selected_category_post_1)){{ route('artikel.author', $selected_category_post_1->creators->username) }}@endif">@if(isset($selected_category_post_1))
+								<li class="list-inline-item"><a
+										href="@if(isset($selected_category_post_1)){{ route('artikel.author', $selected_category_post_1->creators->username) }}@endif">@if(isset($selected_category_post_1))
 										{{ ucfirst(trans($selected_category_post_1->creators->name)) }} @else Nama
 										penulis @endif</a>
 								</li>
@@ -712,7 +708,7 @@ Beranda
 							</div>
 						</a>
 					</div>
-					
+
 					<div class="post post-over-content col-md-6">
 						<div class="details clearfix">
 							@if(isset($selected_category_post_2))
@@ -731,7 +727,8 @@ Beranda
 									{{ $selected_category_post_2->judul }} @else Judul artikel @endif</a>
 							</h4>
 							<ul class="meta list-inline mb-0">
-								<li class="list-inline-item"><a href="@if(isset($selected_category_post_2)){{ route('artikel.author', $selected_category_post_2->creators->username) }}@endif">@if(isset($selected_category_post_2))
+								<li class="list-inline-item"><a
+										href="@if(isset($selected_category_post_2)){{ route('artikel.author', $selected_category_post_2->creators->username) }}@endif">@if(isset($selected_category_post_2))
 										{{ ucfirst(trans($selected_category_post_2->creators->name)) }} @else Nama
 										penulis @endif</a>
 								</li>
@@ -755,7 +752,7 @@ Beranda
 							</div>
 						</a>
 					</div>
-					
+
 					<div class="post post-over-content col-md-6">
 						<div class="details clearfix">
 							<a href="category.html" class="category-badge">Inspirasi</a>
@@ -819,19 +816,21 @@ Beranda
 					<div class="widget no-container rounded text-md-center">
 						<span class="ads-title">- Sponsored Ad -</span>
 						@if (!empty($widget_ads))
-							<a href="{{$widget_ads->tautan}}" class="widget-content">
-								<img src="{{ Storage::url($widget_ads->gambar) }}" style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;" alt="post-title" />
-							</a>
+						<a href="{{$widget_ads->tautan}}" class="widget-content">
+							<img src="{{ Storage::url($widget_ads->gambar) }}"
+								style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
+								alt="post-title" />
+						</a>
 						@else
-							<a href="#">
-								<img src="{{ asset('assets/front/images/ads356x361.png') }}"
-									style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
-									alt="Advertisement" />
-							</a>
+						<a href="#">
+							<img src="{{ asset('assets/front/images/ads356x361.png') }}"
+								style="width: 356px; height: 361px; object-fit: cover; border-radius: 10px;"
+								alt="Advertisement" />
+						</a>
 						@endif
 					</div>
-					
-					
+
+
 
 
 					<div class="widget rounded">
@@ -873,7 +872,8 @@ Beranda
 											{{ $event_1->judul }} @else Judul artikel @endif</a>
 									</h5>
 									<ul class="meta list-inline mt-2 mb-0">
-										<li class="list-inline-item"><a href="@if(isset($event_1)){{ route('artikel.author', $event_1->creators->username) }}@endif">@if(isset($event_1))
+										<li class="list-inline-item"><a
+												href="@if(isset($event_1)){{ route('artikel.author', $event_1->creators->username) }}@endif">@if(isset($event_1))
 												{{ ucfirst(trans($event_1->creators->name)) }} @else Nama penulis
 												@endif</a></li>
 										<li class="list-inline-item">@if(isset($event_1))
@@ -912,7 +912,8 @@ Beranda
 											{{ $event_2->judul }} @else Judul artikel @endif</a>
 									</h5>
 									<ul class="meta list-inline mt-2 mb-0">
-										<li class="list-inline-item"><a href="@if(isset($event_2)){{ route('artikel.author', $event_2->creators->username) }}@endif">@if(isset($event_2))
+										<li class="list-inline-item"><a
+												href="@if(isset($event_2)){{ route('artikel.author', $event_2->creators->username) }}@endif">@if(isset($event_2))
 												{{ ucfirst(trans($event_2->creators->name)) }} @else Nama penulis
 												@endif</a></li>
 										<li class="list-inline-item">@if(isset($event_2))

@@ -57,6 +57,18 @@
         color: #f1556c;
         border: 1px solid #f1556c;
     }
+
+    @media screen and (max-width: 455px) {
+
+        #rc-imageselect,
+        .g-recaptcha {
+            transform: scale(0.50);
+            -webkit-transform: scale(0.50);
+            transform-origin: 0 0;
+            -webkit-transform-origin: 0 0;
+
+        }
+    }
 </style>
 @endsection
 @section('content')
@@ -146,21 +158,23 @@
 
                 </div>
                 <div class="spacer" data-height="50"></div>
-            <div class="text-md-center">
-					<span class="ads-title">- Sponsored Ad -</span>
-					
-					@if (!empty($horizontal_ads))
-						<a href="{{$horizontal_ads->tautan}}">
-							<img src="{{ Storage::url($horizontal_ads->gambar) }}" style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;" alt="post-title" />
-						</a>
-					@else 
-						<a href="#">
-							<img src="{{ asset('assets/front/images/ads736x126.png') }}"
-								style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
-								alt="Advertisement" />
-						</a>
-					@endif
-				</div>
+                <div class="text-md-center">
+                    <span class="ads-title">- Sponsored Ad -</span>
+
+                    @if (!empty($horizontal_ads))
+                    <a href="{{$horizontal_ads->tautan}}">
+                        <img src="{{ Storage::url($horizontal_ads->gambar) }}"
+                            style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
+                            alt="post-title" />
+                    </a>
+                    @else
+                    <a href="#">
+                        <img src="{{ asset('assets/front/images/ads736x126.png') }}"
+                            style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
+                            alt="Advertisement" />
+                    </a>
+                    @endif
+                </div>
 
                 <div class="spacer" data-height="50"></div>
 
@@ -203,8 +217,8 @@
                     <ul class="comments">
                         <!-- comment item -->
                         @php
-                        $comment = \App\Models\Comment::where('article', '=', $article->id)->where('status', '=',
-                        'approved')->get();
+                        $comment = \App\Models\Comment::where('article', '=', $article->id)->get();
+                        $increment = 1;
                         @endphp
                         @foreach($comment as $comments)
 
@@ -218,14 +232,15 @@
                                 <span class="date">{{ $comments->updated_at->format('M d, Y') }}
                                     {{ date("H:i", strtotime($comments->updated_at)) }}</span>
                                 <p>{{ $comments->comment }}</p>
-                                <button type="button" class="btn btn-default btn-sm" data-id="{{ $comments->id }}"
+                                <button type="button" class="btn btn-default btn-sm reply-button"
+                                    id="replyButton{{ $comments->id }}" data-id="{{ $comments->id }}"
                                     onclick="replyTrigger(this)">Reply</button>
+                                <button type="button" class="btn btn-default btn-sm cancel-button"
+                                    onclick="cancelReply(this)" id="cancelButton{{ $comments->id }}"
+                                    style="display:none;" data-id="{{ $comments->id }}">Cancel</button>
+
                                 <div class="replybox" id="{{ $comments->id }}" style="display: none;">
-                                    <div class="d-flex justify-content-between mt-4">
-                                        <h3 class="section-title ">Leave A Reply</h3>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="cancelReply()">Cancel
-                                            Reply</button>
-                                    </div>
+
                                     <div class="comment-form rounded bordered padding-30 mt-3">
                                         <form action="{{ route('artikel.reply') }}" id="replyForm{{ $comments->id }}"
                                             method="post" class="replyForm">
@@ -265,13 +280,11 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <div class="g-recaptcha" data-sitekey="6LcHn-waAAAAABRuzNwcQVCUptNh_YrZEGPQSXlu" data-callback="verifyCaptchaReply"></div>
-                                                    <div id="g-recaptcha-error-reply"></div>
-                                                </div>
-                                                
-                                                <div class="form-group" style="display: none !important;">
-                                                    {!! NoCaptcha::renderJs() !!}
-                                                    {!! NoCaptcha::display() !!}  
+                                                    <div class="g-recaptcha"
+                                                        data-sitekey="6Lf4Xw4cAAAAALsFjTBwl_UoAbwy-udJLnzpfkjI"
+                                                        id="replyRecaptchaField"></div>
+                                                    <input type="hidden" class="hiddenRecaptchaReply"
+                                                        name="reply_recaptcha" id="reply_recaptcha{{ $increment++ }}">
                                                 </div>
 
                                             </div>
@@ -286,8 +299,7 @@
                             <input type="hidden" name="">
                         </li>
                         @php
-                        $comment_replies = \App\Models\Reply::where('comment', '=', $comments->id)->where('status', '=',
-                        'approved')->get();
+                        $comment_replies = \App\Models\Reply::where('comment', '=', $comments->id)->get();
                         @endphp
                         @foreach ($comment_replies as $replies)
 
@@ -367,9 +379,13 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="g-recaptcha" data-sitekey="6LcHn-waAAAAABRuzNwcQVCUptNh_YrZEGPQSXlu" data-callback="verifyCaptchaComment"></div>
-                                    <div id="g-recaptcha-error-comment"></div>
+                                    <div class="g-recaptcha-qoute"
+                                        data-sitekey="6Lf4Xw4cAAAAALsFjTBwl_UoAbwy-udJLnzpfkjI"
+                                        id="commentRecaptchaField"></div>
+                                    <input type="hidden" class="hiddenRecaptcha" name="comment_recaptcha"
+                                        id="comment_recaptcha">
                                 </div>
+
 
 
 
@@ -435,8 +451,6 @@
 							</a>
 						@endif
 					</div>
-					
-					
 
 
 					<div class="widget rounded">
@@ -563,19 +577,32 @@
 @section('js')
 {{-- Google captcha --}}
 <script src="https://www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit"></script>
+<script src="https://www.google.com/recaptcha/api.js?onload=CaptchaCallback2&render=explicit"></script>
+<script>
+</script>
 <script type="text/javascript">
     var CaptchaCallback = function() {
-    var widgetId1;
-    var widgetId2;
-    widgetId1 = grecaptcha.render('commentRecaptchaField', {'sitekey' : '6LfiZg4cAAAAALiMwFgNM-QdZkM5cQopvGKVCH-f', 'callback' : commentRecaptcha});
-    widgetId2 = grecaptcha.render('replyRecaptchaField', {'sitekey' : '6LfiZg4cAAAAALiMwFgNM-QdZkM5cQopvGKVCH-f', 'callback' : replyRecaptcha});
-};
-var commentRecaptcha = function(response) {
-    $("#comment_recaptcha").val(response);
-};
-var replyRecaptcha = function(response) {
-    $("#reply_recaptcha").val(response);
-};
+        var widgetId1;
+        widgetId1 = grecaptcha.render('commentRecaptchaField', {'sitekey' : '6Lf4Xw4cAAAAALsFjTBwl_UoAbwy-udJLnzpfkjI', 'callback' : commentRecaptcha});    
+    };
+    
+    var CaptchaCallback2 = function() {
+        $('.g-recaptcha').html('');
+
+        $('.g-recaptcha').each(function (i, captcha) {
+            $("#cheko").html(i++);
+            grecaptcha.render(captcha, {
+                'sitekey' : '6Lf4Xw4cAAAAALsFjTBwl_UoAbwy-udJLnzpfkjI',
+                'callback' : function(response) {
+                    $("#reply_recaptcha" + i++).val(response);
+                }
+            });
+        });
+    };
+
+    var commentRecaptcha = function(response) {
+        $("#comment_recaptcha").val(response);
+    }; 
 </script>
 
 
@@ -611,6 +638,7 @@ var replyRecaptcha = function(response) {
                     },
                     comment:{
                         required: true,
+                        minlength: 3,
                         maxlength: 1000,
                     },
                     email:{
@@ -631,7 +659,7 @@ var replyRecaptcha = function(response) {
                     comment: {
                         required: "Komentar harus di isi",
                         minlength: "Komentar tidak boleh kurang dari 3 karakter",
-                        maxlength: "Komentar tidak boleh lebih dari 30 karakter",
+                        maxlength: "Komentar tidak boleh lebih dari 1000 karakter",
                     },
                     email: {
                         required: "Email harus di isi",
@@ -668,6 +696,7 @@ var replyRecaptcha = function(response) {
                     },
                     reply:{
                         required: true,
+                        minlength: 3,
                         maxlength: 1000,
                     },
                     email:{
@@ -688,7 +717,7 @@ var replyRecaptcha = function(response) {
                     reply: {
                         required: "Balasan harus di isi",
                         minlength: "Balasan tidak boleh kurang dari 3 karakter",
-                        maxlength: "Balasan tidak boleh lebih dari 30 karakter",
+                        maxlength: "Balasan tidak boleh lebih dari 1000 karakter",
                     },
                     email: {
                         required: "Email harus di isi",
@@ -711,14 +740,22 @@ var replyRecaptcha = function(response) {
 <script>
     function replyTrigger(replyAttr)
     {
+        $(replyAttr).css('display', 'none');
+        $('.cancel-button').css('display', 'none');
+        var buttonId= $(replyAttr).attr('data-id');
+        $('#cancelButton' + buttonId).css('display', 'block');
+        
         $('.replybox').hide();
         var commentboxId= $(replyAttr).attr('data-id');
         $('#'+commentboxId).toggle();
         $('#commentBox').hide();
     }
 
-    function cancelReply()
+    function cancelReply(element)
     {   
+        $(element).css('display', 'none');
+        var buttonId = $(element).attr('data-id');
+        $('#replyButton' + buttonId).css('display', 'block');
         $('.replybox').hide();
         $('#commentBox').show();
     }

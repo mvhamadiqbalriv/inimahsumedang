@@ -3,8 +3,10 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>@yield('title') - Inimahsumedang</title>
-    {!! SEOMeta::generate() !!}
+    <title>Inimahsumedang | @yield('title')</title>
+    <meta name="description" content="Inimahsumedang">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png"> -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- STYLES -->
@@ -49,7 +51,33 @@
 
     <!-- preloader -->
     <div id="preloader">
-        <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div class="book">
+            <div class="inner">
+                <div class="left"></div>
+                <div class="middle"></div>
+                <div class="right"></div>
+            </div>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
     </div>
 
     <!-- site wrapper -->
@@ -61,16 +89,29 @@
         <header class="header-default">
             <nav class="navbar navbar-expand-lg">
                 <div class="container-xl">
-                    <!-- site logo -->
-                    @php
-                        if($web->logo){
-                            $logo = Storage::url($web->logo);
-                        }else{
-                            $logo = asset('assets/front/logo_inimahsumedang_500x.png');
+                    <style>
+                        .back-button li a{
+                            margin-right: 13px !important;
+                            
+                            pointer-events: initial !important;
+                            -webkit-user-select: initial !important;
+                            /* Safari */
+                            -moz-user-select: initial !important;
+                            /* Firefox */
+                            -ms-user-select: initial !important;
+                            /* IE10+/Edge */
+                            user-select: initial !important;
+                            /* Standard */
                         }
-                    @endphp
+                       
+                    </style>
+                   
+                    <div class="back-button">
+                        <li class="list-inline-item"><a href="{{ route('articles.index') }}" class="btn btn-md btn-secondary"  data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-long-arrow-alt-left"></i></a></li>
+                    </div>
+                    <!-- site logo -->
                     <a class="navbar-brand" href="{{ url('/') }}"><img
-                            src="{{ $logo }}" style="width: 130px;"
+                            src="{{ asset('assets/front/logo_inimahsumedang_500x.png') }}" style="width: 130px;"
                             alt="logo" /></a>
 
                     <div class="collapse navbar-collapse">
@@ -97,11 +138,11 @@
                                     <li><a class="dropdown-item" href="#">Jadwal Bus</a></li>
                                 </ul>
                             </li> --}}
-                            <li class="nav-item {{($url[3] == 'tentang') ? 'active' : null}}">
-                                <a class="nav-link" href="{{ route('home.about') }}">Tentang</a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Tentang</a>
                             </li>
-                            <li class="nav-item {{($url[3] == 'kontak') ? 'active' : null}}">
-                                <a class="nav-link" href="{{ route('home.contact') }}">Kontak</a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Kontak</a>
                             </li>
                         </ul>
                     </div>
@@ -110,13 +151,13 @@
                     <div class="header-right">
                         <!-- social icons -->
                         <ul class="social-icons list-unstyled list-inline mb-0">
-                            <li class="list-inline-item"><a href="https://www.facebook.com/{{$web->facebook ?? '-'}}" target="_blank"><i
+                            <li class="list-inline-item"><a href="https://www.facebook.com/inimahsumedangcom/"><i
                                         class="fab fa-facebook-f"></i></a></li>
-                            <li class="list-inline-item"><a href="https://twitter.com/{{$web->twitter ?? '-'}}" target="_blank"><i
+                            <li class="list-inline-item"><a href="https://twitter.com/inimahsumedang"><i
                                         class="fab fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a href="https://www.instagram.com/{{$web->instagram ?? '-'}}" target="_blank"><i
+                            <li class="list-inline-item"><a href="https://www.instagram.com/inimahsumedang/"><i
                                         class="fab fa-instagram"></i></a></li>
-                            <li class="list-inline-item"><a href="https://www.youtube.com/c/{{$web->youtube ?? '-'}}" target="_blank"><i
+                            <li class="list-inline-item"><a href="https://www.youtube.com/c/inimahsumedangTV"><i
                                         class="fab fa-youtube"></i></a></li>
                         </ul>
                         <!-- header buttons -->
@@ -128,7 +169,9 @@
                                 <span class="burger-icon"></span>
                             </button>
                         </div>
+                        
                     </div>
+                    
                 </div>
             </nav>
         </header>
@@ -215,13 +258,13 @@
                         <!-- social icons -->
                         <div class="col-md-4 text-center">
                             <ul class="social-icons list-unstyled list-inline mb-0">
-                                <li class="list-inline-item"><a href="https://www.facebook.com/{{$web->facebook ?? '-'}}" target="_blank"><i
-                                    class="fab fa-facebook-f"></i></a></li>
-                                <li class="list-inline-item"><a href="https://twitter.com/{{$web->twitter ?? '-'}}" target="_blank"><i
+                                <li class="list-inline-item"><a href="https://www.facebook.com/inimahsumedangcom/"><i
+                                            class="fab fa-facebook-f"></i></a></li>
+                                <li class="list-inline-item"><a href="https://twitter.com/inimahsumedang"><i
                                             class="fab fa-twitter"></i></a></li>
-                                <li class="list-inline-item"><a href="https://www.instagram.com/{{$web->instagram ?? '-'}}" target="_blank"><i
+                                <li class="list-inline-item"><a href="https://www.instagram.com/inimahsumedang/"><i
                                             class="fab fa-instagram"></i></a></li>
-                                <li class="list-inline-item"><a href="https://www.youtube.com/c/{{$web->youtube ?? '-'}}" target="_blank"><i
+                                <li class="list-inline-item"><a href="https://www.youtube.com/c/inimahsumedangTV"><i
                                             class="fab fa-youtube"></i></a></li>
                             </ul>
                         </div>
@@ -244,6 +287,9 @@
         <button type="button" class="btn-close keluar-dari-pencarian" aria-label="Close"></button>
         <!-- content -->
         <div class="search-content">
+            <div class="text-center">
+                <h3 class="mb-4 mt-0">Press ESC to close</h3>
+            </div>
             <style>
                 .ui-autocomplete-input {
                     border-bottom-left-radius: 0px;
@@ -261,24 +307,6 @@
                     placeholder="Cari artikel ...">
                 <button class="btn btn-default btn-lg" type="submit"><i class="icon-magnifier"></i></button>
             </form>
-            <div class="mt-5">
-                @php
-                    $search_horizontal_ads = App\Models\Ad::where('status', '=', 'search_horizontal_ads')->first();
-                @endphp
-                @if(!empty($search_horizontal_ads))
-                <a href="{{ $search_horizontal_ads->tautan }}">
-                    <img src="{{ Storage::url($search_horizontal_ads->gambar) }}"
-                        style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
-                        alt="Advertisement" />
-                </a>
-                @else
-                <a href="#">
-                    <img src="{{ asset('assets/front/images/ads736x126.png') }}"
-                        style="width: 736px; height: 126px; object-fit: cover; border-radius: 10px;"
-                        alt="Advertisement" />
-                </a>
-                @endif
-            </div>
         </div>
     </div>
 
@@ -306,21 +334,17 @@
                         <li><a href="#">Jadwal Bus</a></li>
                     </ul>
                 </li> --}}
-                <li><a href="{{ route('home.about') }}">Tentang</a></li>
-                <li><a href="{{ route('home.contact') }}">Kontak</a></li>
+                <li><a href="#">Tentang</a></li>
+                <li><a href="#">Kontak</a></li>
             </ul>
         </nav>
 
         <!-- social icons -->
         <ul class="social-icons list-unstyled list-inline mb-0 mt-auto w-100">
-            <li class="list-inline-item"><a href="https://www.facebook.com/{{$web->facebook ?? '-'}}" target="_blank"><i
-                class="fab fa-facebook-f"></i></a></li>
-            <li class="list-inline-item"><a href="https://twitter.com/{{$web->twitter ?? '-'}}" target="_blank"><i
-                        class="fab fa-twitter"></i></a></li>
-            <li class="list-inline-item"><a href="https://www.instagram.com/{{$web->instagram ?? '-'}}" target="_blank"><i
-                        class="fab fa-instagram"></i></a></li>
-            <li class="list-inline-item"><a href="https://www.youtube.com/c/{{$web->youtube ?? '-'}}" target="_blank"><i
-                        class="fab fa-youtube"></i></a></li>
+            <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+            <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+            <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
+            <li class="list-inline-item"><a href="#"><i class="fab fa-youtube"></i></a></li>
         </ul>
     </div>
 

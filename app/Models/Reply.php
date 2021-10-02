@@ -12,7 +12,7 @@ class Reply extends Model
     protected $table = "comment_replies";
 
     protected $fillable = [
-        'nama', 'reply', 'email', 'web' , 'comment', 'status'
+        'nama', 'reply', 'email', 'web' , 'comment'
     ];
     
     public function comments()

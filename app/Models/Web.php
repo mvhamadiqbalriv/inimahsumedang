@@ -10,6 +10,9 @@ class Web extends Model
     use HasFactory;
 
     protected $table ="web";
+    protected $fillable = [
+        'logo', 'instagram', 'facebook', 'twitter', 'whatsapp', 'email', 'description', 'address', 'youtube'
+    ];
 
     protected $guarded = ['id'];
 }
